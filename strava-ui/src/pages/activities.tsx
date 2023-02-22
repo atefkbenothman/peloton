@@ -17,6 +17,10 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
+// components
+import Activity from "../components/activity"
+import Calendar from "../components/calendar"
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -93,13 +97,6 @@ export default function Activities() {
 
   mapboxgl.accessToken = process.env.ACCESS_TOKEN || ""
   const [apiToken, setApiToken] = React.useState(process.env.ACCESS_TOKEN || "")
-  const [viewPort, setViewPort] = React.useState({
-    latitude: 45.4211,
-    longitude: -75.4211,
-    width: "100",
-    height: "100",
-    zoom: 10
-  })
 
   const [route, setRoute] = React.useState<any[]>([])
   const [segmentRoute, setSegmentRoute] = React.useState<any[]>([])
@@ -629,60 +626,22 @@ export default function Activities() {
                 </div>
                 {
                   calendarData.length !== 0 ?
-                    <div className="">
-                      <ActivityCalendar key={calendarData} sampleData={calendarData} showMonth={true} showDay={true} />
-                    </div>
+                    <Calendar data={calendarData} />
                     :
-                    <div>
-                    </div>
+                    <>
+                    </>
                 }
               </div>
-              <div className="my-6 mx-6 pb-2 min-w-screen">
-                {
-                  Array.isArray(activities) ?
-                    activities.map(act => (
-                      <div className="max-w-xl rounded overflow-hidden shadow-lg cursor-pointer bg-white my-4" onClick={() => expandActivity(act.id)} data-bs-toggle="modal" data-bs-target="#exampleModalCenterr">
-                        <div className="px-6 py-4">
-                          <div className="font-bold text-xl mb-1 pb-1">{act.name}</div>
-                          <div className="font-bold text-gray-500 text-xs mb-3 pb-2">{new Date(act.start_date).toLocaleString()}</div>
-                          <img src={`https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/static/pin-s-a+9ed4bd(${act.start_latlng[1]},${act.start_latlng[0]}),pin-s-b+000(${act.end_latlng[1]},${act.end_latlng[0]}),path-5+f44-0.5(${encodeURIComponent(polyline.encode(polyline.decode(act["map"]["summary_polyline"])))})/auto/600x300?access_token=${mapboxgl.accessToken}&zoom=15`} alt="map" className="mb-4" />
-                          <div className="grid grid-cols-3 gap-4 content-start">
-                            <div>
-                              <p className="text-gray-700 text-base">distance</p>
-                              <p className="font-bold">{(act.distance / 1609.344).toFixed(2)} mi</p>
-                            </div>
-                            <div>
-                              <p className="text-gray-700 text-base">time</p>
-                              <p className="font-bold">{(act.moving_time / 60).toFixed(0)} mins</p>
-                            </div>
-                            <div>
-                              <p className="text-gray-700 text-base">avg mph</p>
-                              <p className="font-bold">{(act.average_speed * 2.23694).toFixed(2)} mph</p>
-                            </div>
-                            <div>
-                              <p className="text-gray-700 text-base">max mph</p>
-                              <p className="font-bold">{(act.max_speed * 2.23694).toFixed(2)} mph</p>
-                            </div>
-                            <div>
-                              <p className="text-gray-700 text-base">avg watts</p>
-                              <p className="font-bold">{(act.average_watts || 0).toFixed(2)} w</p>
-                            </div>
-                            <div>
-                              <p className="text-gray-700 text-base">max watts</p>
-                              <p className="font-bold">{(act.max_watts || 0)} mph</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="px-6 pt-2 pb-2">
-                          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{act.sport_type}</span>
-                        </div>
-                      </div>
-                    ))
-                    :
-                    <div>
-                    </div>
-                }
-              </div>
+
+              {
+                Array.isArray(activities) ?
+                  activities.map(activity => (
+                    <Activity key={activity.id} activity={activity} />
+                  ))
+                  :
+                  <>
+                  </>
+              }
 
             </div>
 
