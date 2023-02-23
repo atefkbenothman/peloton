@@ -1,9 +1,9 @@
 import React from "react"
-import Link from "next/link"
-import Router from "next/router"
 import { useEffect } from "react"
+// next
+import Link from "next/link"
 import { useRouter } from "next/router"
-
+// icons
 import { ArrowPathIcon } from "@heroicons/react/24/solid"
 
 
@@ -22,9 +22,6 @@ export default function Login() {
   const [isAuthorized, setIsAuthorized] = React.useState(false)
 
   useEffect(() => {
-    console.log(process.env)
-    console.log(process.env.CLIENT_ID)
-    console.log(process.env.CLIENT_SECRET)
     checkHasAuthCode()
   }, [])
 
