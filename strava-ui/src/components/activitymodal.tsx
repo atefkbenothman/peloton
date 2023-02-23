@@ -68,6 +68,7 @@ export default function ActivityModal({ activityId }) {
   })
   const [activityRoute, setActivityRoute] = React.useState<any[]>([])
   const [segmentRoute, setSegmentRoute] = React.useState<any[]>([])
+  const [renderMap, setRenderMap] = React.useState(false)
 
   useEffect(() => {
     getActivityDetails(activityId)
@@ -86,6 +87,7 @@ export default function ActivityModal({ activityId }) {
       // convert polyline to GeoJson
       const pl = polyline.toGeoJSON(data.map.summary_polyline)
       setActivityRoute(pl)
+      setRenderMap(true)
     } catch (error) {
       console.error(error)
     }
@@ -133,21 +135,22 @@ export default function ActivityModal({ activityId }) {
               </div>
 
               {/* map */}
-              <div className="mb-6 w-full h-96">
-                {
-                  activityDetails.start_latlng.length !== 0 ?
+              {
+                activityDetails.start_latlng.length !== 0 && renderMap === true ?
+                  <div className="mb-6 w-full h-96">
                     <Map
                       mapboxAccessToken={mapboxgl.accessToken}
                       initialViewState={{
                         longitude: activityDetails.start_latlng[1],
                         latitude: activityDetails.start_latlng[0],
-                        zoom: 10
+                        zoom: 11
                       }}
                       style={{
                         width: "100%",
-                        height: "100%"
+                        height: "100%",
                       }}
                       mapStyle="mapbox://styles/mapbox/streets-v12"
+                      onRender={(event) => event.target.resize()}
                     >
                       <NavigationControl />
                       <Source id="polylineLayer" type="geojson" data={activityRoute}>
@@ -186,10 +189,10 @@ export default function ActivityModal({ activityId }) {
                           <></>
                       }
                     </Map>
-                    :
-                    <></>
-                }
-              </div>
+                  </div>
+                  :
+                  <></>
+              }
 
               {/* list activity statistics */}
               <div className="grid grid-cols-3 gap-4 content-start">
@@ -305,3 +308,5 @@ export default function ActivityModal({ activityId }) {
     </div >
   )
 }
+
+              // <div className="mb-6 w-full h-96"></div>

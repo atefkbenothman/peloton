@@ -18,12 +18,18 @@ export default function Activity({ activity }) {
   const router = useRouter()
   const urlQueries = router.query
 
+  const [openActivityModal, setActivityModal] = React.useState(false)
+
+  function openModal(mode: boolean) {
+    setActivityModal(mode)
+  }
+
   return (
     <div>
 
       {/* Activity Modal */}
       {
-        activity.id !== 0 ?
+        activity.id !== 0 && openActivityModal === true ?
           <div>
             <ActivityModal activityId={activity.id} />
           </div>
@@ -36,6 +42,7 @@ export default function Activity({ activity }) {
         <div className="max-w-xl rounded overflow-hidden shadow-lg cursor-pointer bg-white my-4"
           data-bs-toggle="modal"
           data-bs-target={"#exampleModalCenter" + activity.id}
+          onClick={() => openModal(true)}
         >
           <div className="px-6 py-4">
             <div className="font-bold text-xl mb-1 pb-1">{activity.name}</div>

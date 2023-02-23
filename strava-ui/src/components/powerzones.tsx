@@ -12,6 +12,15 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+)
+
 const zoneRanges = [
   {
     zone: "one",
@@ -57,7 +66,7 @@ export default function PowerZones({ segmentEfforts }) {
 
   useEffect(() => {
     calculatePowerZonesTotal()
-  })
+  }, [segmentEfforts])
 
   function calculatePowerZonesTotal() {
     let zones = {
