@@ -12,15 +12,15 @@ import Calendar from "../components/calendar"
 import cache from "src/cache"
 
 
+
 export const getServerSideProps = async ({ query }) => {
   const token = query.clientAccessToken || ""
   const fetcher = async () => {
-    const accessToken = token
     const duration = 7
     try {
       const res = await fetch(`https://www.strava.com/api/v3/athlete/activities?per_page=${duration}`, {
         headers: {
-          Authorization: "Bearer " + accessToken
+          Authorization: "Bearer " + token
         }
       })
       const data = await res.json()
@@ -69,22 +69,6 @@ export default function Activities({ activitiesProp }) {
     fillActivityCalendar()
 
   }, [duration])
-
-  const getAllActivities = async () => {
-    const accessToken = data.clientAccessToken
-    try {
-      const res = await fetch(`https://www.strava.com/api/v3/athlete/activities?per_page=${duration}`, {
-        headers: {
-          Authorization: "Bearer " + accessToken
-        }
-      })
-      const data = await res.json()
-      setActivities(data)
-      return data
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   function updateDuration(dur: number) {
     setLoading(true)
