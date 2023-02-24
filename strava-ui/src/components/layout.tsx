@@ -24,10 +24,10 @@ function NavBar() {
             <a
               className="
                 cursor-pointer
+                shadow-md
                 my-2 
                 block 
                 rounded 
-                bg-neutral-100 
                 px-7 
                 pt-4 
                 pb-3.5 
@@ -36,10 +36,10 @@ function NavBar() {
                 uppercase 
                 leading-tight 
                 text-neutral-500 
-                data-[te-nav-active]:!bg-primary-100 
-                data-[te-nav-active]:text-primary-700 
-                dark:bg-neutral-500 dark:text-white 
-                dark:data-[te-nav-active]:text-primary-700
+                data-[te-nav-active]:!bg-blue-300 
+                dark:bg-neutral-400 
+                dark:text-white 
+                dark:data-[te-nav-active]:text-white-700
               "
               id="pills-home-tab03"
               data-te-toggle="pill"
@@ -56,10 +56,10 @@ function NavBar() {
             <a
               className="
                 cursor-pointer
+                shadow-md
                 my-2 
                 block 
                 rounded 
-                bg-neutral-100 
                 px-7 
                 pt-4 
                 pb-3.5 
@@ -68,10 +68,10 @@ function NavBar() {
                 uppercase 
                 leading-tight 
                 text-neutral-500 
-                data-[te-nav-active]:!bg-primary-100 
-                data-[te-nav-active]:text-primary-700 
-                dark:bg-neutral-500 dark:text-white 
-                dark:data-[te-nav-active]:text-primary-700
+                data-[te-nav-active]:!bg-blue-300 
+                dark:bg-neutral-400 
+                dark:text-white 
+                dark:data-[te-nav-active]:text-white-700
               "
               id="pills-profile-tab03"
               data-te-toggle="pill"
@@ -87,22 +87,23 @@ function NavBar() {
             <a
               className="
                 cursor-pointer
+                shadow-md
                 my-2 
                 block 
                 rounded 
-                bg-neutral-100 
                 px-7 
                 pt-4 
                 pb-3.5 
                 text-xs 
                 font-bold
                 uppercase 
+                nav-link
                 leading-tight 
                 text-neutral-500 
-                data-[te-nav-active]:!bg-primary-100 
-                data-[te-nav-active]:text-primary-700 
-                dark:bg-neutral-500 dark:text-white 
-                dark:data-[te-nav-active]:text-primary-700
+                data-[te-nav-active]:!bg-blue-300 
+                dark:bg-neutral-400 
+                dark:text-white 
+                dark:data-[te-nav-active]:text-white-700
               "
               id="pills-contact-tab03"
               data-te-toggle="pill"
