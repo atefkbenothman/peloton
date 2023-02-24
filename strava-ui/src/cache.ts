@@ -2,8 +2,12 @@ import Redis from "ioredis"
 
 const redis = new Redis(process.env.REDIS_URL || "")
 
-const fetch = async (key: string, fetcher: any, expires: number) => {
+const fetch = async (key: string, fetcher: any, expires: number, bypass: boolean) => {
   const existing = await get(key)
+  if (bypass) {
+    console.log("calling strava api")
+    return set(key, fetcher, expires)
+  }
   if (existing !== null) {
     console.log("retrieving activities data from upstash/redis")
     return existing

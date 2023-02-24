@@ -64,7 +64,7 @@ export default function Segments({ activityDetails, setSegmentRoute }) {
               <tbody className="border-b">
                 {
                   activityDetails.segment_efforts.map(seg => (
-                    <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" onClick={() => getSegment(seg.segment.id)}>
+                    <tr key={activityDetails.id + seg.id} className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" onClick={() => getSegment(seg.segment.id)}>
                       <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
                         {seg.name}
                       </td>

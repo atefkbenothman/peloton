@@ -12,7 +12,6 @@ import Calendar from "../components/calendar"
 import cache from "src/cache"
 
 
-
 export const getServerSideProps = async ({ query }) => {
   const token = query.clientAccessToken || ""
   const fetcher = async () => {
@@ -32,7 +31,7 @@ export const getServerSideProps = async ({ query }) => {
   }
 
   const key = `allActivities-${new Date().getMonth().toString()}-${new Date().getDate().toString()}`
-  const cachedActivities = await cache.fetch(key, fetcher, 60 * 60)
+  const cachedActivities = await cache.fetch(key, fetcher, 60 * 60, false)
 
   return { props: { activitiesProp: cachedActivities } }
 }
@@ -44,7 +43,7 @@ export default function Activities({ activitiesProp }) {
   const [activities, setActivities] = React.useState<any[]>([])
   const [calendarData, setCalendarData] = React.useState<any[]>([])
   const [duration, setDuration] = React.useState(7)
-  const [loading, setLoading] = React.useState(false)
+  const [selectedActivity, setSelectedActivity] = React.useState(-1)
 
   mapboxgl.accessToken = process.env.ACCESS_TOKEN || ""
 
@@ -63,7 +62,6 @@ export default function Activities({ activitiesProp }) {
         allActivities.push(data)
       }
       setCalendarData(allActivities)
-      setLoading(false)
     }
 
     fillActivityCalendar()
@@ -71,7 +69,6 @@ export default function Activities({ activitiesProp }) {
   }, [duration])
 
   function updateDuration(dur: number) {
-    setLoading(true)
     setDuration(dur)
   }
 
@@ -120,7 +117,11 @@ export default function Activities({ activitiesProp }) {
                     <Activity key={activity.id} activity={activity} />
                   ))
                   :
-                  <></>
+                  <>
+                    <div className="mx-6 my-6">
+                      <h1>No activities found...</h1>
+                    </div>
+                  </>
               }
             </div>
           </div>

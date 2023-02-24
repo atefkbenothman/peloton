@@ -10,88 +10,131 @@ function NavBar() {
 
   return (
     <>
-      <div className="w-1/5 ml-1 mx-1 my-36">
-        <div className="flex justify-center">
-          <ul className="nav nav-pills flex flex-col flex-wrap list-none pl-0" id="pills-tabVertical" role="tablist">
-            <li className="nav-item flex-grow text-center mb-2 shadow" role="presentation">
-              <a href="/"
-                className="
-                  nav-link
-                  block
-                  font-bold
-                  text-xs
-                  leading-tight
-                  uppercase
-                  rounded
-                  px-6
-                  py-3
-                  focus:outline-none focus:ring-0
-                  active
-                "
-                id="pills-home-tabVertical" data-bs-toggle="pill" data-bs-target="#pills-homeVertical" role="tab"
-                aria-controls="pills-homeVertical" aria-selected="true" onClick={() => goToPage("/")}>Home</a>
-            </li>
-            <li className="nav-item flex-grow text-center my-2 shadow" role="presentation">
-              <a href="/login" className="
-                  nav-link
-                  block
-                  font-bold
-                  text-xs
-                  leading-tight
-                  uppercase
-                  rounded
-                  px-6
-                  py-3
-                  focus:outline-none focus:ring-0
-                " id="pills-profile-tabVertical" data-bs-toggle="pill" data-bs-target="#pills-profileVertical" role="tab"
-                aria-controls="pills-profileVertical" aria-selected="false" onClick={() => goToPage("/login")}>Login</a>
-            </li>
-            <li className="nav-item flex-grow text-center my-2 shadow" role="presentation">
-              <a href="/profile" className="
-                  nav-link
-                  block
-                  font-bold
-                  text-xs
-                  leading-tight
-                  uppercase
-                  rounded
-                  px-6
-                  py-3
-                  focus:outline-none focus:ring-0
-                " id="pills-profile-tabVertical" data-bs-toggle="pill" data-bs-target="#pills-profileVertical" role="tab"
-                aria-controls="pills-profileVertical" aria-selected="false" onClick={() => goToPage("/profile")}>Profile</a>
-            </li>
-            <li className="nav-item flex-grow text-center my-2 shadow" role="presentation">
-              <a href="/activities" className="
-                  nav-link
-                  block
-                  font-bold
-                  text-xs
-                  leading-tight
-                  uppercase
-                  rounded
-                  px-6
-                  py-3
-                  focus:outline-none focus:ring-0
-                " id="pills-contact-tabVertical" data-bs-toggle="pill" data-bs-target="#pills-contactVertical" role="tab"
-                aria-controls="pills-contactVertical" aria-selected="false" onClick={() => goToPage("/activities")}>Activities</a>
-            </li>
-            <li className="nav-item flex-grow text-center my-2 shadow" role="presentation">
-              <a href="/map" className="
-                  nav-link
-                  block
-                  font-bold
-                  text-xs
-                  leading-tight
-                  uppercase
-                  rounded
-                  px-6
-                  py-3
-                  focus:outline-none focus:ring-0
-                " id="pills-contact-tabVertical" data-bs-toggle="pill" data-bs-target="#pills-contactVertical" role="tab"
-                aria-controls="pills-contactVertical" aria-selected="false" onClick={() => goToPage("/map")}>Map</a>
-            </li>
-          </ul>
+      <div className="my-40 mx-1">
+        <ul
+          className="
+            flex 
+            list-none 
+            flex-col 
+            flex-wrap 
+          "
+          role="tablist"
+          data-te-nav-ref>
+          <li role="presentation" className="flex-grow text-center">
+            <a
+              className="
+                cursor-pointer
+                my-2 
+                block 
+                rounded 
+                bg-neutral-100 
+                px-7 
+                pt-4 
+                pb-3.5 
+                text-xs 
+                font-bold 
+                uppercase 
+                leading-tight 
+                text-neutral-500 
+                data-[te-nav-active]:!bg-primary-100 
+                data-[te-nav-active]:text-primary-700 
+                dark:bg-neutral-500 dark:text-white 
+                dark:data-[te-nav-active]:text-primary-700
+              "
+              id="pills-home-tab03"
+              data-te-toggle="pill"
+              data-te-target="#pills-home03"
+              data-te-nav-active
+              role="tab"
+              aria-controls="pills-home03"
+              aria-selected="true"
+              onClick={() => goToPage("/")}
+            >Home</a
+            >
+          </li>
+          <li role="profile" className="flex-grow text-center">
+            <a
+              className="
+                cursor-pointer
+                my-2 
+                block 
+                rounded 
+                bg-neutral-100 
+                px-7 
+                pt-4 
+                pb-3.5 
+                text-xs 
+                font-bold 
+                uppercase 
+                leading-tight 
+                text-neutral-500 
+                data-[te-nav-active]:!bg-primary-100 
+                data-[te-nav-active]:text-primary-700 
+                dark:bg-neutral-500 dark:text-white 
+                dark:data-[te-nav-active]:text-primary-700
+              "
+              id="pills-profile-tab03"
+              data-te-toggle="pill"
+              data-te-target="#pills-profile03"
+              role="tab"
+              aria-controls="pills-profile03"
+              aria-selected="false"
+              onClick={() => goToPage("/login")}
+            > Login</a
+            >
+          </li>
+          <li role="contact" className="flex-grow text-center">
+            <a
+              className="
+                cursor-pointer
+                my-2 
+                block 
+                rounded 
+                bg-neutral-100 
+                px-7 
+                pt-4 
+                pb-3.5 
+                text-xs 
+                font-bold
+                uppercase 
+                leading-tight 
+                text-neutral-500 
+                data-[te-nav-active]:!bg-primary-100 
+                data-[te-nav-active]:text-primary-700 
+                dark:bg-neutral-500 dark:text-white 
+                dark:data-[te-nav-active]:text-primary-700
+              "
+              id="pills-contact-tab03"
+              data-te-toggle="pill"
+              data-te-target="#pills-contact03"
+              role="tab"
+              aria-controls="pills-contact03"
+              aria-selected="false"
+              onClick={() => goToPage("/activities")}
+            >Activities</a
+            >
+          </li>
+        </ul>
+        <div className="my-2">
+          <div
+            className="hidden opacity-0 opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+            id="pills-home03"
+            role="tabpanel"
+            aria-labelledby="pills-home-tab03"
+            data-te-tab-active>
+          </div>
+          <div
+            className="hidden opacity-0 opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+            id="pills-profile03"
+            role="tabpanel"
+            aria-labelledby="pills-profile-tab03">
+          </div>
+          <div
+            className="hidden opacity-0 opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+            id="pills-contact03"
+            role="tabpanel"
+            aria-labelledby="pills-contact-tab03">
+          </div>
         </div>
       </div>
     </>
@@ -101,17 +144,19 @@ function NavBar() {
 export default function Layout({ children }: any) {
   return (
     <>
-      <div className="flex w-full">
-        <div className="w-1/5 flex justify-center p-1">
+      <div className="flex">
+
+        <div className="flex items-baseline justify-center w-1/5">
           <NavBar />
         </div>
-        <div className="justify-center">
-          <div>
-            <main>
-              {children}
-            </main>
-          </div>
+
+        {/* main content */}
+        <div className="flex w-full bg-bgWhite">
+          <main>
+            {children}
+          </main>
         </div>
+
       </div>
     </>
   )
