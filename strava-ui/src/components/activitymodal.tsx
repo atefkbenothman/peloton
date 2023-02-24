@@ -107,13 +107,13 @@ export default function ActivityModal({ activityId }) {
           data-te-modal-dialog-ref
           className="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
           <div
-            className="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
+            className="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none -neutral-600">
 
             {/* headers */}
             <div
               className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
               <h5
-                className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
+                className="text-xl font-medium leading-normal text-neutral-800-neutral-200"
                 id="exampleModalLabel">
                 {activityDetails.name}
               </h5>
@@ -184,17 +184,17 @@ export default function ActivityModal({ activityId }) {
             <div id="accordionExample">
 
               {/* Segments */}
-              <div
-                className="rounded-t-lg border border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
+              <div className="rounded-t-lg border border-neutral-200 bg-white">
 
                 {/* title */}
                 <h2 className="mb-0" id="headingOne">
                   <button
-                    className="group relative flex w-full items-center rounded-t-[15px] border-0 bg-white py-4 px-5 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white [&:not([data-te-collapse-collapsed])]:bg-white [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:[&:not([data-te-collapse-collapsed])]:bg-neutral-800 dark:[&:not([data-te-collapse-collapsed])]:text-primary-400 dark:[&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]"
+                    className="group relative flex w-full items-center rounded-t-[15px] border-0 bg-white py-4 px-5 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none ]"
                     type="button"
                     data-te-collapse-init
+                    data-te-collapse-collapsed
                     data-te-target="#collapseOne"
-                    aria-expanded="true"
+                    aria-expanded="false"
                     aria-controls="collapseOne">
                     Segments
                     <span
@@ -218,11 +218,10 @@ export default function ActivityModal({ activityId }) {
                 {/* body */}
                 <div
                   id="collapseOne"
-                  className="!visible"
+                  className="!visible hidden"
                   data-te-collapse-item
-                  data-te-collapse-show
                   aria-labelledby="headingOne"
-                  data-te-parent="#accordionExample">
+                >
                   <div className="py-4 px-5">
                     <Segments activityDetails={activityDetails} setSegmentRoute={setSegmentRoute} />
                   </div>
@@ -230,13 +229,12 @@ export default function ActivityModal({ activityId }) {
               </div>
 
               {/* power zones */}
-              <div
-                className="border border-t-0 border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
+              <div className="border border-t-0 border-neutral-200 bg-white">
 
                 {/* title */}
                 <h2 className="mb-0" id="headingTwo">
                   <button
-                    className="group relative flex w-full items-center rounded-none border-0 bg-white py-4 px-5 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white [&:not([data-te-collapse-collapsed])]:bg-white [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:[&:not([data-te-collapse-collapsed])]:bg-neutral-800 dark:[&:not([data-te-collapse-collapsed])]:text-primary-400 dark:[&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]"
+                    className="group relative flex w-full items-center rounded-none border-0 bg-white py-4 px-5 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none]"
                     type="button"
                     data-te-collapse-init
                     data-te-collapse-collapsed
@@ -268,7 +266,7 @@ export default function ActivityModal({ activityId }) {
                   className="!visible hidden"
                   data-te-collapse-item
                   aria-labelledby="headingTwo"
-                  data-te-parent="#accordionExample">
+                >
                   <div className="py-4 px-5">
                     <PowerZones segmentEfforts={activityDetails.segment_efforts} />
                   </div>
