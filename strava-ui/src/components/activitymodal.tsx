@@ -71,6 +71,7 @@ export default function ActivityModal({ activityId }) {
   const [renderMap, setRenderMap] = React.useState(false)
 
   useEffect(() => {
+    console.log("useEffect activityModal: ", activityId)
     getActivityDetails(activityId)
   }, [activityId])
 
@@ -247,7 +248,7 @@ export default function ActivityModal({ activityId }) {
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#collapseOne5"
-                      aria-expanded="true"
+                      aria-expanded="false"
                       aria-controls="collapseOne5"
                     >
                       Segments
@@ -255,7 +256,7 @@ export default function ActivityModal({ activityId }) {
                   </h2>
 
                   {/* body */}
-                  <div id="collapseOne5" className="accordion-collapse collapse show" aria-labelledby="headingOne5">
+                  <div id="collapseOne5" className="accordion-collapse collapse" aria-labelledby="headingOne5">
                     <div className="accordion-body py-2">
                       <Segments activityDetails={activityDetails} setSegmentRoute={setSegmentRoute} />
                     </div>
@@ -272,7 +273,7 @@ export default function ActivityModal({ activityId }) {
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#collapseOne6"
-                      aria-expanded="true"
+                      aria-expanded="false"
                       aria-controls="collapseOne6"
                     >
                       Power Zones
@@ -280,7 +281,7 @@ export default function ActivityModal({ activityId }) {
                   </h2>
 
                   {/* body */}
-                  <div id="collapseOne6" className="accordion-collapse collapse show" aria-labelledby="headingOne6">
+                  <div id="collapseOne6" className="accordion-collapse collapse" aria-labelledby="headingOne6">
                     <div className="accordion-body py-2">
 
                       {/* bar graph */}

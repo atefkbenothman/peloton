@@ -18,10 +18,10 @@ export default function Activity({ activity }) {
   const router = useRouter()
   const urlQueries = router.query
 
-  const [openActivityModal, setActivityModal] = React.useState(false)
+  const [openActivityModal, setOpenActivityModal] = React.useState(false)
 
   function openModal(mode: boolean) {
-    setActivityModal(mode)
+    setOpenActivityModal(mode)
   }
 
   return (

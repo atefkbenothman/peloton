@@ -62,7 +62,7 @@ function NavBar() {
                 aria-controls="pills-profileVertical" aria-selected="false" onClick={() => goToPage("/profile")}>Profile</a>
             </li>
             <li className="nav-item flex-grow text-center my-2 shadow" role="presentation">
-              <a href="/map" className="
+              <a href="/activities" className="
                   nav-link
                   block
                   font-bold

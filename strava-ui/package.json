@@ -20,6 +20,7 @@
     "chart.js": "^4.0.0",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
+    "ioredis": "^4.27.6",
     "mapbox": "^1.0.0-beta10",
     "mapbox-gl": "^2.12.1",
     "next": "13.1.6",
@@ -27,6 +28,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",
     "react-map-gl": "^7.0.21",
+    "tls": "^0.0.1",
     "tw-elements": "^1.0.0-alpha13",
     "typescript": "4.9.5"
   },

@@ -8,9 +8,36 @@ import "mapbox-gl/dist/mapbox-gl.css"
 // components
 import Activity from "../components/activity"
 import Calendar from "../components/calendar"
+// redis
+import cache from "src/cache"
 
 
-export default function Activities() {
+export const getServerSideProps = async ({ query }) => {
+  const token = query.clientAccessToken || ""
+  const fetcher = async () => {
+    const accessToken = token
+    const duration = 7
+    try {
+      const res = await fetch(`https://www.strava.com/api/v3/athlete/activities?per_page=${duration}`, {
+        headers: {
+          Authorization: "Bearer " + accessToken
+        }
+      })
+      const data = await res.json()
+      return data
+    } catch (err) {
+      console.log(err)
+      return []
+    }
+  }
+
+  const key = `allActivities-${new Date().getMonth().toString()}-${new Date().getDate().toString()}`
+  const cachedActivities = await cache.fetch(key, fetcher, 60 * 60)
+
+  return { props: { activitiesProp: cachedActivities } }
+}
+
+export default function Activities({ activitiesProp }) {
   const router = useRouter()
   const data = router.query
 
@@ -23,7 +50,9 @@ export default function Activities() {
 
   useEffect(() => {
     async function fillActivityCalendar() {
-      const activities = await getAllActivities()
+      const activities = activitiesProp
+      setActivities(activities)
+
       const allActivities = []
       for (let i = 0; i < (activities || []).length; i++) {
         const startDate = activities[i].start_date.substring(0, 10)
@@ -51,6 +80,7 @@ export default function Activities() {
       })
       const data = await res.json()
       setActivities(data)
+      return data
     } catch (err) {
       console.log(err)
     }
