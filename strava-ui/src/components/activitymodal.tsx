@@ -39,7 +39,7 @@ export default function ActivityModal({ activityId, activityDetails, focused }) 
         aria-hidden="true">
         <div
           data-te-modal-dialog-ref
-          className="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
+          className="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] min-[992px]:max-w-[800px] min-[1200px]:max-w-[1140px]">
           <div
             className="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none -neutral-600">
 
@@ -82,7 +82,7 @@ export default function ActivityModal({ activityId, activityDetails, focused }) 
               {/* map */}
               {
                 (activityDetails.start_latlng || []).length !== 0 ?
-                  <div className="mb-6 w-full h-96" key={focused}>
+                  <div className="mb-6 w-full h-96">
                     <Map
                       key={focused}
                       mapboxAccessToken={mapboxgl.accessToken}
@@ -97,6 +97,7 @@ export default function ActivityModal({ activityId, activityDetails, focused }) 
                       }}
                       mapStyle="mapbox://styles/mapbox/streets-v12"
                       onLoad={(event) => event.target.resize()}
+                      onResize={(event) => event.target.resize()}
                     >
                       <NavigationControl />
                       <Source id="polylineLayer" type="geojson" data={activityRoute}>
