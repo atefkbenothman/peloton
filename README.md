@@ -14,4 +14,7 @@ an alternative UI for Strava
 
 ### technologies
 - next.js
+- tailwind
+- mapbox
+- redis
 
