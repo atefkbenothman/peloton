@@ -1,4 +1,5 @@
 import React from "react"
+import { useEffect, useRef } from "react"
 // mapbox
 import "mapbox-gl/dist/mapbox-gl.css"
 import mapboxgl from "mapbox-gl"
@@ -11,8 +12,13 @@ export default function Activity({ activity, activityDetails }) {
   // set mapbox access token
   mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN || ""
 
+  const [modalOpened, setModalOpened] = React.useState(false)
+
+  const [focused, setFocused] = React.useState(0)
+
   function openModal(id: number) {
-    console.log("opening modal: ", id)
+    setModalOpened(true)
+    setFocused(id)
   }
 
   return (
@@ -20,12 +26,10 @@ export default function Activity({ activity, activityDetails }) {
 
       {/* Activity Modal */}
       {
-        activity.id !== 0 ?
-          <div>
-            <ActivityModal activityId={activity.id} activityDetails={activityDetails} />
-          </div>
-          :
-          <></>
+        activity.id &&
+        <div>
+          <ActivityModal activityId={activity.id} activityDetails={activityDetails} focused={focused} />
+        </div>
       }
 
       {/* Activity Card */}

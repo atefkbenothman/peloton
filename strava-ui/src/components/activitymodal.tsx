@@ -1,5 +1,5 @@
 import React from "react"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 // mapbox
 import mapboxgl from "mapbox-gl"
 import polyline from "@mapbox/polyline"
@@ -10,7 +10,7 @@ import Segments from "../components/segments"
 import PowerZones from "../components/powerzones"
 
 
-export default function ActivityModal({ activityId, activityDetails }) {
+export default function ActivityModal({ activityId, activityDetails, focused }) {
   // set mapbox access token
   mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN || ""
 
@@ -21,7 +21,7 @@ export default function ActivityModal({ activityId, activityDetails }) {
   useEffect(() => {
     getGeoJson()
     setLoaded(true)
-  }, [activityId])
+  }, [])
 
   function getGeoJson() {
     const polylineData = polyline.toGeoJSON(activityDetails.map.summary_polyline)
@@ -80,21 +80,23 @@ export default function ActivityModal({ activityId, activityDetails }) {
               </div>
 
               {/* map */}
-              <div className="mb-6 w-full h-96">
-                {
-                  (activityDetails.start_latlng || []).length !== 0 && loaded === true ?
+              {
+                (activityDetails.start_latlng || []).length !== 0 ?
+                  <div className="mb-6 w-full h-96" key={focused}>
                     <Map
+                      key={focused}
                       mapboxAccessToken={mapboxgl.accessToken}
                       initialViewState={{
                         longitude: activityDetails.start_latlng[1],
                         latitude: activityDetails.start_latlng[0],
-                        zoom: 11
+                        zoom: 10
                       }}
                       style={{
                         width: "100%",
                         height: "100%",
                       }}
                       mapStyle="mapbox://styles/mapbox/streets-v12"
+                      onLoad={(event) => event.target.resize()}
                     >
                       <NavigationControl />
                       <Source id="polylineLayer" type="geojson" data={activityRoute}>
@@ -133,10 +135,10 @@ export default function ActivityModal({ activityId, activityDetails }) {
                           <></>
                       }
                     </Map>
-                    :
-                    <></>
-                }
-              </div>
+                  </div>
+                  :
+                  <></>
+              }
 
               {/* list activity statistics */}
               <div className="grid grid-cols-3 gap-4 content-start">
