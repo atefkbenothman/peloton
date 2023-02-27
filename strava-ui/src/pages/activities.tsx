@@ -14,6 +14,7 @@ import cache from "src/cache"
 
 export const getServerSideProps = async ({ query }) => {
   const token = query.clientAccessToken || ""
+
   const fetcher = async () => {
     const duration = 7
     try {
@@ -30,13 +31,42 @@ export const getServerSideProps = async ({ query }) => {
     }
   }
 
-  const key = `allActivities-${new Date().getMonth().toString()}-${new Date().getDate().toString()}`
-  const cachedActivities = await cache.fetch(key, fetcher, 60 * 60, false)
+  const activityDetailsFetcher = async (id: number) => {
+    try {
+      const res = await fetch(`https://www.strava.com/api/v3/activities/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      })
+      const data = await res.json()
+      return data
+    } catch (error) {
+      console.error(error)
+      return {}
+    }
+  }
 
-  return { props: { activitiesProp: cachedActivities } }
+  // get all activities from redis if exists
+  const key = `allActivities-${new Date().getMonth().toString()}-${new Date().getDate().toString()}`
+  let cachedActivities = await cache.fetch(key, fetcher, 60 * 60, false)
+
+  // if all activities is not a list, try to overwrite the data
+  if (!Array.isArray(cachedActivities)) {
+    cachedActivities = await cache.fetch(key, fetcher, 60 * 60, true)
+  }
+
+  // get each activity details from redis if exists
+  let activityDetails = {}
+  for (let i = 0; i < cachedActivities.length; i++) {
+    const activityDetailsKey = `activity-${cachedActivities[i].id}-details-${new Date().getMonth().toString()}-${new Date().getDate().toString()}`
+    const cachedActivityDetails = await cache.fetch(activityDetailsKey, () => activityDetailsFetcher(cachedActivities[i].id), 60 * 60, false)
+    activityDetails[cachedActivityDetails.id] = cachedActivityDetails
+  }
+
+  return { props: { activitiesProp: cachedActivities, activityDetailsProp: activityDetails } }
 }
 
-export default function Activities({ activitiesProp }) {
+export default function Activities({ activitiesProp, activityDetailsProp }) {
   const router = useRouter()
   const data = router.query
 
@@ -114,7 +144,7 @@ export default function Activities({ activitiesProp }) {
               {
                 Array.isArray(activities) ?
                   activities.map(activity => (
-                    <Activity key={activity.id} activity={activity} />
+                    <Activity key={activity.id} activity={activity} activityDetails={activityDetailsProp[activity.id]} />
                   ))
                   :
                   <>

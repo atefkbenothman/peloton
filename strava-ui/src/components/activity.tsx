@@ -1,24 +1,15 @@
 import React from "react"
-import { useEffect } from "react"
-// next
-import { useRouter } from "next/router"
 // mapbox
 import "mapbox-gl/dist/mapbox-gl.css"
 import mapboxgl from "mapbox-gl"
 import polyline from "@mapbox/polyline"
 // components
-import ActivityModal from "../pages/activitymodal"
+import ActivityModal from "./activitymodal"
 
 
-export default function Activity({ activity }) {
+export default function Activity({ activity, activityDetails }) {
   // set mapbox access token
   mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN || ""
-
-  // get url queries
-  const router = useRouter()
-  const urlQueries = router.query
-
-  const [modalStatus, setModalStatus] = React.useState(false)
 
   function openModal(id: number) {
     console.log("opening modal: ", id)
@@ -31,7 +22,7 @@ export default function Activity({ activity }) {
       {
         activity.id !== 0 ?
           <div>
-            <ActivityModal activityId={activity.id} />
+            <ActivityModal activityId={activity.id} activityDetails={activityDetails} />
           </div>
           :
           <></>

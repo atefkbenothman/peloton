@@ -152,7 +152,7 @@ export default function Layout({ children }: any) {
         </div>
 
         {/* main content */}
-        <div className="flex w-full bg-bgWhite">
+        <div className="flex">
           <main>
             {children}
           </main>

@@ -93,23 +93,3 @@ export default function Segments({ activityDetails, setSegmentRoute }) {
     </div>
   )
 }
-
-  // const getSegmentDetails = async (id: number) => {
-  //   const accessToken = data.clientAccessToken
-  //   try {
-  //     const res = await fetch(`https://www.strava.com/api/v3/segments/${id}`, {
-  //       headers: {
-  //         Authorization: "Bearer " + accessToken
-  //       }
-  //     })
-  //     const data = await res.json()
-  //     const segmentPolyline = polyline.toGeoJSON(data.map.polyline)
-  //     setSegmentRoute(segmentPolyline)
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
-
-  // function getSegment(id: number) {
-  //   getSegmentDetails(id)
-  // }

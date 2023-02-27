@@ -9,10 +9,10 @@ const fetch = async (key: string, fetcher: any, expires: number, bypass: boolean
     return set(key, fetcher, expires)
   }
   if (existing !== null) {
-    console.log("retrieving activities data from upstash/redis")
+    console.log(`retrieving ${key} data from upstash/redis`)
     return existing
   }
-  console.log("calling strava api")
+  console.log(`calling strava api. key: <${key}> does not exist.`)
   return set(key, fetcher, expires)
 }
 
