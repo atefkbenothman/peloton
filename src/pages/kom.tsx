@@ -5,21 +5,6 @@ import Map, { Marker, Source, Layer, NavigationControl } from "react-map-gl"
 import polyline from "@mapbox/polyline"
 import "mapbox-gl/dist/mapbox-gl.css"
 
-// avg_grade: 5.8
-// climb_category: 1
-// climb_category_desc: "4"
-// distance: 2684.8
-// elev_difference: 158
-// elevation_profile: "https://d3o5xota0a1fcr.cloudfront.net/v6/charts/N4EDR3MJFWUUOQG5RVK2ZEW5SUM6ON5QQNCH4SOGIBBJHCBERYH7KQO3LM3KEG3IFVZQTLNBE33UBLY2OA7Q===="
-// end_latlng: [37.82815086368099, -122.49800506447612]
-// id: 229781
-// local_legend_enabled: true
-// name: "Hawk Hill"
-// points: "wg|eF~pqjV`AQl@@b@P|BjAxAd@p@BRD~@?^GJITSh@{@^c@TDTN\\b@EhFFf@HTPZ`AlAHBFRFdACPGBe@|@QRYROFEAy@A}CB_@Dk@JMD?Bw@h@]PoAd@IFs@r@g@t@i@d@w@`AKRALEJ?TVlAJRLz@Cb@EXI\\KHIZD^J`@Zd@JDPXDVAt@GR?HqAz@u@ZU^Qb@Kl@AXSdC]nBA^LFl@PLHLJb@r@^`@FD|@VdBVp@b@N`@Fl@G`BBbA\\bC`@x@f@R`ARLFLJf@r@FVHPT\\RRZD~@KdCe@n@]d@_@l@Sf@?HDFDHR"
-// resource_state: 2
-// starred: false
-// start_latlng: [37.833087932025045, -122.48351597654613]
-
 const skyLayer: SkyLayer = {
   id: 'sky',
   type: 'sky',
@@ -31,8 +16,8 @@ const skyLayer: SkyLayer = {
 };
 
 export default function Kom() {
-  // set mapbox access token
-  mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN || ""
+
+  mapboxgl.accessToken = "pk.eyJ1IjoiYXRlZmthaWJlbm90aG1hbiIsImEiOiJjbGU1Mms1aGQwMzk2M3BwMzhyOWx2dDV2In0.Iqr4f_ZJMostXFJ3NJB1RA"
 
   const [token, setToken] = React.useState("")
   const [data, setData] = React.useState("")
@@ -126,24 +111,28 @@ export default function Kom() {
 
   return (
     <div>
-      <div className="h-screen">
+      <div className="min-h-screen mx-6 py-6">
         <div className="m-auto">
           <div className="mx-6 my-6">
             <h1 className="text-3xl font-bold mb-6">KOM Search</h1>
             <div className="mt-2 mb-6">
               <label>token: </label>
+              <br />
               <input className="bg-gray-300 border rounded p-1" required onChange={handleTokenInput} defaultValue={""} />
             </div>
             <div className="mt-2 mb-6">
               <label>radius: </label>
+              <br />
               <input className="bg-gray-300 border rounded p-1" required onChange={handleRadiusInput} defaultValue={radius} />
             </div>
             <div className="mt-2 mb-6">
               <label>min cat: </label>
+              <br />
               <input className="bg-gray-300 border rounded p-1" required onChange={handleMinCatInput} defaultValue={minCat} />
             </div>
             <div className="mt-2 mb-6">
               <label>max cat: </label>
+              <br />
               <input className="bg-gray-300 border rounded p-1" required onChange={handleMaxCatInput} defaultValue={maxCat} />
             </div>
             <div className="mb-6 w-full h-96">
@@ -264,29 +253,3 @@ export default function Kom() {
     </div >
   )
 }
-
-
-              // {/* body */}
-              // <tbody className="border-b">
-              //   {
-              //     activityDetails.segment_efforts.map(seg => (
-              //       <tr key={activityDetails.id + seg.id} className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" onClick={() => getSegment(seg.segment.id)}>
-              //         <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
-              //           {seg.name}
-              //         </td>
-              //         <td className="text-xs text-gray-900 font-light px-4 py-1 border-r break-normal">
-              //           {(seg.moving_time / 60).toFixed(0)} mins
-              //         </td>
-              //         <td className="text-xs text-gray-900 font-light px-4 py-1 border-r break-normal">
-              //           {(seg.distance / 1609.344).toFixed(1)} miles
-              //         </td>
-              //         <td className="text-xs text-gray-900 font-light px-4 py-1 border-r break-normal">
-              //           {(seg.average_watts || 0).toFixed(0)} watts
-              //         </td>
-              //         <td className="text-xs text-gray-900 font-light px-4 py-1 border-r break-normal">
-              //           {((seg.distance / 1609.344) / (seg.moving_time / 3600)).toFixed(0)} mph
-              //         </td>
-              //       </tr>
-              //     ))
-              //   }
-              // </tbody>

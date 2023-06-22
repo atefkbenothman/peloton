@@ -1,3 +1,5 @@
+import React from "react"
+
 export default function Home() {
   return (
     <>
@@ -5,9 +7,11 @@ export default function Home() {
         <div className="m-auto">
 
           {/* Title */}
-          <h3 className="text-3xl font-bold">
-            Home
-          </h3>
+          <div>
+            <h3 className="text-3xl font-bold">
+              Home
+            </h3>
+          </div>
 
         </div>
       </div>

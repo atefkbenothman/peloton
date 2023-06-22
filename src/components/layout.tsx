@@ -49,8 +49,7 @@ function NavBar() {
               aria-controls="pills-home03"
               aria-selected="true"
               onClick={() => goToPage("/")}
-            >Home</a
-            >
+            >Home</a>
           </li>
           <li role="profile" className="flex-grow text-center">
             <a
@@ -80,8 +79,7 @@ function NavBar() {
               aria-controls="pills-profile03"
               aria-selected="false"
               onClick={() => goToPage("/login")}
-            > Login</a
-            >
+            >Login</a>
           </li>
           <li role="contact" className="flex-grow text-center">
             <a
@@ -112,8 +110,7 @@ function NavBar() {
               aria-controls="pills-contact03"
               aria-selected="false"
               onClick={() => goToPage("/activities")}
-            >Activities</a
-            >
+            >Activities</a>
           </li>
           <li role="profile" className="flex-grow text-center">
             <a
@@ -143,7 +140,7 @@ function NavBar() {
               aria-controls="pills-profile03"
               aria-selected="false"
               onClick={() => goToPage("/kom")}
-            > KOM Hunt</a>
+            >KOM</a>
           </li>
           <li role="profile" className="flex-grow text-center">
             <a
@@ -173,7 +170,7 @@ function NavBar() {
               aria-controls="pills-profile03"
               aria-selected="false"
               onClick={() => goToPage("/stats")}
-            > Stats</a>
+            >Stats</a>
           </li>
         </ul>
         <div className="my-2">
@@ -207,7 +204,7 @@ export default function Layout({ children }: any) {
     <>
       <div className="flex">
 
-        <div className="flex items-baseline justify-center w-1/5">
+        <div className="flex items-baseline justify-center ml-6">
           <NavBar />
         </div>
 

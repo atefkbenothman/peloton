@@ -1,21 +1,22 @@
-import React from "react"
-// next
-import { useRouter } from "next/router"
+import React, { useEffect } from "react"
 // mapbox
 import mapboxgl from "mapbox-gl"
 import polyline from "@mapbox/polyline"
 
 export default function Segments({ activityDetails, setSegmentRoute }) {
-  // get url queries
-  const router = useRouter()
-  const urlQueries = router.query
+
+  const [stravaAccessToken, setStravaAccessToken] = React.useState("")
+
+  useEffect(() => {
+    setStravaAccessToken(window.localStorage.getItem("accessToken") || "")
+  }, [])
 
   const getSegmentDetails = async (id: number) => {
-    const accessToken = urlQueries.clientAccessToken
     try {
       const res = await fetch(`https://www.strava.com/api/v3/segments/${id}`, {
+        method: "GET",
         headers: {
-          Authorization: "Bearer " + accessToken
+          Authorization: "Bearer " + stravaAccessToken
         }
       })
       const data = await res.json()
