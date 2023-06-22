@@ -1,5 +1,5 @@
 import React from "react"
-
+// datepicker
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 
@@ -12,10 +12,11 @@ export default function Stats() {
   }
 
   return (
-    <div>
-      <div className="h-screen">
+    <>
+      <div className="min-h-screen mx-6 py-6">
         <div className="m-auto">
-          <div className="mx-6 my-6">
+
+          <div>
             <h1 className="text-3xl font-bold mb-6">Stats</h1>
             <h1 className="text-lg mb-2">how many miles since {date.toLocaleDateString("en-US", {month: "2-digit", day: "2-digit", year: "numeric"})} ?</h1>
             <div className="mb-4 m-2">
@@ -25,8 +26,9 @@ export default function Stats() {
               Search
             </button>
           </div>
+
         </div>
       </div>
-    </div>
+    </>
   )
 }
