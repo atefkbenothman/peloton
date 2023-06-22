@@ -137,6 +137,7 @@ export default function Login() {
                     <p className="text-green-600 font-bold ml-2">True</p>
                   </div>
                   <div>
+                    <p>token: {clientAccessToken}</p>
                   </div>
                   <div className="mt-2 inline-flex">
                     <button className="btn shadow bg-blue-300 rounded p-2 font-bold mr-2">

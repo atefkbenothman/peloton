@@ -115,6 +115,66 @@ function NavBar() {
             >Activities</a
             >
           </li>
+          <li role="profile" className="flex-grow text-center">
+            <a
+              className="
+                cursor-pointer
+                shadow-md
+                my-2 
+                block 
+                rounded 
+                px-7 
+                pt-4 
+                pb-3.5 
+                text-xs 
+                font-bold 
+                uppercase 
+                leading-tight 
+                text-neutral-500 
+                data-[te-nav-active]:!bg-blue-300 
+                dark:bg-neutral-400 
+                dark:text-white 
+                dark:data-[te-nav-active]:text-white-700
+              "
+              id="pills-profile-tab03"
+              data-te-toggle="pill"
+              data-te-target="#pills-profile03"
+              role="tab"
+              aria-controls="pills-profile03"
+              aria-selected="false"
+              onClick={() => goToPage("/kom")}
+            > KOM Hunt</a>
+          </li>
+          <li role="profile" className="flex-grow text-center">
+            <a
+              className="
+                cursor-pointer
+                shadow-md
+                my-2 
+                block 
+                rounded 
+                px-7 
+                pt-4 
+                pb-3.5 
+                text-xs 
+                font-bold 
+                uppercase 
+                leading-tight 
+                text-neutral-500 
+                data-[te-nav-active]:!bg-blue-300 
+                dark:bg-neutral-400 
+                dark:text-white 
+                dark:data-[te-nav-active]:text-white-700
+              "
+              id="pills-profile-tab03"
+              data-te-toggle="pill"
+              data-te-target="#pills-profile03"
+              role="tab"
+              aria-controls="pills-profile03"
+              aria-selected="false"
+              onClick={() => goToPage("/stats")}
+            > Stats</a>
+          </li>
         </ul>
         <div className="my-2">
           <div
