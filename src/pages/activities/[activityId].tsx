@@ -83,7 +83,7 @@ export default function ActivityDetails() {
   return (
       <>
         <div className="min-h-screen mx-6 py-6">
-          <div className="m-auto w-fill">
+          <div className="w-fill">
 
             {
               loaded && (
