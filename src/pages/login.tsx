@@ -10,20 +10,23 @@ import { ArrowPathIcon } from "@heroicons/react/24/solid"
 export default function Login() {
   const router = useRouter()
 
-  const authBaseURL = "https://www.strava.com/oauth/authorize"
-  const exchangeBaseURL = "https://www.strava.com/oauth/token"
-
-  const [clientId, setClientId] = React.useState(process.env.CLIENT_ID || "")
-  const [clientSecret, setClientSecret] = React.useState(process.env.CLIENT_SECRET || "")
-  const [clientCode, setClientCode] = React.useState("")
+  const [clientId, setClientId] = React.useState("")
+  const [clientSecret, setClientSecret] = React.useState("")
   const [clientAccessToken, setClientAccessToken] = React.useState("")
   const [clientRefreshToken, setClientRefreshToken] = React.useState("")
   const [athleteId, setAthleteId] = React.useState("")
   const [isAuthorized, setIsAuthorized] = React.useState(false)
 
+  // retrieve clientId and clientSecret keys from localstorage if it exists
+  useEffect(() => {
+    setClientId(window.localStorage.getItem("clientId") || "")
+    setClientSecret(window.localStorage.getItem("clientSecret") || "")
+  }, [])
+
+  // once clientId and clientSecret has been retrieved, check has auth code
   useEffect(() => {
     checkHasAuthCode()
-  }, [])
+  }, [clientId, clientSecret])
 
   function checkHasAuthCode() {
     const urlParams = new URLSearchParams(window.location.href)
@@ -85,13 +88,18 @@ export default function Login() {
     router.push(authURL)
   }
 
-  function handleRefresh(e: React.MouseEvent<HTMLButtonElement>) {
+  // update clientId
+  function handleClientIdInput(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault()
-    setClientAccessToken("")
-    setClientRefreshToken("")
-    setClientCode("")
-    setIsAuthorized(false)
-    router.push("/login")
+    setClientId(e.target.value)
+    localStorage.setItem("clientId", e.target.value)
+  }
+
+  // update clientSecret
+  function handleSecretInput(e: React.ChangeEvent<HTMLInputElement>) {
+    e.preventDefault()
+    setClientSecret(e.target.value)
+    localStorage.setItem("clientSecret", e.target.value)
   }
 
   return (
