@@ -20,6 +20,8 @@
     "chart.js": "^4.0.0",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
+    "flowbite": "^1.6.6",
+    "flowbite-react": "^0.4.9",
     "ioredis": "^4.27.6",
     "mapbox": "^1.0.0-beta10",
     "mapbox-gl": "^2.12.1",

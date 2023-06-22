@@ -3,8 +3,9 @@
 module.exports = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/components/*.{js,ts,jsx,tsx}",
     "./node_modules/tw-elements/dist/js/**/*.js",
-    "./src/components/*.{js,ts,jsx,tsx}"
+    "./node_modules/flowbite-react/**/*.js"
   ],
   theme: {
     screens: {
@@ -51,6 +52,7 @@ module.exports = {
     },
   },
   plugins: [
-    require("tw-elements/dist/plugin")
+    require("tw-elements/dist/plugin"),
+    require("flowbite/plugin")
   ],
 }
