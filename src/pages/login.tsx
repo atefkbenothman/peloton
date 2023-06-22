@@ -19,6 +19,12 @@ export default function Login() {
   useEffect(() => {
     setClientId(window.localStorage.getItem("clientId") || "")
     setClientSecret(window.localStorage.getItem("clientSecret") || "")
+    // if an accessToken has already been generated, use it
+    const access_token = window.localStorage.getItem("accessToken") || ""
+    if (access_token !== "") {
+      setClientAccessToken(access_token)
+      setIsAuthorized(true)
+    }
   }, [])
 
   // once clientId and clientSecret has been retrieved, check has auth code
@@ -57,6 +63,9 @@ export default function Login() {
       setClientAccessToken(access_token)
       setClientRefreshToken(refresh_token)
 
+      // set access token to localstorage
+      localStorage.setItem("accessToken", access_token)
+
       const athlete = data["athlete"]
       const athlete_id = athlete["id"]
       setAthleteId(athlete_id)
@@ -81,6 +90,14 @@ export default function Login() {
     const paramsString = params.toString()
     const authURL = `${authBaseURL}?${paramsString}`
     router.push(authURL)
+  }
+
+  // clear the accessToken from localstorage
+  function handleRefresh(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
+    setClientAccessToken("")
+    setIsAuthorized(false)
+    localStorage.removeItem("accessToken")
   }
 
   // update clientId
@@ -126,6 +143,13 @@ export default function Login() {
             <button className="btn bg-orange-500 rounded p-2 shadow font-bold mr-4" onClick={handleLogin}>
               Login
             </button>
+            {
+              isAuthorized && (
+                <button className="btn bg-purple-300 rounded p-2 shadow font-bold mr-4" onClick={handleRefresh}>
+                  Refresh
+                </button>
+              )
+            }
           </div>
 
           {/* Extra */}
