@@ -45,17 +45,17 @@ export default function Activity({ activity }) {
               </div>
               <div>
                 <p className="text-gray-700 text-base">avg mph</p>
-                  <div className="flex items-baseline">
-                    <p className="font-bold text-2xl">{(activity.average_speed * 2.23694).toFixed(0)}</p>
-                    <p className="text-sm font-medium ml-2">mph</p>
-                  </div>
+                <div className="flex items-baseline">
+                  <p className="font-bold text-2xl">{(activity.average_speed * 2.23694).toFixed(0)}</p>
+                  <p className="text-sm font-medium ml-2">mph</p>
+                </div>
               </div>
               <div>
                 <p className="text-gray-700 text-base">max mph</p>
-                  <div className="flex items-baseline">
-                    <p className="font-bold text-2xl">{(activity.max_speed * 2.23694).toFixed(0)}</p>
-                    <p className="text-sm font-medium ml-2">mph</p>
-                  </div>
+                <div className="flex items-baseline">
+                  <p className="font-bold text-2xl">{(activity.max_speed * 2.23694).toFixed(0)}</p>
+                  <p className="text-sm font-medium ml-2">mph</p>
+                </div>
               </div>
               <div>
                 <p className="text-gray-700 text-base">avg watts</p>

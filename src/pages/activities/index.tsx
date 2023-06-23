@@ -57,6 +57,7 @@ export default function Activities() {
     <>
       <div className="min-h-screen mx-6 py-6">
         <div className="m-auto">
+
           {/* Title */}
           <div className="mb-6">
             <h1 className="text-3xl font-bold">Activities</h1>

@@ -83,7 +83,6 @@ export default function ActivityDetails() {
           Authorization: "Bearer " + stravaAccessToken,
         },
       });
-
       const data = await res.json();
       setActivityDetails(data);
       getGeoJson(data);
