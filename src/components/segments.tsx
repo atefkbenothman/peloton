@@ -32,30 +32,27 @@ export default function Segments({ activityDetails, setSegmentRoute }) {
   }
 
   return (
-    <div className="flex flex-col">
-      <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="overflow-hidden">
+    <div className="">
 
             {/* table */}
-            <table className="min-w-full border text-center table-fixed w-fit">
+            <table className="w-full border text-center table-fixed">
 
               {/* head */}
-              <thead className="border-b bg-gray-50">
+              <thead className="text-xs bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-2 border-r">
+                  <th scope="col" className="text-sm text-gray-900 px-6 py-2 border-r">
                     name
                   </th>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-2 border-r">
+                  <th scope="col" className="text-sm text-gray-900 px-6 py-2 border-r">
                     time
                   </th>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-2 border-r">
+                  <th scope="col" className="text-sm text-gray-900 px-6 py-2 border-r">
                     distance
                   </th>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-2 border-r">
+                  <th scope="col" className="text-sm text-gray-900 px-6 py-2 border-r">
                     avg power
                   </th>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-2 border-r">
+                  <th scope="col" className="text-sm text-gray-900 px-6 py-2 border-r">
                     avg speed
                   </th>
                 </tr>
@@ -66,7 +63,7 @@ export default function Segments({ activityDetails, setSegmentRoute }) {
                 {
                   activityDetails.segment_efforts.map(seg => (
                     <tr key={activityDetails.id + seg.id} className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" onClick={() => getSegment(seg.segment.id)}>
-                      <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
+                      <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal">
                         {seg.name}
                       </td>
                       <td className="text-xs text-gray-900 font-light px-4 py-1 border-r break-normal">
@@ -88,9 +85,6 @@ export default function Segments({ activityDetails, setSegmentRoute }) {
 
             </table>
 
-          </div>
-        </div>
-      </div>
     </div>
   )
 }

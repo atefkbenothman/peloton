@@ -112,18 +112,10 @@ export default function Layout({ children }: any) {
   return (
     <>
       <div className="flex">
-
-        <div>
-          <NavBar />
-        </div>
-
-        {/* main content */}
-        <div className="sm:ml-64">
-          <main>
-            {children}
-          </main>
-        </div>
-
+        <NavBar />
+        <main className="flex-1 ml-64">
+          {children}
+        </main>
       </div>
     </>
   )
