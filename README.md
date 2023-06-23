@@ -1,7 +1,4 @@
 # Strava UI
-
-an alternative UI for Strava
-
 <br>
 
 <img width="1776" alt="activities" src="https://user-images.githubusercontent.com/92714853/220763391-8e884c39-9272-4fe6-99a7-c613cee51606.png">
@@ -27,4 +24,6 @@ an alternative UI for Strava
 - tailwind
 - mapbox
 - redis
-
+- flowbite
+- chart.js
+  
