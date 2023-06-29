@@ -18,12 +18,11 @@
 
 <br>
 
-
 ### technologies
+
 - next.js
 - tailwind
 - mapbox
 - redis
 - flowbite
 - chart.js
-  

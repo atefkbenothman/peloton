@@ -4,7 +4,6 @@ import { useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
-
 export default function Login() {
   const router = useRouter()
 
@@ -70,7 +69,6 @@ export default function Login() {
       const athlete_id = athlete["id"]
       setAthleteId(athlete_id)
       setIsAuthorized(true)
-
     } catch (err) {
       console.error(err)
     }
@@ -118,67 +116,78 @@ export default function Login() {
     <>
       <div className="min-h-screen mx-6 py-6">
         <div className="m-auto">
-
           {/* Title */}
-          <h3 className="text-3xl font-bold">
-            Login with Strava
-          </h3>
+          <h3 className="text-3xl font-bold">Login with Strava</h3>
 
           {/* Login Form */}
           <form className="flex flex-col mt-2 mb-2">
             <div className="mt-2 mb-2">
               <label className="font-bold">client id: </label>
               <br />
-              <input className="bg-gray-300 border rounded p-1" required onChange={handleClientIdInput} defaultValue={clientId} />
+              <input
+                className="bg-gray-300 border rounded p-1"
+                required
+                onChange={handleClientIdInput}
+                defaultValue={clientId}
+              />
             </div>
             <div className="mt-2 mb-2">
               <label className="font-bold">client secret: </label>
               <br />
-              <input className="bg-gray-300 border rounded p-1" required onChange={handleSecretInput} defaultValue={clientSecret} />
+              <input
+                className="bg-gray-300 border rounded p-1"
+                required
+                onChange={handleSecretInput}
+                defaultValue={clientSecret}
+              />
             </div>
           </form>
 
           {/* Login Button */}
           <div className="flex items-center">
-            <button className="btn bg-orange-500 rounded p-2 shadow font-bold mr-4" onClick={handleLogin}>
+            <button
+              className="btn bg-orange-500 rounded p-2 shadow font-bold mr-4"
+              onClick={handleLogin}
+            >
               Login
             </button>
-            {
-              isAuthorized && (
-                <button className="btn bg-purple-300 rounded p-2 shadow font-bold mr-4" onClick={handleRefresh}>
-                  Refresh
-                </button>
-              )
-            }
+            {isAuthorized && (
+              <button
+                className="btn bg-purple-300 rounded p-2 shadow font-bold mr-4"
+                onClick={handleRefresh}
+              >
+                Refresh
+              </button>
+            )}
           </div>
 
           {/* Extra */}
           <div>
             <div className="mt-8 mb-2 inline-flex">
               <p className="font-bold">authorized: </p>
-              {
-                isAuthorized ?
-                  <>
-                    <p className="text-green-600 font-bold ml-2">{isAuthorized.toString()}</p>
-                  </>
-                  :
-                  <>
-                    <p className="text-red-600 font-bold ml-2">{isAuthorized.toString()}</p>
-                  </>
-              }
+              {isAuthorized ? (
+                <>
+                  <p className="text-green-600 font-bold ml-2">
+                    {isAuthorized.toString()}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-red-600 font-bold ml-2">
+                    {isAuthorized.toString()}
+                  </p>
+                </>
+              )}
             </div>
             <div>
-              {
-                clientAccessToken && (
-                  <>
-                    <p className="font-bold">token: </p>
-                    <p>{clientAccessToken}</p>
-                  </>
-                )
-              }
+              {clientAccessToken && (
+                <>
+                  <p className="font-bold">token: </p>
+                  <p>{clientAccessToken}</p>
+                </>
+              )}
             </div>
           </div>
-
         </div>
       </div>
     </>

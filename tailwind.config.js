@@ -12,47 +12,44 @@ module.exports = {
       sm: "480px",
       md: "768px",
       lg: "976px",
-      xl: "1440px",
+      xl: "1440px"
     },
     extend: {
       colors: {
-        "black": "#222222",
-        "bgWhite": "#F2F2F2",
-        "red": {
+        black: "#222222",
+        bgWhite: "#F2F2F2",
+        red: {
           100: "#F7A2A9",
           300: "#F26470",
-          500: "#ED2839",
+          500: "#ED2839"
         },
-        "orange": {
+        orange: {
           100: "#FFCE92",
           300: "#FFAD49",
-          500: "#FF8C00",
+          500: "#FF8C00"
         },
-        "yellow": {
+        yellow: {
           100: "#FFEF92",
           300: "#FFE449",
-          500: "#FFD800",
+          500: "#FFD800"
         },
-        "green": {
+        green: {
           100: "#85D6A8",
           300: "#50C583",
-          500: "#009E60",
+          500: "#009E60"
         },
-        "blue": {
+        blue: {
           100: "#84B1F5",
           300: "#317DEE",
-          500: "#0F52BA",
+          500: "#0F52BA"
         },
-        "purple": {
+        purple: {
           100: "#CDA5F3",
           300: "#AC68EA",
-          500: "#8A2BE2",
-        },
-      },
-    },
+          500: "#8A2BE2"
+        }
+      }
+    }
   },
-  plugins: [
-    require("tw-elements/dist/plugin"),
-    require("flowbite/plugin")
-  ],
+  plugins: [require("tw-elements/dist/plugin"), require("flowbite/plugin")]
 }

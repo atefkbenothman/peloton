@@ -13,9 +13,7 @@ export default function Map() {
       <div className="h-screen mx-6 my-6">
         <div className="">
           <div>
-            <h1 className="text-3xl font-bold">
-              Map
-            </h1>
+            <h1 className="text-3xl font-bold">Map</h1>
           </div>
         </div>
       </div>

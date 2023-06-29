@@ -1,46 +1,46 @@
-import React from "react";
-import { useEffect } from "react";
+import React from "react"
+import { useEffect } from "react"
 // next
-import { useRouter } from "next/router";
+import { useRouter } from "next/router"
 // mapbox
-import mapboxgl from "mapbox-gl";
-import polyline from "@mapbox/polyline";
-import Map, { Source, Layer, NavigationControl } from "react-map-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
+import mapboxgl from "mapbox-gl"
+import polyline from "@mapbox/polyline"
+import Map, { Source, Layer, NavigationControl } from "react-map-gl"
+import "mapbox-gl/dist/mapbox-gl.css"
 // components
-import Segments from "../../components/segments";
-import PowerZones from "../../components/powerzones";
+import Segments from "../../components/segments"
+import PowerZones from "../../components/powerzones"
 // flowbite
-import { Tabs, CustomFlowbiteTheme } from "flowbite-react";
+import { Tabs, CustomFlowbiteTheme } from "flowbite-react"
 
 const customTheme: CustomFlowbiteTheme["tab"] = {
   tablist: {
     styles: {
-      default: "",
+      default: ""
     },
     tabitem: {
       base: "flex items-center justify-center p-4 px-10 rounded-lg text-sm font-medium first:ml-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 focus:outline-none",
       styles: {
         default: {
           active: {
-            on: "bg-gray-300",
+            on: "bg-gray-300"
           },
-          base: "font-bold text-xl",
-        },
-      },
-    },
-  },
-};
+          base: "font-bold text-xl"
+        }
+      }
+    }
+  }
+}
 
 export default function ActivityDetails() {
-  const router = useRouter();
-  const activityId = router.query.activityId;
+  const router = useRouter()
+  const activityId = router.query.activityId
 
   mapboxgl.accessToken =
-    "pk.eyJ1IjoiYXRlZmthaWJlbm90aG1hbiIsImEiOiJjbGU1Mms1aGQwMzk2M3BwMzhyOWx2dDV2In0.Iqr4f_ZJMostXFJ3NJB1RA";
+    "pk.eyJ1IjoiYXRlZmthaWJlbm90aG1hbiIsImEiOiJjbGU1Mms1aGQwMzk2M3BwMzhyOWx2dDV2In0.Iqr4f_ZJMostXFJ3NJB1RA"
 
-  const [stravaAccessToken, setStravaAccessToken] = React.useState("");
-  const [loaded, setLoaded] = React.useState(false);
+  const [stravaAccessToken, setStravaAccessToken] = React.useState("")
+  const [loaded, setLoaded] = React.useState(false)
   const [activityDetails, setActivityDetails] = React.useState({
     name: "",
     distance: 0,
@@ -55,47 +55,47 @@ export default function ActivityDetails() {
     average_temp: 0,
     device_name: "",
     segment_efforts: [],
-    start_latlng: [],
-  });
-  const [activityRoute, setActivityRoute] = React.useState<any[]>([]);
-  const [segmentRoute, setSegmentRoute] = React.useState<any[]>([]);
+    start_latlng: []
+  })
+  const [activityRoute, setActivityRoute] = React.useState<any[]>([])
+  const [segmentRoute, setSegmentRoute] = React.useState<any[]>([])
 
   // retrive strava accessToken from localstorage
   useEffect(() => {
-    setStravaAccessToken(window.localStorage.getItem("accessToken") || "");
-  }, []);
+    setStravaAccessToken(window.localStorage.getItem("accessToken") || "")
+  }, [])
 
   // get activityId from url
   useEffect(() => {
     if (!activityId) {
-      return;
+      return
     }
-    getActivityDetails();
-  }, [activityId, stravaAccessToken]);
+    getActivityDetails()
+  }, [activityId, stravaAccessToken])
 
   // retrive activity details from strava api
   const getActivityDetails = async () => {
-    const activityDetailURL = `https://www.strava.com/api/v3/activities/${activityId}`;
+    const activityDetailURL = `https://www.strava.com/api/v3/activities/${activityId}`
     try {
       const res = await fetch(activityDetailURL, {
         method: "GET",
         headers: {
-          Authorization: "Bearer " + stravaAccessToken,
-        },
-      });
-      const data = await res.json();
-      setActivityDetails(data);
-      getGeoJson(data);
-      setLoaded(true);
+          Authorization: "Bearer " + stravaAccessToken
+        }
+      })
+      const data = await res.json()
+      setActivityDetails(data)
+      getGeoJson(data)
+      setLoaded(true)
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  };
+  }
 
   // get the polyline of the activity route
   function getGeoJson(data: any) {
-    const polylineData = polyline.toGeoJSON(data.map.summary_polyline);
-    setActivityRoute(polylineData);
+    const polylineData = polyline.toGeoJSON(data.map.summary_polyline)
+    setActivityRoute(polylineData)
   }
 
   return (
@@ -125,29 +125,33 @@ export default function ActivityDetails() {
                 initialViewState={{
                   longitude: activityDetails.start_latlng[1],
                   latitude: activityDetails.start_latlng[0],
-                  zoom: 10,
+                  zoom: 10
                 }}
                 style={{
                   width: "100%",
-                  height: "100%",
+                  height: "100%"
                 }}
                 mapStyle="mapbox://styles/mapbox/streets-v12"
                 onLoad={(event) => event.target.resize()}
                 onResize={(event) => event.target.resize()}
               >
                 <NavigationControl />
-                <Source id="polylineLayer" type="geojson" data={activityRoute}>
+                <Source
+                  id="polylineLayer"
+                  type="geojson"
+                  data={activityRoute}
+                >
                   <Layer
                     id="lineLayer"
                     type="line"
                     source="my-data"
                     layout={{
                       "line-join": "round",
-                      "line-cap": "round",
+                      "line-cap": "round"
                     }}
                     paint={{
                       "line-color": "rgba(255, 0, 0, 0.8)",
-                      "line-width": 3,
+                      "line-width": 3
                     }}
                   />
                 </Source>
@@ -163,11 +167,11 @@ export default function ActivityDetails() {
                       source="my-data"
                       layout={{
                         "line-join": "round",
-                        "line-cap": "round",
+                        "line-cap": "round"
                       }}
                       paint={{
                         "line-color": "rgba(15, 10, 222, 1)",
-                        "line-width": 3,
+                        "line-width": 3
                       }}
                     />
                   </Source>
@@ -233,8 +237,14 @@ export default function ActivityDetails() {
           </div>
         </div>
         <div className="my-10">
-          <Tabs.Group style="default" theme={customTheme}>
-            <Tabs.Item active title="Segments">
+          <Tabs.Group
+            style="default"
+            theme={customTheme}
+          >
+            <Tabs.Item
+              active
+              title="Segments"
+            >
               <Segments
                 activityDetails={activityDetails}
                 setSegmentRoute={setSegmentRoute}
@@ -258,5 +268,5 @@ export default function ActivityDetails() {
         </div>
       </div>
     </div>
-  );
+  )
 }

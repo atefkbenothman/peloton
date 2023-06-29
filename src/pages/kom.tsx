@@ -6,18 +6,18 @@ import polyline from "@mapbox/polyline"
 import "mapbox-gl/dist/mapbox-gl.css"
 
 const skyLayer: SkyLayer = {
-  id: 'sky',
-  type: 'sky',
+  id: "sky",
+  type: "sky",
   paint: {
-    'sky-type': 'atmosphere',
-    'sky-atmosphere-sun': [0.0, 0.0],
-    'sky-atmosphere-sun-intensity': 15
+    "sky-type": "atmosphere",
+    "sky-atmosphere-sun": [0.0, 0.0],
+    "sky-atmosphere-sun-intensity": 15
   }
-};
+}
 
 export default function Kom() {
-
-  mapboxgl.accessToken = "pk.eyJ1IjoiYXRlZmthaWJlbm90aG1hbiIsImEiOiJjbGU1Mms1aGQwMzk2M3BwMzhyOWx2dDV2In0.Iqr4f_ZJMostXFJ3NJB1RA"
+  mapboxgl.accessToken =
+    "pk.eyJ1IjoiYXRlZmthaWJlbm90aG1hbiIsImEiOiJjbGU1Mms1aGQwMzk2M3BwMzhyOWx2dDV2In0.Iqr4f_ZJMostXFJ3NJB1RA"
 
   const [token, setToken] = React.useState("")
   const [data, setData] = React.useState("")
@@ -57,7 +57,7 @@ export default function Kom() {
     searchSegment(boundsStr)
   }
 
-  // get the top left coordinate and bottom right coordinate of a 
+  // get the top left coordinate and bottom right coordinate of a
   // square surrounding a given center point
   function calculateBounds() {
     // get center point
@@ -67,8 +67,8 @@ export default function Kom() {
     // calculate distance from center point to each side of the square, in meters
     const sideLength = radius
     const R = 6471000 // radius of the Earch in meters
-    const dLat = sideLength / R * (180 / Math.PI) // latitude distance in degrees
-    const dLon = dLat / Math.cos(centerLat * Math.PI / 180) // longitude distance in degrees
+    const dLat = (sideLength / R) * (180 / Math.PI) // latitude distance in degrees
+    const dLon = dLat / Math.cos((centerLat * Math.PI) / 180) // longitude distance in degrees
 
     // calculate coords of top left and bottom right corners
     const topLeftLat = centerLat - dLat
@@ -93,7 +93,7 @@ export default function Kom() {
     try {
       const params = new URLSearchParams({
         bounds: coords,
-        activity_type: "riding",
+        activity_type: "riding"
       })
       const paramsString = params.toString()
       const URL = `https://www.strava.com/api/v3/segments/explore?${paramsString}`
@@ -118,22 +118,42 @@ export default function Kom() {
             <div className="mt-2 mb-6">
               <label>token: </label>
               <br />
-              <input className="bg-gray-300 border rounded p-1" required onChange={handleTokenInput} defaultValue={""} />
+              <input
+                className="bg-gray-300 border rounded p-1"
+                required
+                onChange={handleTokenInput}
+                defaultValue={""}
+              />
             </div>
             <div className="mt-2 mb-6">
               <label>radius: </label>
               <br />
-              <input className="bg-gray-300 border rounded p-1" required onChange={handleRadiusInput} defaultValue={radius} />
+              <input
+                className="bg-gray-300 border rounded p-1"
+                required
+                onChange={handleRadiusInput}
+                defaultValue={radius}
+              />
             </div>
             <div className="mt-2 mb-6">
               <label>min cat: </label>
               <br />
-              <input className="bg-gray-300 border rounded p-1" required onChange={handleMinCatInput} defaultValue={minCat} />
+              <input
+                className="bg-gray-300 border rounded p-1"
+                required
+                onChange={handleMinCatInput}
+                defaultValue={minCat}
+              />
             </div>
             <div className="mt-2 mb-6">
               <label>max cat: </label>
               <br />
-              <input className="bg-gray-300 border rounded p-1" required onChange={handleMaxCatInput} defaultValue={maxCat} />
+              <input
+                className="bg-gray-300 border rounded p-1"
+                required
+                onChange={handleMaxCatInput}
+                defaultValue={maxCat}
+              />
             </div>
             <div className="mb-6 w-full h-96">
               <Map
@@ -149,7 +169,7 @@ export default function Kom() {
                 maxPitch={85}
                 style={{
                   width: "100%",
-                  height: "100%",
+                  height: "100%"
                 }}
                 terrain={{ source: "mapbox-dem", exaggeration: 2 }}
                 mapStyle="mapbox://styles/mapbox/streets-v12"
@@ -157,7 +177,12 @@ export default function Kom() {
                 onResize={(event) => event.target.resize()}
               >
                 <NavigationControl />
-                <Marker longitude={startCoords.longitude} latitude={startCoords.latitude} draggable={true} onDragEnd={handleMarkerDrag}></Marker>
+                <Marker
+                  longitude={startCoords.longitude}
+                  latitude={startCoords.latitude}
+                  draggable={true}
+                  onDragEnd={handleMarkerDrag}
+                ></Marker>
                 <Source
                   id="mapbox-dem"
                   type="raster-dem"
@@ -166,90 +191,114 @@ export default function Kom() {
                   maxzoom={14}
                 />
                 <Layer {...skyLayer} />
-                {
-                  segmentRoute.length !== 0 ?
-                    <Source id="polylineLayer" type="geojson" data={segmentRoute}>
-                      <Layer
-                        id="lineLayer"
-                        type="line"
-                        source="my-data"
-                        layout={{
-                          "line-join": "round",
-                          "line-cap": "round"
-                        }}
-                        paint={{
-                          "line-color": "rgba(15, 10, 222, 1)",
-                          "line-width": 3
-                        }}
-                      />
-                    </Source>
-                    :
-                    <></>
-                }
+                {segmentRoute.length !== 0 ? (
+                  <Source
+                    id="polylineLayer"
+                    type="geojson"
+                    data={segmentRoute}
+                  >
+                    <Layer
+                      id="lineLayer"
+                      type="line"
+                      source="my-data"
+                      layout={{
+                        "line-join": "round",
+                        "line-cap": "round"
+                      }}
+                      paint={{
+                        "line-color": "rgba(15, 10, 222, 1)",
+                        "line-width": 3
+                      }}
+                    />
+                  </Source>
+                ) : (
+                  <></>
+                )}
               </Map>
             </div>
-            <button className="btn mb-6 bg-green-500 text-white rounded p-2 shadow font-bold" onClick={handleSearch}>
+            <button
+              className="btn mb-6 bg-green-500 text-white rounded p-2 shadow font-bold"
+              onClick={handleSearch}
+            >
               Search
             </button>
 
             {/* table */}
             <table className="min-w-full border text-center table-fixed w-fit">
-
               {/* head */}
               <thead className="border-b bg-gray-50">
                 <tr>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-2 border-r">
+                  <th
+                    scope="col"
+                    className="text-sm font-medium text-gray-900 px-6 py-2 border-r"
+                  >
                     name
                   </th>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-2 border-r">
+                  <th
+                    scope="col"
+                    className="text-sm font-medium text-gray-900 px-6 py-2 border-r"
+                  >
                     distance
                   </th>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-2 border-r">
+                  <th
+                    scope="col"
+                    className="text-sm font-medium text-gray-900 px-6 py-2 border-r"
+                  >
                     elev difference
                   </th>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-2 border-r">
+                  <th
+                    scope="col"
+                    className="text-sm font-medium text-gray-900 px-6 py-2 border-r"
+                  >
                     climb category
                   </th>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-2 border-r">
+                  <th
+                    scope="col"
+                    className="text-sm font-medium text-gray-900 px-6 py-2 border-r"
+                  >
                     avg grade
                   </th>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-2 border-r">
+                  <th
+                    scope="col"
+                    className="text-sm font-medium text-gray-900 px-6 py-2 border-r"
+                  >
                     elevation profile
                   </th>
                 </tr>
               </thead>
 
               <tbody className="border-b">
-                {
-                  segments.map(seg => (
-                    <tr key={seg.id} className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" onClick={() => getPolyline(seg.points)}>
-                      <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
-                        {seg.name}
-                      </td>
-                      <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
-                        {(seg.distance / 1609.344).toFixed(1)} miles
-                      </td>
-                      <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
-                        {seg.elev_difference}
-                      </td>
-                      <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
-                        {seg.climb_category}
-                      </td>
-                      <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
-                        <p>{seg.avg_grade}%</p>
-                      </td>
-                      <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
-                        <img src={seg.elevation_profile}></img>
-                      </td>
-                    </tr>
-                  ))
-                }
+                {segments.map((seg) => (
+                  <tr
+                    key={seg.id}
+                    className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                    onClick={() => getPolyline(seg.points)}
+                  >
+                    <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
+                      {seg.name}
+                    </td>
+                    <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
+                      {(seg.distance / 1609.344).toFixed(1)} miles
+                    </td>
+                    <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
+                      {seg.elev_difference}
+                    </td>
+                    <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
+                      {seg.climb_category}
+                    </td>
+                    <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
+                      <p>{seg.avg_grade}%</p>
+                    </td>
+                    <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
+                      <img src={seg.elevation_profile}></img>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
-
             </table>
           </div>
         </div>
       </div>
-    </div >
+    </div>
   )
 }

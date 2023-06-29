@@ -1,0 +1,18 @@
+# use semicolon
+semi: false
+# add trailing comma
+trailingComma: "none"
+# set tabwidth to 2
+tabWidth: 2
+# use double quotes
+singleQuote: false
+# only add quotes around object properties where required
+quoteProps: "as-needed"
+# add spaces between brackets
+bracketSpacing: true
+# put the '>' of a multi-line html element at the end
+bracketSameLine: false
+# include parantheses around a sole arrow function parameter
+arrowParens: "always"
+# enforce single attribute per line in html and jsx
+singleAttributePerLine: true

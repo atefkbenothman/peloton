@@ -1,5 +1,5 @@
-import React from "react";
-import { useEffect } from "react";
+import React from "react"
+import { useEffect } from "react"
 // chartjs
 import {
   Chart as ChartJS,
@@ -8,51 +8,44 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
   Legend
-);
+} from "chart.js"
+import { Bar } from "react-chartjs-2"
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const zoneRanges = [
   {
     zone: "one",
     lower: 95,
-    upper: 142,
+    upper: 142
   },
   {
     zone: "two",
     lower: 143,
-    upper: 194,
+    upper: 194
   },
   {
     zone: "three",
     lower: 195,
-    upper: 225,
+    upper: 225
   },
   {
     zone: "four",
     lower: 226,
-    upper: 260,
+    upper: 260
   },
   {
     zone: "five",
     lower: 270,
-    upper: 355,
+    upper: 355
   },
   {
     zone: "six",
     lower: 356,
-    upper: 999,
-  },
-];
+    upper: 999
+  }
+]
 
 export default function PowerZones({ segmentEfforts }) {
   const [powerZonesTotal, setPowerZonesTotal] = React.useState({
@@ -61,12 +54,12 @@ export default function PowerZones({ segmentEfforts }) {
     three: 0,
     four: 0,
     five: 0,
-    six: 0,
-  });
+    six: 0
+  })
 
   useEffect(() => {
-    calculatePowerZonesTotal();
-  }, [segmentEfforts]);
+    calculatePowerZonesTotal()
+  }, [segmentEfforts])
 
   function calculatePowerZonesTotal() {
     let zones = {
@@ -75,21 +68,21 @@ export default function PowerZones({ segmentEfforts }) {
       three: 0,
       four: 0,
       five: 0,
-      six: 0,
-    };
+      six: 0
+    }
     for (let i = 0; i < (segmentEfforts || []).length; i++) {
-      let avgWatts = segmentEfforts[i].average_watts;
-      let time = segmentEfforts[i].moving_time;
+      let avgWatts = segmentEfforts[i].average_watts
+      let time = segmentEfforts[i].moving_time
       for (let j = 0; j < zoneRanges.length; j++) {
-        let zone = zoneRanges[j].zone;
-        let lowerLimit = zoneRanges[j].lower;
-        let upperLimit = zoneRanges[j].upper;
+        let zone = zoneRanges[j].zone
+        let lowerLimit = zoneRanges[j].lower
+        let upperLimit = zoneRanges[j].upper
         if (avgWatts >= lowerLimit && avgWatts <= upperLimit) {
-          zones[zone] += time / 60;
+          zones[zone] += time / 60
         }
       }
     }
-    setPowerZonesTotal(zones);
+    setPowerZonesTotal(zones)
   }
 
   const labels = [
@@ -98,8 +91,8 @@ export default function PowerZones({ segmentEfforts }) {
     "3: Sweet Spot (195 - 225)",
     "4: Lactate (226 - 260)",
     "5: VO2 (270 - 355)",
-    "6: Neuromuscular (356+)",
-  ];
+    "6: Neuromuscular (356+)"
+  ]
 
   const barData = {
     labels,
@@ -107,14 +100,20 @@ export default function PowerZones({ segmentEfforts }) {
       {
         label: "Dataset 1",
         data: Object.values(powerZonesTotal),
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-    ],
-  };
+        backgroundColor: "rgba(255, 99, 132, 0.5)"
+      }
+    ]
+  }
 
   return (
-    <div style={{ width: "99%" }} className="flex justify-center items-center">
-      <Bar data={barData} options={{ responsive: true }} />
+    <div
+      style={{ width: "99%" }}
+      className="flex justify-center items-center"
+    >
+      <Bar
+        data={barData}
+        options={{ responsive: true }}
+      />
     </div>
-  );
+  )
 }

@@ -1,63 +1,62 @@
-import React from "react";
-import { useEffect, useRef } from "react";
+import React from "react"
+import { useEffect, useRef } from "react"
 // next
 // mapbox
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
+import mapboxgl from "mapbox-gl"
+import "mapbox-gl/dist/mapbox-gl.css"
 // components
-import Activity from "../../components/activity";
+import Activity from "../../components/activity"
 
 export default function Activities() {
   mapboxgl.accessToken =
-    "pk.eyJ1IjoiYXRlZmthaWJlbm90aG1hbiIsImEiOiJjbGU1Mms1aGQwMzk2M3BwMzhyOWx2dDV2In0.Iqr4f_ZJMostXFJ3NJB1RA";
+    "pk.eyJ1IjoiYXRlZmthaWJlbm90aG1hbiIsImEiOiJjbGU1Mms1aGQwMzk2M3BwMzhyOWx2dDV2In0.Iqr4f_ZJMostXFJ3NJB1RA"
 
-  const [stravaAccessToken, setStravaAccessToken] = React.useState("");
-  const [activities, setActivities] = React.useState<any[]>([]);
-  const [errorMessage, setErrorMessage] = React.useState("");
+  const [stravaAccessToken, setStravaAccessToken] = React.useState("")
+  const [activities, setActivities] = React.useState<any[]>([])
+  const [errorMessage, setErrorMessage] = React.useState("")
 
   // retrive strava accessToken from localstorage
   useEffect(() => {
-    setStravaAccessToken(window.localStorage.getItem("accessToken") || "");
-  }, []);
+    setStravaAccessToken(window.localStorage.getItem("accessToken") || "")
+  }, [])
 
   // once the access token has been retrieved, get all activities
   useEffect(() => {
     if (stravaAccessToken) {
-      getAllActivities();
+      getAllActivities()
     }
-  }, [stravaAccessToken]);
+  }, [stravaAccessToken])
 
   // retrive last 30 activities from strava api
   const getAllActivities = async () => {
     const activitiesURL =
-      "https://www.strava.com/api/v3/athlete/activities?per_page=9";
+      "https://www.strava.com/api/v3/athlete/activities?per_page=9"
     try {
       const res = await fetch(activitiesURL, {
         method: "GET",
         headers: {
-          Authorization: "Bearer " + stravaAccessToken,
-        },
-      });
-      const data = await res.json();
+          Authorization: "Bearer " + stravaAccessToken
+        }
+      })
+      const data = await res.json()
 
       // check if the data we received back is a list
       if (!Array.isArray(data)) {
-        setErrorMessage(data.message);
-        return;
+        setErrorMessage(data.message)
+        return
       }
 
-      setActivities(data);
+      setActivities(data)
     } catch (err) {
-      console.error(err);
-      setErrorMessage("error retrieving all activities from strava api");
+      console.error(err)
+      setErrorMessage("error retrieving all activities from strava api")
     }
-  };
+  }
 
   return (
     <>
       <div className="min-h-screen mx-6 py-6">
         <div className="m-auto">
-
           {/* Title */}
           <div className="mb-6">
             <h1 className="text-3xl font-bold">Activities</h1>
@@ -75,7 +74,10 @@ export default function Activities() {
             {stravaAccessToken ? (
               Array.isArray(activities) &&
               activities.map((activity) => (
-                <Activity key={activity.id} activity={activity} />
+                <Activity
+                  key={activity.id}
+                  activity={activity}
+                />
               ))
             ) : (
               <>
@@ -86,5 +88,5 @@ export default function Activities() {
         </div>
       </div>
     </>
-  );
+  )
 }
