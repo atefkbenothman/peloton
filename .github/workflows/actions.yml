@@ -1,5 +1,8 @@
 name: Code Format
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
   prettier:
     runs-on: ubuntu-latest
