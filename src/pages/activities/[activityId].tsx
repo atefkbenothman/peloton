@@ -67,10 +67,9 @@ export default function ActivityDetails() {
 
   // get activityId from url
   useEffect(() => {
-    if (!activityId) {
-      return
+    if (stravaAccessToken && activityId) {
+      getActivityDetails()
     }
-    getActivityDetails()
   }, [activityId, stravaAccessToken])
 
   // retrive activity details from strava api

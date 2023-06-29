@@ -20,7 +20,7 @@ export default function Login() {
     setClientSecret(window.localStorage.getItem("clientSecret") || "")
     // if an accessToken has already been generated, use it
     const access_token = window.localStorage.getItem("accessToken") || ""
-    if (access_token !== "") {
+    if (access_token !== "" && access_token !== "undefined") {
       setClientAccessToken(access_token)
       setIsAuthorized(true)
     }
@@ -127,20 +127,22 @@ export default function Login() {
               <label className="font-bold">client id: </label>
               <br />
               <input
-                className="bg-gray-300 border rounded p-1"
+                className="bg-gray-300 rounded p-1 border-0 mt-1"
                 required
                 onChange={handleClientIdInput}
                 defaultValue={clientId}
+                type="text"
               />
             </div>
             <div className="mt-2 mb-2">
               <label className="font-bold">client secret: </label>
               <br />
               <input
-                className="bg-gray-300 border rounded p-1"
+                className="bg-gray-300 rounded p-1 border-0 mt-1"
                 required
                 onChange={handleSecretInput}
                 defaultValue={clientSecret}
+                type="password"
               />
             </div>
           </form>
@@ -148,14 +150,14 @@ export default function Login() {
           {/* Login Button */}
           <div className="flex items-center">
             <button
-              className="btn bg-orange-500 rounded p-2 shadow font-bold mr-4"
+              className="btn bg-orange-500 rounded p-2 shadow font-bold mr-4 text-white"
               onClick={handleLogin}
             >
               Login
             </button>
             {isAuthorized && (
               <button
-                className="btn bg-purple-300 rounded p-2 shadow font-bold mr-4"
+                className="btn bg-blue-300 rounded p-2 shadow font-bold mr-4 text-white"
                 onClick={handleRefresh}
               >
                 Refresh
