@@ -1,0 +1,12 @@
+name: Code Format
+on: [push]
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        uses: npm install
+      - name: Run prettier
+        uses: npm run prettier
