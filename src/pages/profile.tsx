@@ -26,7 +26,9 @@ export default function Profile() {
   }, [])
 
   useEffect(() => {
-    getAthleteData()
+    if (stravaAccessToken) {
+      getAthleteData()
+    }
   }, [stravaAccessToken])
 
   const getAthleteData = async () => {

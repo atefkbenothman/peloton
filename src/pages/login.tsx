@@ -28,7 +28,9 @@ export default function Login() {
 
   // once clientId and clientSecret has been retrieved, check has auth code
   useEffect(() => {
-    checkHasAuthCode()
+    if (clientId && clientSecret) {
+      checkHasAuthCode()
+    }
   }, [clientId, clientSecret])
 
   // check if a code has been generated from strava oauth. if it has, exchange the code for a token
