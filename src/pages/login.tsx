@@ -183,10 +183,10 @@ export default function Login() {
             </div>
             <div>
               {clientAccessToken && (
-                <>
-                  <p className="font-bold">token: </p>
-                  <p>{clientAccessToken}</p>
-                </>
+                <div className="flex">
+                  <p className="font-bold">token:</p>
+                  <p className="ml-2">{clientAccessToken}</p>
+                </div>
               )}
             </div>
           </div>
