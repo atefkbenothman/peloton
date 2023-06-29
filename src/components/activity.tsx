@@ -1,7 +1,7 @@
 import React from "react"
 // mapbox
 import mapboxgl from "mapbox-gl"
-import polyline from "@mapbox/polyline";
+import polyline from "@mapbox/polyline"
 
 export default function Activity({ activity }) {
   mapboxgl.accessToken =
