@@ -1,7 +1,7 @@
 import React from "react"
 // mapbox
 import mapboxgl from "mapbox-gl"
-import polyline from "@mapbox/polyline"
+import polyline from "@mapbox/polyline";
 
 export default function Activity({ activity }) {
   mapboxgl.accessToken =
@@ -24,7 +24,6 @@ export default function Activity({ activity }) {
               <div className="font-bold text-2xl mb-1 pb-1">
                 {activity.name}
               </div>
-              {/* <div className="text-sm mb-1 pb-1 ml-2">#{activity.id}</div> */}
               <div className="">
                 <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
                   {activity.sport_type}
