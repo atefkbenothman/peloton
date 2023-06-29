@@ -1,5 +1,7 @@
 # Strava UI
 
+![code format](https://github.com/atefkbenothman/strava-ui/actions/workflows/actions.yml/badge.svg)
+
 <br>
 
 <img width="1536" alt="Screen Shot 2023-06-22 at 9 10 27 PM" src="https://github.com/atefkbenothman/strava-ui/assets/92714853/83c1efb0-f953-4f58-a7d8-e62df68b614c">
