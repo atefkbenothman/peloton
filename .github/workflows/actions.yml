@@ -1,8 +1,5 @@
 name: Code Format
-on:
-  push:
-    branches:
-      - master
+on: [push]
 jobs:
   prettier:
     runs-on: ubuntu-latest
@@ -10,6 +7,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Install dependencies
-        uses: npm install
+        run: npm install
       - name: Run prettier
-        uses: npm run prettier
+        run: npm run prettier
