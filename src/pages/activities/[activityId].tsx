@@ -57,7 +57,7 @@ export default function ActivityDetails() {
     segment_efforts: [],
     start_latlng: []
   })
-  const [activityRoute, setActivityRoute] = React.useState<any[]>([])
+  const [activityRoute, setActivityRoute] = React.useState("")
   const [segmentRoute, setSegmentRoute] = React.useState<any[]>([])
 
   // retrive strava accessToken from localstorage
@@ -93,7 +93,7 @@ export default function ActivityDetails() {
 
   // get the polyline of the activity route
   function getGeoJson(data: any) {
-    const polylineData = polyline.toGeoJSON(data.map.summary_polyline)
+    const polylineData: any = polyline.toGeoJSON(data.map.summary_polyline)
     setActivityRoute(polylineData)
   }
 
@@ -119,7 +119,7 @@ export default function ActivityDetails() {
           <>
             <div className="mb-6 h-96">
               <Map
-                key={activityId}
+                key={activityId?.toString()}
                 mapboxAccessToken={mapboxgl.accessToken}
                 initialViewState={{
                   longitude: activityDetails.start_latlng[1],
@@ -158,7 +158,7 @@ export default function ActivityDetails() {
                   <Source
                     id="polylineLayer2"
                     type="geojson"
-                    data={segmentRoute}
+                    data={segmentRoute as any}
                   >
                     <Layer
                       id="lineLayer2"

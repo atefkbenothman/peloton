@@ -3,7 +3,13 @@ import React, { useEffect } from "react"
 import mapboxgl from "mapbox-gl"
 import polyline from "@mapbox/polyline"
 
-export default function Segments({ activityDetails, setSegmentRoute }) {
+export default function Segments({
+  activityDetails,
+  setSegmentRoute
+}: {
+  activityDetails: any
+  setSegmentRoute: any
+}) {
   const [stravaAccessToken, setStravaAccessToken] = React.useState("")
 
   useEffect(() => {
@@ -72,7 +78,7 @@ export default function Segments({ activityDetails, setSegmentRoute }) {
 
         {/* body */}
         <tbody className="border-b">
-          {activityDetails.segment_efforts.map((seg) => (
+          {activityDetails.segment_efforts.map((seg: any) => (
             <tr
               key={activityDetails.id + seg.id}
               className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"

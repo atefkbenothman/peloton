@@ -1,9 +1,11 @@
 import React from "react"
+// next
+import Image from "next/image"
 // mapbox
 import mapboxgl from "mapbox-gl"
 import polyline from "@mapbox/polyline"
 
-export default function Activity({ activity }) {
+export default function Activity({ activity }: { activity: any }) {
   mapboxgl.accessToken =
     "pk.eyJ1IjoiYXRlZmthaWJlbm90aG1hbiIsImEiOiJjbGU1Mms1aGQwMzk2M3BwMzhyOWx2dDV2In0.Iqr4f_ZJMostXFJ3NJB1RA"
 
@@ -33,7 +35,7 @@ export default function Activity({ activity }) {
             <div className="font-bold text-gray-500 text-xs mb-3 pb-2">
               {new Date(activity.start_date).toLocaleString()}
             </div>
-            <img
+            <Image
               src={`https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/static/pin-s-a+9ed4bd(${
                 activity.start_latlng[1]
               },${activity.start_latlng[0]}),pin-s-b+000(${
@@ -45,6 +47,8 @@ export default function Activity({ activity }) {
               )})/auto/600x300?access_token=${mapboxgl.accessToken}&zoom=15`}
               alt="map"
               className="mb-4"
+              width={800}
+              height={800}
             />
             <div className="grid grid-cols-3 gap-4 content-start">
               <div>

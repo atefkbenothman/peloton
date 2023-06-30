@@ -1,11 +1,13 @@
 import React from "react"
+// next
+import Image from "next/image"
 // mapbox
 import mapboxgl from "mapbox-gl"
 import Map, { Marker, Source, Layer, NavigationControl } from "react-map-gl"
 import polyline from "@mapbox/polyline"
 import "mapbox-gl/dist/mapbox-gl.css"
 
-const skyLayer: SkyLayer = {
+const skyLayer: any = {
   id: "sky",
   type: "sky",
   paint: {
@@ -80,12 +82,12 @@ export default function Kom() {
     return boundsStr
   }
 
-  function handleMarkerDrag(e) {
+  function handleMarkerDrag(e: any) {
     setStartCoords({ longitude: e.lngLat["lng"], latitude: e.lngLat["lat"] })
   }
 
   function getPolyline(pl: string) {
-    const geoJson = polyline.toGeoJSON(pl)
+    const geoJson: any = polyline.toGeoJSON(pl)
     setSegmentRoute(geoJson)
   }
 
@@ -195,7 +197,7 @@ export default function Kom() {
                   <Source
                     id="polylineLayer"
                     type="geojson"
-                    data={segmentRoute}
+                    data={segmentRoute as any}
                   >
                     <Layer
                       id="lineLayer"
@@ -290,7 +292,12 @@ export default function Kom() {
                       <p>{seg.avg_grade}%</p>
                     </td>
                     <td className="text-xs text-gray-900 font-medium px-4 py-1 border-r break-normal">
-                      <img src={seg.elevation_profile}></img>
+                      <Image
+                        src={seg.elevation_profile}
+                        alt="elevation profile"
+                        height={200}
+                        width={200}
+                      />
                     </td>
                   </tr>
                 ))}

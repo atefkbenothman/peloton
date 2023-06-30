@@ -47,7 +47,11 @@ const zoneRanges = [
   }
 ]
 
-export default function PowerZones({ segmentEfforts }) {
+export default function PowerZones({
+  segmentEfforts
+}: {
+  segmentEfforts: any
+}) {
   const [powerZonesTotal, setPowerZonesTotal] = React.useState({
     one: 0,
     two: 0,
@@ -62,7 +66,7 @@ export default function PowerZones({ segmentEfforts }) {
   }, [segmentEfforts])
 
   function calculatePowerZonesTotal() {
-    let zones = {
+    let zones: any = {
       one: 0,
       two: 0,
       three: 0,

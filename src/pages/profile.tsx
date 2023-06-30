@@ -1,5 +1,7 @@
 import React from "react"
 import { useEffect } from "react"
+// next
+import Image from "next/image"
 
 export default function Profile() {
   const [stravaAccessToken, setStravaAccessToken] = React.useState("")
@@ -7,16 +9,26 @@ export default function Profile() {
     id: 0,
     firstname: "",
     lastname: "",
-    username: ""
+    username: "",
+    profile: "",
+    city: "",
+    state: "",
+    country: "",
+    weight: "",
+    ftp: ""
   })
   const [athleteStats, setAthleteStats] = React.useState({
     all_ride_totals: {
       count: 0,
-      distance: 0
+      distance: 0,
+      elapsed_time: 0,
+      elevation_gain: 0
     },
     ytd_ride_totals: {
       count: 0,
-      distance: 0
+      distance: 0,
+      elapsed_time: 0,
+      elevation_gain: 0
     }
   })
   const [loaded, setLoaded] = React.useState(false)
@@ -77,11 +89,13 @@ export default function Profile() {
 
             {/* Data */}
             <div className="flex items-start space-x-4">
-              <img
-                className="w-24 h-24 rounded"
+              <Image
                 src={athleteData.profile}
-                alt=""
-              ></img>
+                alt="profile picture"
+                className="w-24 h-24 rounded"
+                width={100}
+                height={100}
+              />
               <div className="font-medium dark:text-white">
                 <div className="flex items-baseline">
                   <p className="text-xl">

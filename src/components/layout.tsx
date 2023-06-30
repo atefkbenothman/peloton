@@ -1,4 +1,6 @@
+// next
 import Link from "next/link"
+import Image from "next/image"
 import { useRouter } from "next/router"
 
 function NavBar() {
@@ -43,17 +45,18 @@ function NavBar() {
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-100 dark:bg-gray-800">
           {/* Logo */}
           <div className="flex items-center mb-2">
-            <img
-              className=""
+            <Image
               src="/strava-ar21.svg"
-              alt="Strava Logo"
+              alt="map"
+              width={100}
+              height={100}
             />
           </div>
 
           <ul className="space-y-3 font-semibold text-lg">
             {/* Home */}
             <li>
-              <a
+              <Link
                 href="/"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
               >
@@ -73,12 +76,12 @@ function NavBar() {
                   />
                 </svg>
                 <span className="ml-3">Home</span>
-              </a>
+              </Link>
             </li>
 
             {/* Login */}
             <li>
-              <a
+              <Link
                 href="/login"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
               >
@@ -98,12 +101,12 @@ function NavBar() {
                   />
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap">Login</span>
-              </a>
+              </Link>
             </li>
 
             {/* Profile */}
             <li>
-              <a
+              <Link
                 href="/profile"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
               >
@@ -123,12 +126,12 @@ function NavBar() {
                   />
                 </svg>
                 <span className="flex-2 ml-3 whitespace-nowrap">Profile</span>
-              </a>
+              </Link>
             </li>
 
             {/* Activities */}
             <li>
-              <a
+              <Link
                 href="/activities"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
               >
@@ -150,12 +153,12 @@ function NavBar() {
                 <span className="flex-1 ml-3 whitespace-nowrap">
                   Activities
                 </span>
-              </a>
+              </Link>
             </li>
 
             {/* KOM */}
             <li>
-              <a
+              <Link
                 href="/kom"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
               >
@@ -175,7 +178,7 @@ function NavBar() {
                   />
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap">KOM</span>
-              </a>
+              </Link>
             </li>
           </ul>
 
@@ -183,9 +186,9 @@ function NavBar() {
           <ul className="pt-4 mt-4 space-y-2 text-lg font-semibold border-t border-gray-400 dark:border-gray-700">
             {/* Settings */}
             <li>
-              <a
+              <Link
                 href="/settings"
-                className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 dark:text-white group"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
               >
                 <svg
                   className="w-6 h-6 text-gray-800 dark:text-white"
@@ -205,7 +208,7 @@ function NavBar() {
                   </g>
                 </svg>
                 <span className="ml-3">Settings</span>
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
