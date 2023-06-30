@@ -17,10 +17,15 @@ export default function Home() {
         <div className="m-auto">
           {/* Title */}
           <div>
-            <h3 className="text-3xl font-bold mb-2">Settings</h3>
+            <h3 className="text-3xl font-bold mb-4">Settings</h3>
+          </div>
+          {/* Info */}
+          <div className="flex">
+            <p className="font-bold">Environment: </p>
+            <p className="ml-2">{process.env.NODE_ENV}</p>
           </div>
           {/* Form */}
-          <form className="flex flex-col mt-2 mb-2">
+          <form className="flex flex-col mb-2">
             <div className="mt-2 mb-2">
               <label className="font-bold">mapbox access token: </label>
               <br />

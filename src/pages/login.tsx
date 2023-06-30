@@ -79,11 +79,16 @@ export default function Login() {
   // login with strava oauth to retrieve a code
   function handleLogin(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
-    const authBaseURL = "https://www.strava.com/oauth/authorize"
+    const authBaseURL: string = "https://www.strava.com/oauth/authorize"
+    // set the redirect uri based on development environment
+    let redirect_uri_link: string = "http://localhost:3000/login"
+    if (process.env.NODE_ENV === "production") {
+      redirect_uri_link = "https://master.d1t60con2dfuhc.amplifyapp.com/login"
+    }
     const params = new URLSearchParams({
       client_id: clientId,
       response_type: "code",
-      redirect_uri: "http://localhost:3000/login",
+      redirect_uri: redirect_uri_link,
       approval_prompt: "force",
       scope: "read,activity:read_all"
     })
