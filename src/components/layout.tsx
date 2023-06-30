@@ -2,6 +2,8 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/router"
+// svg
+import stravaLogo from "public/strava-logo.svg"
 
 function NavBar() {
   const router = useRouter()
@@ -46,7 +48,7 @@ function NavBar() {
           {/* Logo */}
           <div className="flex items-center mb-2">
             <Image
-              src="/strava-ar21.svg"
+              src="/strava-logo.svg"
               alt="map"
               width={100}
               height={100}
