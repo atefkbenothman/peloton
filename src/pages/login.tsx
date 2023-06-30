@@ -83,7 +83,7 @@ export default function Login() {
     const params = new URLSearchParams({
       client_id: clientId,
       response_type: "code",
-      redirect_uri: "http://localhost:3000/login",
+      redirect_uri: "https://master.d1t60con2dfuhc.amplifyapp.com/login",
       approval_prompt: "force",
       scope: "read,activity:read_all"
     })
