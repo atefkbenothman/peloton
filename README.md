@@ -16,7 +16,7 @@
 
 <br>
 
-<img width="1536" alt="Screen Shot 2023-06-22 at 9 10 39 PM" src="https://github.com/atefkbenothman/strava-ui/assets/92714853/0a021263-6f64-42ff-a9c7-388acb0a6b21">
+<img width="1376" alt="Screen Shot 2023-06-30 at 12 38 17 AM" src="https://github.com/atefkbenothman/strava-ui/assets/92714853/b069d74d-a4bc-4944-9860-aedd331c0438">
 
 <br>
 
