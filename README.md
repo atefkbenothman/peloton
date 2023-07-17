@@ -28,4 +28,3 @@
 - redis
 - flowbite
 - chart.js
-
