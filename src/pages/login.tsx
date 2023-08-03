@@ -75,7 +75,7 @@ export default function Login() {
     // set the redirect uri based on development environment
     let redirect_uri_link: string = "http://localhost:3000/login"
     if (process.env.NODE_ENV === "production") {
-      redirect_uri_link = "https://master.d1t60con2dfuhc.amplifyapp.com/login"
+      redirect_uri_link = "https://master.d18mtk2j3wua4u.amplifyapp.com/login"
     }
     const params = new URLSearchParams({
       client_id: clientId,
