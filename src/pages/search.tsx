@@ -26,7 +26,7 @@ export default function Search() {
     const baseActivitiesURL = "https://www.strava.com/api/v3/athlete/activities"
     const dateToEpoch = (Date.parse(date) / 1000).toString()
     let page = 1
-    let allActivities = []
+    let allActivities: any = []
     try {
       while (true) {
         const params = new URLSearchParams({
@@ -50,7 +50,7 @@ export default function Search() {
         }
         // filter activities with type "ride"
         const rideActivities = data.filter(
-          (activity) => activity.type === "Ride"
+          (activity: any) => activity.type === "Ride"
         )
         // append activities
         allActivities = [...allActivities, ...rideActivities]
@@ -61,7 +61,7 @@ export default function Search() {
       setActivities(allActivities)
       setNumActivities(allActivities.length)
       // calculate total distance
-      const totalMiles = allActivities.reduce((total, activity) => {
+      const totalMiles = allActivities.reduce((total: any, activity: any) => {
         return total + activity.distance
       }, 0)
       setTotalDistance(totalMiles)
@@ -100,7 +100,7 @@ export default function Search() {
             <div>
               <ol>
                 {/* Activities */}
-                {activities.map((activity, index) => (
+                {activities.map((activity: any, index) => (
                   <li
                     key={activity.id}
                     className="grid grid-cols-3"
