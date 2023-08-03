@@ -20,6 +20,18 @@
 
 <br>
 
+## Local Usage
+
+1. clone the repo
+2. create a `.env.local` file in the base directory with the following variables:
+    - `NEXT_PUBLIC_CLIENT_ID` [strava client id]
+    - `NEXT_PUBLIC_CLIENT_SECRET` [strava client secret]
+    - `MAPBOX_ACCESS_TOKEN` [mapbox access token]
+4. install packages `npm install`
+5. run next.js dev server `npm run dev`
+
+<br>
+
 ## Technologies
 
 - next.js
