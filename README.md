@@ -1,4 +1,4 @@
-# Strava UI
+# Strava
 
 ![code format](https://github.com/atefkbenothman/strava-ui/actions/workflows/actions.yml/badge.svg)
 
@@ -20,7 +20,7 @@
 
 <br>
 
-### technologies
+## Technologies
 
 - next.js
 - tailwind
