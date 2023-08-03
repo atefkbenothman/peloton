@@ -21,8 +21,16 @@ export default function Home() {
           </div>
           {/* Info */}
           <div className="flex">
-            <p className="font-bold">Environment: </p>
+            <p className="font-bold">Env: </p>
             <p className="ml-2">{process.env.NODE_ENV}</p>
+          </div>
+          <div className="flex">
+            <p className="font-bold">Strava Client ID: </p>
+            <p className="ml-2">{process.env.NEXT_PUBLIC_CLIENT_ID}</p>
+          </div>
+          <div className="flex">
+            <p className="font-bold">Strava Client Secret: </p>
+            <p className="ml-2">{process.env.NEXT_PUBLIC_CLIENT_SECRET}</p>
           </div>
           {/* Form */}
           <form className="flex flex-col mb-2">
