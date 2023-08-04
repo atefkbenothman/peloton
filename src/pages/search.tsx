@@ -77,7 +77,7 @@ export default function Search() {
   }
 
   return (
-    <div>
+    <div className="bg-gray-100">
       <div className="min-h-screen mx-6 py-6">
         <div className="m-auto">
           {/* Profile Section */}

@@ -18,7 +18,7 @@ export default function Activity({ activity }: { activity: any }) {
       {/* Activity Card */}
       <div className="my-6 mx-6 pb-2 min-w-screen">
         <div
-          className="max-w-xl rounded overflow-hidden shadow-lg cursor-pointer bg-white my-4"
+          className="max-w-xl rounded-lg overflow-hidden shadow-lg cursor-pointer bg-white my-4"
           onClick={goToActivityPage}
         >
           <div className="px-6 py-4">

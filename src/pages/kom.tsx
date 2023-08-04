@@ -112,7 +112,7 @@ export default function Kom() {
   }
 
   return (
-    <div>
+    <div className="bg-gray-100">
       <div className="min-h-screen mx-6 py-6">
         <div className="m-auto">
           <div className="mx-6 my-6">

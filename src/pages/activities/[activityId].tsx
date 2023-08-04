@@ -43,6 +43,7 @@ export default function ActivityDetails() {
   const [loaded, setLoaded] = React.useState(false)
   const [activityDetails, setActivityDetails] = React.useState({
     name: "",
+    description: "",
     distance: 0,
     moving_time: 0,
     average_speed: 0,
@@ -98,70 +99,54 @@ export default function ActivityDetails() {
   }
 
   return (
-    <div className="w-full">
-      <div className="m-6">
-        {/* Title */}
-        <div className="mb-6">
-          {/* Name */}
-          <h5 className="text-3xl font-bold">{activityDetails.name}</h5>
-
-          {/* Date/Weather/Device */}
-          <div className="font-bold text-gray-500 text-xs mb-2">
-            {new Date(activityDetails.start_date).toLocaleString()} -{" "}
-            {activityDetails.average_temp}&deg;C /{" "}
-            {(activityDetails.average_temp * 9) / 5 + 32}&deg;F -{" "}
-            {activityDetails.device_name}
+    <div className="bg-gray-100">
+      <div className="w-full">
+        <div className="mx-6 py-6">
+          {/* Title */}
+          <div className="mb-6">
+            {/* Name */}
+            <h5 className="text-3xl font-bold">{activityDetails.name}</h5>
+            {/* Description */}
+            <h5 className="text-xl font-medium gap-2 my-2">
+              {activityDetails.description}
+            </h5>
+            {/* Date/Weather/Device */}
+            <div className="font-bold text-gray-500 text-xs mb-2">
+              {new Date(activityDetails.start_date).toLocaleString()} -{" "}
+              {activityDetails.average_temp}&deg;C /{" "}
+              {(activityDetails.average_temp * 9) / 5 + 32}&deg;F -{" "}
+              {activityDetails.device_name}
+            </div>
           </div>
-        </div>
 
-        {/* Map */}
-        {(activityDetails.start_latlng || []).length !== 0 && (
-          <>
-            <div className="mb-6 h-96">
-              <Map
-                key={activityId?.toString()}
-                mapboxAccessToken={mapboxgl.accessToken}
-                initialViewState={{
-                  longitude: activityDetails.start_latlng[1],
-                  latitude: activityDetails.start_latlng[0],
-                  zoom: 10
-                }}
-                style={{
-                  width: "100%",
-                  height: "100%"
-                }}
-                mapStyle="mapbox://styles/mapbox/streets-v12"
-                onLoad={(event) => event.target.resize()}
-                onResize={(event) => event.target.resize()}
-              >
-                <NavigationControl />
-                <Source
-                  id="polylineLayer"
-                  type="geojson"
-                  data={activityRoute}
+          {/* Map */}
+          {(activityDetails.start_latlng || []).length !== 0 && (
+            <>
+              <div className="mb-6 h-96">
+                <Map
+                  key={activityId?.toString()}
+                  mapboxAccessToken={mapboxgl.accessToken}
+                  initialViewState={{
+                    longitude: activityDetails.start_latlng[1],
+                    latitude: activityDetails.start_latlng[0],
+                    zoom: 10
+                  }}
+                  style={{
+                    width: "100%",
+                    height: "100%"
+                  }}
+                  mapStyle="mapbox://styles/mapbox/streets-v12"
+                  onLoad={(event) => event.target.resize()}
+                  onResize={(event) => event.target.resize()}
                 >
-                  <Layer
-                    id="lineLayer"
-                    type="line"
-                    source="my-data"
-                    layout={{
-                      "line-join": "round",
-                      "line-cap": "round"
-                    }}
-                    paint={{
-                      "line-color": "rgba(255, 0, 0, 0.8)",
-                      "line-width": 3
-                    }}
-                  />
-                </Source>
-                {segmentRoute.length !== 0 ? (
+                  <NavigationControl />
                   <Source
-                    id="polylineLayer2"
+                    id="polylineLayer"
                     type="geojson"
-                    data={segmentRoute as any}
+                    data={activityRoute}
                   >
                     <Layer
-                      id="lineLayer2"
+                      id="lineLayer"
                       type="line"
                       source="my-data"
                       layout={{
@@ -169,101 +154,124 @@ export default function ActivityDetails() {
                         "line-cap": "round"
                       }}
                       paint={{
-                        "line-color": "rgba(15, 10, 222, 1)",
+                        "line-color": "rgba(255, 0, 0, 0.8)",
                         "line-width": 3
                       }}
                     />
                   </Source>
-                ) : (
-                  <></>
-                )}
-              </Map>
-            </div>
-          </>
-        )}
-        {/* Stats */}
-        <div className="grid grid-cols-4 gap-4 mb-10">
-          <div>
-            <p className="text-gray-700 text-base">distance</p>
-            <p className="font-bold text-2xl">
-              {((activityDetails.distance || 0) / 1609.344).toFixed(2)} mi
-            </p>
-          </div>
-          <div>
-            <p className="text-gray-700 text-base">time</p>
-            <p className="font-bold text-2xl">
-              {((activityDetails.moving_time || 0) / 60).toFixed(0)} mins
-            </p>
-          </div>
-          <div>
-            <p className="text-gray-700 text-base">avg mph</p>
-            <p className="font-bold text-2xl">
-              {((activityDetails.average_speed || 0) * 2.23694).toFixed(2)} mph
-            </p>
-          </div>
-          <div>
-            <p className="text-gray-700 text-base">max mph</p>
-            <p className="font-bold text-2xl">
-              {((activityDetails.max_speed || 0) * 2.23694).toFixed(2)} mph
-            </p>
-          </div>
-          <div>
-            <p className="text-gray-700 text-base">avg watts</p>
-            <p className="font-bold text-2xl">
-              {(activityDetails.average_watts || 0).toFixed(2)} w
-            </p>
-          </div>
-          <div>
-            <p className="text-gray-700 text-base">max watts</p>
-            <p className="font-bold text-2xl">
-              {activityDetails.max_watts || 0} mph
-            </p>
-          </div>
-          <div>
-            <p className="text-gray-700 text-base">elevation gain</p>
-            <p className="font-bold text-2xl">
-              {((activityDetails.total_elevation_gain || 0) * 3.2808).toFixed(
-                0
-              )}{" "}
-              feet
-            </p>
-          </div>
-          <div>
-            <p className="text-gray-700 text-base">calories</p>
-            <p className="font-bold text-2xl">
-              {(activityDetails.calories || 0).toFixed(0)} cals
-            </p>
-          </div>
-        </div>
-        <div className="my-10">
-          <Tabs.Group
-            style="default"
-            theme={customTheme}
-          >
-            <Tabs.Item
-              active
-              title="Segments"
-            >
-              <Segments
-                activityDetails={activityDetails}
-                setSegmentRoute={setSegmentRoute}
-              />
-            </Tabs.Item>
-            <Tabs.Item title="Power Zones">
-              <PowerZones segmentEfforts={activityDetails.segment_efforts} />
-            </Tabs.Item>
-            <Tabs.Item title="Stats">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  {segmentRoute.length !== 0 ? (
+                    <Source
+                      id="polylineLayer2"
+                      type="geojson"
+                      data={segmentRoute as any}
+                    >
+                      <Layer
+                        id="lineLayer2"
+                        type="line"
+                        source="my-data"
+                        layout={{
+                          "line-join": "round",
+                          "line-cap": "round"
+                        }}
+                        paint={{
+                          "line-color": "rgba(15, 10, 222, 1)",
+                          "line-width": 3
+                        }}
+                      />
+                    </Source>
+                  ) : (
+                    <></>
+                  )}
+                </Map>
+              </div>
+            </>
+          )}
+          {/* Stats */}
+          <div className="grid grid-cols-4 gap-4 mb-10">
+            <div>
+              <p className="text-gray-700 text-base">distance</p>
+              <p className="font-bold text-2xl">
+                {((activityDetails.distance || 0) / 1609.344).toFixed(2)} mi
               </p>
-            </Tabs.Item>
-          </Tabs.Group>
+            </div>
+            <div>
+              <p className="text-gray-700 text-base">time</p>
+              <p className="font-bold text-2xl">
+                {((activityDetails.moving_time || 0) / 60).toFixed(0)} mins
+              </p>
+            </div>
+            <div>
+              <p className="text-gray-700 text-base">avg mph</p>
+              <p className="font-bold text-2xl">
+                {((activityDetails.average_speed || 0) * 2.23694).toFixed(2)}{" "}
+                mph
+              </p>
+            </div>
+            <div>
+              <p className="text-gray-700 text-base">max mph</p>
+              <p className="font-bold text-2xl">
+                {((activityDetails.max_speed || 0) * 2.23694).toFixed(2)} mph
+              </p>
+            </div>
+            <div>
+              <p className="text-gray-700 text-base">avg watts</p>
+              <p className="font-bold text-2xl">
+                {(activityDetails.average_watts || 0).toFixed(2)} w
+              </p>
+            </div>
+            <div>
+              <p className="text-gray-700 text-base">max watts</p>
+              <p className="font-bold text-2xl">
+                {activityDetails.max_watts || 0} mph
+              </p>
+            </div>
+            <div>
+              <p className="text-gray-700 text-base">elevation gain</p>
+              <p className="font-bold text-2xl">
+                {((activityDetails.total_elevation_gain || 0) * 3.2808).toFixed(
+                  0
+                )}{" "}
+                feet
+              </p>
+            </div>
+            <div>
+              <p className="text-gray-700 text-base">calories</p>
+              <p className="font-bold text-2xl">
+                {(activityDetails.calories || 0).toFixed(0)} cals
+              </p>
+            </div>
+          </div>
+          <div className="my-10">
+            <Tabs.Group
+              style="default"
+              theme={customTheme}
+            >
+              <Tabs.Item
+                active
+                title="Segments"
+              >
+                <Segments
+                  activityDetails={activityDetails}
+                  setSegmentRoute={setSegmentRoute}
+                />
+              </Tabs.Item>
+              <Tabs.Item title="Power Zones">
+                <PowerZones segmentEfforts={activityDetails.segment_efforts} />
+              </Tabs.Item>
+              <Tabs.Item title="Stats">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </p>
+              </Tabs.Item>
+            </Tabs.Group>
+          </div>
         </div>
       </div>
     </div>

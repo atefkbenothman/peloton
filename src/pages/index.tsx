@@ -2,7 +2,7 @@ import React from "react"
 
 export default function Home() {
   return (
-    <>
+    <div className="bg-gray-100">
       <div className="min-h-screen mx-6 py-6">
         <div className="m-auto">
           {/* Title */}
@@ -16,6 +16,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

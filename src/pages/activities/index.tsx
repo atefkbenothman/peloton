@@ -30,7 +30,7 @@ export default function Activities() {
   // retrive last 30 activities from strava api
   const getAllActivities = async () => {
     const activitiesURL =
-      "https://www.strava.com/api/v3/athlete/activities?per_page=9"
+      "https://www.strava.com/api/v3/athlete/activities?per_page=15"
     try {
       const res = await fetch(activitiesURL, {
         method: "GET",
@@ -54,11 +54,11 @@ export default function Activities() {
   }
 
   return (
-    <>
-      <div className="min-h-screen mx-6 py-6">
+    <div className="bg-gray-100">
+      <div className="min-h-screen">
         <div className="m-auto">
           {/* Title */}
-          <div className="mb-6">
+          <div className="mb-2 px-6 sticky top-0 bg-gray-100 py-6">
             <h1 className="text-3xl font-bold">Activities</h1>
           </div>
 
@@ -70,7 +70,7 @@ export default function Activities() {
           )}
 
           {/* Activity List */}
-          <div className="w-full grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="w-full px-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
             {stravaAccessToken ? (
               Array.isArray(activities) &&
               activities.map((activity) => (
@@ -87,6 +87,6 @@ export default function Activities() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

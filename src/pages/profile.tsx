@@ -79,7 +79,7 @@ export default function Profile() {
   }
 
   return (
-    <>
+    <div className="bg-gray-100">
       <div className="min-h-screen mx-6 py-6">
         <div className="m-auto">
           {/* Profile Section */}
@@ -96,14 +96,13 @@ export default function Profile() {
                 width={100}
                 height={100}
               />
-              <div className="font-medium dark:text-white">
+              <div className="dark:text-white">
                 <div className="flex items-baseline">
-                  <p className="text-xl">
+                  <p className="text-xl font-bold">
                     {athleteData.firstname} {athleteData.lastname}
                   </p>
-                  <p className="text-xs font-normal ml-2"></p>
                 </div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">
+                <div className="text-sm font-normal dark:text-gray-400">
                   {athleteData.city}, {athleteData.state}, {athleteData.country}
                 </div>
               </div>
@@ -255,6 +254,6 @@ export default function Profile() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

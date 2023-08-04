@@ -12,7 +12,7 @@ export default function Home() {
   }
 
   return (
-    <>
+    <div className="bg-gray-100">
       <div className="min-h-screen mx-6 py-6">
         <div className="m-auto">
           {/* Title */}
@@ -21,19 +21,11 @@ export default function Home() {
           </div>
           {/* Info */}
           <div className="flex">
-            <p className="font-bold">Env: </p>
+            <p className="font-bold">env: </p>
             <p className="ml-2">{process.env.NODE_ENV}</p>
           </div>
-          <div className="flex">
-            <p className="font-bold">Strava Client ID: </p>
-            <p className="ml-2">{process.env.NEXT_PUBLIC_CLIENT_ID}</p>
-          </div>
-          <div className="flex">
-            <p className="font-bold">Strava Client Secret: </p>
-            <p className="ml-2">{process.env.NEXT_PUBLIC_CLIENT_SECRET}</p>
-          </div>
           {/* Form */}
-          <form className="flex flex-col mb-2">
+          {/* <form className="flex flex-col mb-2">
             <div className="mt-2 mb-2">
               <label className="font-bold">mapbox access token: </label>
               <br />
@@ -45,9 +37,9 @@ export default function Home() {
                 type="text"
               />
             </div>
-          </form>
+          </form> */}
         </div>
       </div>
-    </>
+    </div>
   )
 }

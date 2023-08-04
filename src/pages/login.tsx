@@ -98,56 +98,58 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen mx-6 py-6">
-      <div className="m-auto">
-        {/* Connect Button */}
-        <div className="mb-4">
-          <button onClick={requestAccess}>
-            <Image
-              src={stravaConnect}
-              alt="map"
-              className="rounded-lg"
-              width={200}
-              height={100}
-            />
-          </button>
-        </div>
-        {/* Debug */}
-        <div className="inline-flex m-2">
-          <p className="font-bold">authorized: </p>
-          {isAuthorized ? (
-            <>
-              <p className="text-green-600 font-bold ml-2">
-                {isAuthorized.toString()}
-              </p>
-            </>
-          ) : (
-            <>
-              <p className="text-red-600 font-bold ml-2">
-                {isAuthorized.toString()}
-              </p>
-            </>
-          )}
-        </div>
-        <div>
-          {clientAccessToken && (
-            <div>
-              <div className="flex mx-2">
-                <p className="font-bold">token:</p>
-                <p className="ml-2">{clientAccessToken}</p>
-              </div>
-              {isAuthorized && (
-                <div className="mx-2 my-4">
-                  <button
-                    className="btn bg-blue-300 rounded p-2 shadow font-bold text-white"
-                    onClick={handleRefresh}
-                  >
-                    Refresh
-                  </button>
+    <div className="bg-gray-100">
+      <div className="min-h-screen mx-6 py-6">
+        <div className="m-auto">
+          {/* Connect Button */}
+          <div className="mb-4">
+            <button onClick={requestAccess}>
+              <Image
+                src={stravaConnect}
+                alt="map"
+                className="rounded-lg"
+                width={200}
+                height={100}
+              />
+            </button>
+          </div>
+          {/* Debug */}
+          <div className="inline-flex m-2">
+            <p className="font-bold">authorized: </p>
+            {isAuthorized ? (
+              <>
+                <p className="text-green-600 font-bold ml-2">
+                  {isAuthorized.toString()}
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-red-600 font-bold ml-2">
+                  {isAuthorized.toString()}
+                </p>
+              </>
+            )}
+          </div>
+          <div>
+            {clientAccessToken && (
+              <div>
+                <div className="flex mx-2">
+                  <p className="font-bold">token:</p>
+                  <p className="ml-2">{clientAccessToken}</p>
                 </div>
-              )}
-            </div>
-          )}
+                {isAuthorized && (
+                  <div className="mx-2 my-4">
+                    <button
+                      className="btn bg-blue-300 rounded p-2 shadow font-bold text-white"
+                      onClick={handleRefresh}
+                    >
+                      Refresh
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
