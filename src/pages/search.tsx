@@ -8,6 +8,12 @@ export default function Search() {
   const [numActivities, setNumActivities] = React.useState(0)
   const [totalDistance, setTotalDistance] = React.useState(0)
 
+  // set activity URL based on dev/prod environment
+  let activityURL = "http://localhost:3000/activities"
+  if (process.env.NODE_ENV === "production") {
+    activityURL = "https://master.d18mtk2j3wua4u.amplifyapp.com/activities"
+  }
+
   useEffect(() => {
     setStravaAccessToken(window.localStorage.getItem("accessToken") || "")
   }, [])
@@ -108,7 +114,7 @@ export default function Search() {
                     <div className="min-w-[200px]">
                       {index + 1}.{" "}
                       <a
-                        href={`https://www.strava.com/activities/${activity.id}`}
+                        href={`${activityURL}/${activity.id}`}
                         className="text-blue-300"
                       >
                         {activity.name}
