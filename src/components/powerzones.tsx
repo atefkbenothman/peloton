@@ -14,34 +14,60 @@ import { Bar } from "react-chartjs-2"
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-const zoneRanges = [
+interface SegmentEffort {
+  name: string
+  average_watts: number
+  distance: number
+  elapsed_time: number
+  moving_time: number
+  pr_rank: number
+}
+
+interface PowerZoneTotal {
+  [key: string]: number
+}
+
+interface ZoneRange {
+  zone: string
+  name: string
+  lower: number
+  upper: number
+}
+
+const zoneRanges: ZoneRange[] = [
   {
     zone: "one",
+    name: "Recovery",
     lower: 95,
     upper: 142
   },
   {
     zone: "two",
+    name: "Endurance",
     lower: 143,
     upper: 194
   },
   {
     zone: "three",
+    name: "Sweet Spot",
     lower: 195,
     upper: 225
   },
   {
     zone: "four",
+    name: "Lactate",
     lower: 226,
     upper: 260
   },
   {
     zone: "five",
+    name: "Vo2",
     lower: 270,
     upper: 355
   },
   {
     zone: "six",
+    name: "Neuromuscular",
     lower: 356,
     upper: 999
   }
@@ -50,9 +76,9 @@ const zoneRanges = [
 export default function PowerZones({
   segmentEfforts
 }: {
-  segmentEfforts: any
+  segmentEfforts: SegmentEffort[]
 }) {
-  const [powerZonesTotal, setPowerZonesTotal] = React.useState({
+  const [powerZonesTotal, setPowerZonesTotal] = React.useState<PowerZoneTotal>({
     one: 0,
     two: 0,
     three: 0,
@@ -65,8 +91,9 @@ export default function PowerZones({
     calculatePowerZonesTotal()
   }, [segmentEfforts])
 
+  // calculate time spent in each power zone
   function calculatePowerZonesTotal() {
-    let zones: any = {
+    let zones: PowerZoneTotal = {
       one: 0,
       two: 0,
       three: 0,
@@ -74,39 +101,39 @@ export default function PowerZones({
       five: 0,
       six: 0
     }
-    for (let i = 0; i < (segmentEfforts || []).length; i++) {
-      let avgWatts = segmentEfforts[i].average_watts
-      let time = segmentEfforts[i].moving_time
-      for (let j = 0; j < zoneRanges.length; j++) {
-        let zone = zoneRanges[j].zone
-        let lowerLimit = zoneRanges[j].lower
-        let upperLimit = zoneRanges[j].upper
-        if (avgWatts >= lowerLimit && avgWatts <= upperLimit) {
-          zones[zone] += time / 60
+    for (const effort of segmentEfforts) {
+      const avgWatts = effort.average_watts
+      for (const zoneRange of zoneRanges) {
+        if (avgWatts >= zoneRange.lower && avgWatts <= zoneRange.upper) {
+          zones[zoneRange.zone] += Math.round(effort.moving_time / 60)
         }
       }
     }
     setPowerZonesTotal(zones)
   }
 
-  const labels = [
-    "1: Recovery (95 - 142)",
-    "2: Endurance (143 - 194)",
-    "3: Sweet Spot (195 - 225)",
-    "4: Lactate (226 - 260)",
-    "5: VO2 (270 - 355)",
-    "6: Neuromuscular (356+)"
-  ]
-
   const barData = {
-    labels,
+    labels: zoneRanges.map((zone) => zone.name),
     datasets: [
       {
-        label: "Dataset 1",
+        label: "Time Spent in Zone",
         data: Object.values(powerZonesTotal),
         backgroundColor: "rgba(255, 99, 132, 0.5)"
       }
     ]
+  }
+
+  const barOptions = {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: false,
+          text: "minutes"
+        }
+      }
+    }
   }
 
   return (
@@ -116,7 +143,7 @@ export default function PowerZones({
     >
       <Bar
         data={barData}
-        options={{ responsive: true }}
+        options={barOptions}
       />
     </div>
   )
