@@ -32,6 +32,24 @@ const customTheme: CustomFlowbiteTheme["tab"] = {
   }
 }
 
+interface ActivityDetail {
+  name: string
+  description: string
+  distance: number
+  moving_time: number
+  average_speed: number
+  max_speed: number
+  average_watts: number
+  max_watts: number
+  total_elevation_gain: number
+  calories: number
+  start_date: number
+  average_temp: number
+  device_name: string
+  segment_efforts: any[]
+  start_latlng: any[]
+}
+
 export default function ActivityDetails() {
   const router = useRouter()
   const activityId = router.query.activityId
@@ -39,9 +57,9 @@ export default function ActivityDetails() {
   mapboxgl.accessToken =
     "pk.eyJ1IjoiYXRlZmthaWJlbm90aG1hbiIsImEiOiJjbGU1Mms1aGQwMzk2M3BwMzhyOWx2dDV2In0.Iqr4f_ZJMostXFJ3NJB1RA"
 
-  const [stravaAccessToken, setStravaAccessToken] = React.useState("")
-  const [loaded, setLoaded] = React.useState(false)
-  const [activityDetails, setActivityDetails] = React.useState({
+  const [stravaAccessToken, setStravaAccessToken] = React.useState<string>("")
+  const [loaded, setLoaded] = React.useState<boolean>(false)
+  const [activityDetails, setActivityDetails] = React.useState<ActivityDetail>({
     name: "",
     description: "",
     distance: 0,
@@ -58,7 +76,7 @@ export default function ActivityDetails() {
     segment_efforts: [],
     start_latlng: []
   })
-  const [activityRoute, setActivityRoute] = React.useState("")
+  const [activityRoute, setActivityRoute] = React.useState<string>("")
   const [segmentRoute, setSegmentRoute] = React.useState<any[]>([])
 
   // retrive strava accessToken from localstorage
@@ -75,7 +93,7 @@ export default function ActivityDetails() {
 
   // retrive activity details from strava api
   const getActivityDetails = async () => {
-    const activityDetailURL = `https://www.strava.com/api/v3/activities/${activityId}`
+    const activityDetailURL: string = `https://www.strava.com/api/v3/activities/${activityId}`
     try {
       const res = await fetch(activityDetailURL, {
         method: "GET",
@@ -251,7 +269,7 @@ export default function ActivityDetails() {
                 title="Segments"
               >
                 <Segments
-                  activityDetails={activityDetails}
+                  segments={activityDetails.segment_efforts}
                   setSegmentRoute={setSegmentRoute}
                 />
               </Tabs.Item>

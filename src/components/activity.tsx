@@ -55,9 +55,9 @@ export default function Activity({ activity }: { activity: any }) {
                 <p className="text-gray-700 text-base">distance</p>
                 <div className="flex items-baseline">
                   <p className="font-bold text-2xl">
-                    {(activity.distance / 1609.344).toFixed(2)}
+                    {(activity.distance / 1609.344).toFixed(1)}
                   </p>
-                  <p className="text-sm font-medium ml-2">mi</p>
+                  <p className="text-sm font-medium ml-1">mi</p>
                 </div>
               </div>
               <div>
@@ -66,7 +66,7 @@ export default function Activity({ activity }: { activity: any }) {
                   <p className="font-bold text-2xl">
                     {(activity.moving_time / 60).toFixed(0)}
                   </p>
-                  <p className="text-sm font-medium ml-2">mins</p>
+                  <p className="text-sm font-medium ml-1">mins</p>
                 </div>
               </div>
               <div>
@@ -75,7 +75,7 @@ export default function Activity({ activity }: { activity: any }) {
                   <p className="font-bold text-2xl">
                     {(activity.average_speed * 2.23694).toFixed(0)}
                   </p>
-                  <p className="text-sm font-medium ml-2">mph</p>
+                  <p className="text-sm font-medium ml-1">mph</p>
                 </div>
               </div>
               <div>
@@ -84,7 +84,7 @@ export default function Activity({ activity }: { activity: any }) {
                   <p className="font-bold text-2xl">
                     {(activity.max_speed * 2.23694).toFixed(0)}
                   </p>
-                  <p className="text-sm font-medium ml-2">mph</p>
+                  <p className="text-sm font-medium ml-1">mph</p>
                 </div>
               </div>
               <div>
@@ -93,7 +93,7 @@ export default function Activity({ activity }: { activity: any }) {
                   <p className="font-bold text-2xl">
                     {(activity.average_watts || 0).toFixed(0)}
                   </p>
-                  <p className="text-sm font-medium ml-2">w</p>
+                  <p className="text-sm font-medium ml-1">w</p>
                 </div>
               </div>
               <div>
@@ -102,7 +102,7 @@ export default function Activity({ activity }: { activity: any }) {
                   <p className="font-bold text-2xl">
                     {activity.max_watts || 0}
                   </p>
-                  <p className="text-sm font-medium ml-2">w</p>
+                  <p className="text-sm font-medium ml-1">w</p>
                 </div>
               </div>
             </div>

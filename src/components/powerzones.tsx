@@ -105,7 +105,7 @@ export default function PowerZones({
       const avgWatts = effort.average_watts
       for (const zoneRange of zoneRanges) {
         if (avgWatts >= zoneRange.lower && avgWatts <= zoneRange.upper) {
-          zones[zoneRange.zone] += Math.round(effort.moving_time / 60)
+          zones[zoneRange.zone] += Math.floor(effort.moving_time / 60)
         }
       }
     }
