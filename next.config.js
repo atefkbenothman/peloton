@@ -14,6 +14,12 @@ const nextConfig = {
         hostname: "*.cloudfront.net",
         port: "",
         pathname: "/**"
+      },
+      {
+        protocol: "https",
+        hostname: "image.mux.com",
+        port: "",
+        pathname: "/**"
       }
     ]
   }

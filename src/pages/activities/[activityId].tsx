@@ -2,6 +2,7 @@ import React from "react"
 import { useEffect } from "react"
 // next
 import { useRouter } from "next/router"
+import Image from "next/image"
 // mapbox
 import mapboxgl from "mapbox-gl"
 import polyline from "@mapbox/polyline"
@@ -76,8 +77,11 @@ export default function ActivityDetails() {
     segment_efforts: [],
     start_latlng: []
   })
+  const [segmentEffortCount, setSegmentEffortCount] = React.useState<number>(0)
   const [activityRoute, setActivityRoute] = React.useState<string>("")
   const [segmentRoute, setSegmentRoute] = React.useState<any[]>([])
+  const [activityPhotos, setActivityPhotos] = React.useState<any[]>([])
+  const [activityPhotoCount, setActivityPhotoCount] = React.useState<number>(0)
 
   // retrive strava accessToken from localstorage
   useEffect(() => {
@@ -88,8 +92,32 @@ export default function ActivityDetails() {
   useEffect(() => {
     if (stravaAccessToken && activityId) {
       getActivityDetails()
+      getActivityPhotos()
     }
   }, [activityId, stravaAccessToken])
+
+  // retrieve activity photos from strava api
+  const getActivityPhotos = async () => {
+    const activityPhotosURL: string = `https://www.strava.com/api/v3/activities/${activityId}/photos?size=2000&photo_sources=true`
+    try {
+      const res = await fetch(activityPhotosURL, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + stravaAccessToken
+        }
+      })
+      const data = await res.json()
+      let photos: any[] = []
+      for (const photo of data) {
+        const photoURL = photo.urls["2000"]
+        photos.push(photoURL)
+      }
+      setActivityPhotos(photos)
+      setActivityPhotoCount(photos.length)
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   // retrive activity details from strava api
   const getActivityDetails = async () => {
@@ -105,6 +133,8 @@ export default function ActivityDetails() {
       setActivityDetails(data)
       getGeoJson(data)
       setLoaded(true)
+      const segmentCount = data.segment_efforts.length
+      setSegmentEffortCount(segmentCount)
     } catch (err) {
       console.error(err)
     }
@@ -266,7 +296,7 @@ export default function ActivityDetails() {
             >
               <Tabs.Item
                 active
-                title="Segments"
+                title={`Segments (${segmentEffortCount})`}
               >
                 <Segments
                   segments={activityDetails.segment_efforts}
@@ -275,6 +305,18 @@ export default function ActivityDetails() {
               </Tabs.Item>
               <Tabs.Item title="Power Zones">
                 <PowerZones segmentEfforts={activityDetails.segment_efforts} />
+              </Tabs.Item>
+              <Tabs.Item title={`Photos (${activityPhotoCount})`}>
+                {activityPhotos.map((photo: any) => (
+                  <Image
+                    key={photo}
+                    src={photo}
+                    alt="activityPhoto"
+                    className="m-2"
+                    width={400}
+                    height={400}
+                  />
+                ))}
               </Tabs.Item>
               <Tabs.Item title="Stats">
                 <p>
