@@ -82,7 +82,7 @@ export default function Login() {
       response_type: "code",
       redirect_uri: redirect_uri_link,
       approval_prompt: "force",
-      scope: "read,activity:read_all"
+      scope: "read_all,activity:read_all,profile:read_all"
     })
     const paramsString = params.toString()
     const authURL = `${authBaseURL}?${paramsString}`
@@ -102,12 +102,12 @@ export default function Login() {
       <div className="min-h-screen mx-6 py-6">
         <div className="m-auto">
           {/* Connect Button */}
-          <div className="mb-4">
+          <div className="mb-4 rounded-lg">
             <button onClick={requestAccess}>
               <Image
                 src={stravaConnect}
                 alt="map"
-                className="rounded-lg"
+                className="block p-0 m-0"
                 width={200}
                 height={100}
               />
@@ -133,10 +133,6 @@ export default function Login() {
           <div>
             {clientAccessToken && (
               <div>
-                <div className="flex mx-2">
-                  <p className="font-bold">token:</p>
-                  <p className="ml-2">{clientAccessToken}</p>
-                </div>
                 {isAuthorized && (
                   <div className="mx-2 my-4">
                     <button
