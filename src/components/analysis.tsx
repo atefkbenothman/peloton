@@ -105,12 +105,6 @@ export default function Analysis({ activityId }: { activityId: string }) {
     }
   }
 
-  const sum = activityStreamData.velocity.reduce(
-    (total: number, value: number) => total + value,
-    0
-  )
-  const avg = sum / activityStreamData.velocity.length
-
   const data = {
     labels: activityStreamData.time.map((t) => t),
     datasets: [
@@ -122,15 +116,6 @@ export default function Analysis({ activityId }: { activityId: string }) {
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)"
       },
-      // {
-      //   label: "Avg Speed",
-      //   fill: false,
-      //   pointStyle: false,
-      //   data: Array(activityStreamData.velocity.length).fill(avg),
-      //   borderColor: "rgb(53, 162, 235)",
-      //   backgroundColor: "rgba(53, 162, 235, 0.5)",
-      //   borderDash: [5, 5] // This creates a dashed line with 5-pixel dashes and 5-pixel gaps
-      // },
       {
         label: "Grade",
         fill: false,
@@ -164,7 +149,7 @@ export default function Analysis({ activityId }: { activityId: string }) {
         <>
           <Line
             options={options}
-            data={data}
+            data={data as any}
           />
         </>
       )}
