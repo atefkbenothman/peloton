@@ -5,7 +5,7 @@ import Image from "next/image"
 import mapboxgl from "mapbox-gl"
 import polyline from "@mapbox/polyline"
 
-export default function Activity({ activity }: { activity: any }) {
+export default function ActivityCard({ activity }: { activity: any }) {
   // set mapbox access token
   const mapboxAccessToken: string =
     process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN?.toString() || ""

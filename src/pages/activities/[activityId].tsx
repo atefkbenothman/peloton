@@ -9,8 +9,9 @@ import polyline from "@mapbox/polyline"
 import Map, { Source, Layer, NavigationControl } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 // components
-import Segments from "../../components/segments"
-import PowerZones from "../../components/powerzones"
+import Segments from "@/components/segments"
+import PowerZones from "@/components/powerzones"
+import Analysis from "@/components/analysis"
 // flowbite
 import { Tabs, CustomFlowbiteTheme } from "flowbite-react"
 
@@ -53,13 +54,16 @@ interface ActivityDetail {
 
 export default function ActivityDetails() {
   const router = useRouter()
-  const activityId = router.query.activityId
+  const activityId: string = Array.isArray(router.query.activityId)
+    ? router.query.activityId[0]
+    : router.query.activityId ?? ""
 
-  mapboxgl.accessToken =
-    "pk.eyJ1IjoiYXRlZmthaWJlbm90aG1hbiIsImEiOiJjbGU1Mms1aGQwMzk2M3BwMzhyOWx2dDV2In0.Iqr4f_ZJMostXFJ3NJB1RA"
+  // set mapbox access token
+  const mapboxAccessToken: string =
+    process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN?.toString() || ""
+  mapboxgl.accessToken = mapboxAccessToken
 
   const [stravaAccessToken, setStravaAccessToken] = React.useState<string>("")
-  const [loaded, setLoaded] = React.useState<boolean>(false)
   const [activityDetails, setActivityDetails] = React.useState<ActivityDetail>({
     name: "",
     description: "",
@@ -132,7 +136,6 @@ export default function ActivityDetails() {
       const data = await res.json()
       setActivityDetails(data)
       getGeoJson(data)
-      setLoaded(true)
       const segmentCount = data.segment_efforts.length
       setSegmentEffortCount(segmentCount)
     } catch (err) {
@@ -318,17 +321,12 @@ export default function ActivityDetails() {
                   />
                 ))}
               </Tabs.Item>
-              <Tabs.Item title="Stats">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-                </p>
+              <Tabs.Item title="Analysis">
+                {activityId && (
+                  <>
+                    <Analysis activityId={activityId} />
+                  </>
+                )}
               </Tabs.Item>
             </Tabs.Group>
           </div>

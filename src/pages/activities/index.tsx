@@ -1,7 +1,7 @@
 import React from "react"
 import { useEffect } from "react"
 // components
-import Activity from "../../components/activity"
+import ActivityCard from "../../components/activityCard"
 
 export default function Activities() {
   const [stravaAccessToken, setStravaAccessToken] = React.useState("")
@@ -67,7 +67,7 @@ export default function Activities() {
             {stravaAccessToken ? (
               Array.isArray(activities) &&
               activities.map((activity) => (
-                <Activity
+                <ActivityCard
                   key={activity.id}
                   activity={activity}
                 />
