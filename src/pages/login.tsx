@@ -15,7 +15,7 @@ export default function Login() {
 
   // stay logged in between page loads
   useEffect(() => {
-    const access_token = window.localStorage.getItem("accessToken") || ""
+    const access_token = window.sessionStorage.getItem("accessToken") || ""
     if (access_token !== "" && access_token !== "undefined") {
       setClientAccessToken(access_token)
       setIsAuthorized(true)
@@ -59,8 +59,8 @@ export default function Login() {
       const refresh_token = data["refreshToken"]
       setClientAccessToken(access_token)
       setClientRefreshToken(refresh_token)
-      // set access token to localstorage
-      localStorage.setItem("accessToken", access_token)
+      // set access token to sessionStorage
+      sessionStorage.setItem("accessToken", access_token)
       setIsAuthorized(true)
     } catch (err) {
       console.error(err)
@@ -89,12 +89,12 @@ export default function Login() {
     router.push(authURL)
   }
 
-  // clear the accessToken from localstorage
+  // clear the accessToken from sessionStorage
   function handleRefresh(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
     setIsAuthorized(false)
     setClientAccessToken("")
-    localStorage.removeItem("accessToken")
+    sessionStorage.removeItem("accessToken")
   }
 
   return (

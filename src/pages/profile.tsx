@@ -34,7 +34,7 @@ export default function Profile() {
   const [loaded, setLoaded] = React.useState(false)
 
   useEffect(() => {
-    setStravaAccessToken(window.localStorage.getItem("accessToken") || "")
+    setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
   }, [])
 
   useEffect(() => {

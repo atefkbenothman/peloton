@@ -15,9 +15,9 @@ export default function Activities() {
   const [activities, setActivities] = React.useState<any[]>([])
   const [errorMessage, setErrorMessage] = React.useState("")
 
-  // retrive strava accessToken from localstorage
+  // retrive strava accessToken from sessionStorage
   useEffect(() => {
-    setStravaAccessToken(window.localStorage.getItem("accessToken") || "")
+    setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
   }, [])
 
   // once the access token has been retrieved, get all activities

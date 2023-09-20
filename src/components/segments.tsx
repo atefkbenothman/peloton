@@ -31,7 +31,7 @@ export default function Segments({
   const [stravaAccessToken, setStravaAccessToken] = React.useState<string>("")
 
   useEffect(() => {
-    setStravaAccessToken(window.localStorage.getItem("accessToken") || "")
+    setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
   }, [])
 
   const getSegmentDetails = async (id: number) => {

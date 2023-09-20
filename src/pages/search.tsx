@@ -15,7 +15,7 @@ export default function Search() {
   }
 
   useEffect(() => {
-    setStravaAccessToken(window.localStorage.getItem("accessToken") || "")
+    setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
   }, [])
 
   const handleDateChange = (e: any) => {

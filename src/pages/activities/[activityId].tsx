@@ -83,9 +83,9 @@ export default function ActivityDetails() {
   const [activityPhotos, setActivityPhotos] = React.useState<any[]>([])
   const [activityPhotoCount, setActivityPhotoCount] = React.useState<number>(0)
 
-  // retrive strava accessToken from localstorage
+  // retrive strava accessToken from sessionStorage
   useEffect(() => {
-    setStravaAccessToken(window.localStorage.getItem("accessToken") || "")
+    setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
   }, [])
 
   // get activityId from url
