@@ -96,7 +96,9 @@ export default function Segments({
             <tr
               key={s.segment.id}
               className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-              onClick={() => getSegmentDetails(s.segment.id)}
+              onClick={() => {
+                getSegmentDetails(s.segment.id)
+              }}
             >
               <td
                 className="text-xs text-gray-900 font-semibold px-4 py-1 border-r break-normal"
