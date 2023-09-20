@@ -1,16 +1,9 @@
 import React from "react"
-import { useEffect, useRef } from "react"
-// next
-// mapbox
-import mapboxgl from "mapbox-gl"
-import "mapbox-gl/dist/mapbox-gl.css"
+import { useEffect } from "react"
 // components
 import Activity from "../../components/activity"
 
 export default function Activities() {
-  mapboxgl.accessToken =
-    "pk.eyJ1IjoiYXRlZmthaWJlbm90aG1hbiIsImEiOiJjbGU1Mms1aGQwMzk2M3BwMzhyOWx2dDV2In0.Iqr4f_ZJMostXFJ3NJB1RA"
-
   const [stravaAccessToken, setStravaAccessToken] = React.useState("")
   const [activities, setActivities] = React.useState<any[]>([])
   const [errorMessage, setErrorMessage] = React.useState("")

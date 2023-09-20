@@ -6,8 +6,10 @@ import mapboxgl from "mapbox-gl"
 import polyline from "@mapbox/polyline"
 
 export default function Activity({ activity }: { activity: any }) {
-  mapboxgl.accessToken =
-    "pk.eyJ1IjoiYXRlZmthaWJlbm90aG1hbiIsImEiOiJjbGU1Mms1aGQwMzk2M3BwMzhyOWx2dDV2In0.Iqr4f_ZJMostXFJ3NJB1RA"
+  // set mapbox access token
+  const mapboxAccessToken: string =
+    process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN?.toString() || ""
+  mapboxgl.accessToken = mapboxAccessToken
 
   function goToActivityPage() {
     window.location.href = `/activities/${activity.id}`

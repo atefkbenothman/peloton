@@ -19,8 +19,10 @@ const skyLayer: any = {
 }
 
 export default function Kom() {
-  mapboxgl.accessToken =
-    "pk.eyJ1IjoiYXRlZmthaWJlbm90aG1hbiIsImEiOiJjbGU1Mms1aGQwMzk2M3BwMzhyOWx2dDV2In0.Iqr4f_ZJMostXFJ3NJB1RA"
+  // set mapbox access token
+  const mapboxAccessToken: string =
+    process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN?.toString() || ""
+  mapboxgl.accessToken = mapboxAccessToken
 
   const [stravaAccessToken, setStravaAccessToken] = React.useState("")
   const [token, setToken] = React.useState("")
