@@ -81,7 +81,7 @@ export default function Activities() {
               ))
             ) : (
               <>
-                <p className="font-bold pl-2">Please login first</p>
+                <p className="font-bold text-red-500">Please login first</p>
               </>
             )}
           </div>

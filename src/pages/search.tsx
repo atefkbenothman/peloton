@@ -63,7 +63,6 @@ export default function Search() {
         // move to next page for next request
         page++
       }
-      console.log(allActivities)
       setActivities(allActivities)
       setNumActivities(allActivities.length)
       // calculate total distance
@@ -84,60 +83,71 @@ export default function Search() {
           <div className="mb-10">
             {/* Title */}
             <p className="text-3xl font-bold text-black mb-4">Search</p>
-            {/* Search */}
-            <div className="flex items-start space-x-4">
-              <p>
-                How many miles since{" "}
-                <input
-                  type="date"
-                  id="date-picker"
-                  onChange={handleDateChange}
-                ></input>{" "}
-                ?
-              </p>
-              <button
-                className="btn mb-6 bg-green-500 text-white rounded p-2 shadow font-bold"
-                onClick={handleSearch}
-              >
-                Search
-              </button>
-            </div>
-            {/* Data */}
-            <div>
-              <ol>
-                {/* Activities */}
-                {activities.map((activity: any, index) => (
-                  <li
-                    key={activity.id}
-                    className="grid grid-cols-3"
+
+            {stravaAccessToken ? (
+              <>
+                {/* Search */}
+                <div className="flex items-start space-x-4">
+                  <p>
+                    How many miles since{" "}
+                    <input
+                      type="date"
+                      id="date-picker"
+                      onChange={handleDateChange}
+                    ></input>{" "}
+                    ?
+                  </p>
+                  <button
+                    className="btn mb-6 bg-green-500 text-white rounded p-2 shadow font-bold"
+                    onClick={handleSearch}
                   >
-                    <div className="min-w-[200px]">
-                      {index + 1}.{" "}
-                      <a
-                        href={`${activityURL}/${activity.id}`}
-                        className="text-blue-300"
+                    Search
+                  </button>
+                </div>
+                {/* Data */}
+                <div>
+                  <ol>
+                    {/* Activities */}
+                    {activities.map((activity: any, index) => (
+                      <li
+                        key={activity.id}
+                        className="grid grid-cols-3"
                       >
-                        {activity.name}
-                      </a>
-                    </div>
-                    <div className="min-w-[200px]">
-                      {new Date(activity.start_date).toLocaleDateString()}
-                    </div>
-                    <div className="min-w-[200px]">
-                      {(activity.distance / 1609.344).toFixed(2)} mi
-                    </div>
-                  </li>
-                ))}
-                {/* Total */}
-                <li className="grid grid-cols-3 font-bold text-lg">
-                  <div className="min-w-[200px]">Total: ({numActivities})</div>
-                  <div className="min-w-[200px]"></div>
-                  <div className="min-w-[200px]">
-                    {(totalDistance / 1609.344).toFixed(2)} mi
-                  </div>
-                </li>
-              </ol>
-            </div>
+                        <div className="min-w-[200px]">
+                          {index + 1}.{" "}
+                          <a
+                            href={`${activityURL}/${activity.id}`}
+                            className="text-blue-300"
+                          >
+                            {activity.name}
+                          </a>
+                        </div>
+                        <div className="min-w-[200px]">
+                          {new Date(activity.start_date).toLocaleDateString()}
+                        </div>
+                        <div className="min-w-[200px]">
+                          {(activity.distance / 1609.344).toFixed(2)} mi
+                        </div>
+                      </li>
+                    ))}
+                    {/* Total */}
+                    <li className="grid grid-cols-3 font-bold text-lg">
+                      <div className="min-w-[200px]">
+                        Total: ({numActivities})
+                      </div>
+                      <div className="min-w-[200px]"></div>
+                      <div className="min-w-[200px]">
+                        {(totalDistance / 1609.344).toFixed(2)} mi
+                      </div>
+                    </li>
+                  </ol>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="font-bold text-red-500">Please login first</p>
+              </>
+            )}
           </div>
         </div>
       </div>
