@@ -96,12 +96,16 @@ export default function Analysis({ activityId }: { activityId: string }) {
       }
     },
     scales: {
-      x: {},
-      y: {}
+      x: {
+        display: false
+      },
+      y: {
+        display: false
+      }
     },
     elevationYAxis: {
       // Define options for the "Elevation" dataset's Y-axis scale
-      type: "log" // Use 'linear' for a linear scale
+      type: "linear" // Use 'linear' for a linear scale
     }
   }
 
