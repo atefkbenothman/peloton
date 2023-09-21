@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 import Image from "next/image"
 // components
 import Segments from "@/components/segments"
-import PowerZones from "@/components/powerZones"
+import PowerZones from "@/components/powerzones"
 import Analysis from "@/components/analysis"
 // api
 import { fetchActivityDetails, fetchActivityPhotos } from "@/utils/api"
