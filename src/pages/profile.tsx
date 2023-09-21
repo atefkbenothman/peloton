@@ -1,11 +1,41 @@
 import React from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 // next
 import Image from "next/image"
+// api
+import { fetchAthleteData, fetchAthleteStats } from "@/utils/api"
+
+interface Athlete {
+  id: number
+  firstname: string
+  lastname: string
+  username: string
+  profile: string
+  city: string
+  state: string
+  country: string
+  weight: string
+  ftp: string
+}
+
+interface AthleteStats {
+  all_ride_totals: {
+    count: number
+    distance: number
+    elapsed_time: number
+    elevation_gain: number
+  }
+  ytd_ride_totals: {
+    count: number
+    distance: number
+    elapsed_time: number
+    elevation_gain: number
+  }
+}
 
 export default function Profile() {
-  const [stravaAccessToken, setStravaAccessToken] = React.useState("")
-  const [athleteData, setAthleteData] = React.useState({
+  const [stravaAccessToken, setStravaAccessToken] = useState<string>("")
+  const [athleteData, setAthleteData] = useState<Athlete>({
     id: 0,
     firstname: "",
     lastname: "",
@@ -17,7 +47,7 @@ export default function Profile() {
     weight: "",
     ftp: ""
   })
-  const [athleteStats, setAthleteStats] = React.useState({
+  const [athleteStats, setAthleteStats] = useState<AthleteStats>({
     all_ride_totals: {
       count: 0,
       distance: 0,
@@ -31,7 +61,6 @@ export default function Profile() {
       elevation_gain: 0
     }
   })
-  const [loaded, setLoaded] = React.useState(false)
 
   useEffect(() => {
     setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
@@ -44,35 +73,20 @@ export default function Profile() {
   }, [stravaAccessToken])
 
   const getAthleteData = async () => {
-    const athleteDataURL = "https://www.strava.com/api/v3/athlete"
     try {
-      const res = await fetch(athleteDataURL, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + stravaAccessToken
-        }
-      })
-      const data = await res.json()
-      setAthleteData(data)
+      const athleteData = await fetchAthleteData(stravaAccessToken)
+      setAthleteData(athleteData)
       // get athlete stats
-      getAthleteStats(data.id)
+      getAthleteStats(athleteData.id)
     } catch (err) {
       console.error(err)
     }
   }
 
-  const getAthleteStats = async (id: number) => {
-    const athleteStatsURL = `https://www.strava.com/api/v3/athletes/${id}/stats`
+  const getAthleteStats = async (athleteId: number) => {
     try {
-      const res = await fetch(athleteStatsURL, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + stravaAccessToken
-        }
-      })
-      const data = await res.json()
-      setAthleteStats(data)
-      setLoaded(true)
+      const athleteStats = await fetchAthleteStats(stravaAccessToken, athleteId)
+      setAthleteStats(athleteStats)
     } catch (err) {
       console.error(err)
     }
@@ -121,7 +135,6 @@ export default function Profile() {
                       <div className="m-2">
                         <p>Weight: {athleteData.weight || "null"} kg</p>
                         <p>FTP: {athleteData.ftp || "null"}</p>
-                        <p>Power Zones</p>
                       </div>
                     </div>
                   </div>

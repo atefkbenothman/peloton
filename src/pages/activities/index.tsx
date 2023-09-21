@@ -1,12 +1,13 @@
 import React from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 // components
-import ActivityCard from "../../components/activityCard"
+import ActivityCard from "@/components/activityCard"
+// api
+import { fetchAthleteActivities } from "@/utils/api"
 
 export default function Activities() {
-  const [stravaAccessToken, setStravaAccessToken] = React.useState("")
-  const [activities, setActivities] = React.useState<any[]>([])
-  const [errorMessage, setErrorMessage] = React.useState("")
+  const [stravaAccessToken, setStravaAccessToken] = useState("")
+  const [activities, setActivities] = useState<any[]>([])
 
   // retrive strava accessToken from sessionStorage
   useEffect(() => {
@@ -20,29 +21,13 @@ export default function Activities() {
     }
   }, [stravaAccessToken])
 
-  // retrive last 30 activities from strava api
+  // retrive last 15 activities from strava api
   const getAllActivities = async () => {
-    const activitiesURL =
-      "https://www.strava.com/api/v3/athlete/activities?per_page=15"
     try {
-      const res = await fetch(activitiesURL, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + stravaAccessToken
-        }
-      })
-      const data = await res.json()
-
-      // check if the data we received back is a list
-      if (!Array.isArray(data)) {
-        setErrorMessage(data.message)
-        return
-      }
-
-      setActivities(data)
+      const athleteActivities = await fetchAthleteActivities(stravaAccessToken)
+      setActivities(athleteActivities)
     } catch (err) {
       console.error(err)
-      setErrorMessage("error retrieving all activities from strava api")
     }
   }
 
@@ -54,14 +39,6 @@ export default function Activities() {
           <div className="mb-2 px-6 sticky top-0 bg-gray-100 py-6">
             <h1 className="text-3xl font-bold">Activities</h1>
           </div>
-
-          {/* Error Msg */}
-          {errorMessage.length !== 0 && (
-            <div>
-              <p className="font-bold text-red-500 pl-2">{errorMessage}</p>
-            </div>
-          )}
-
           {/* Activity List */}
           <div className="w-full px-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
             {stravaAccessToken ? (

@@ -1,5 +1,5 @@
 import React from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 // chartjs
 import {
   Chart as ChartJS,
@@ -13,6 +13,8 @@ import {
   Filler
 } from "chart.js"
 import { Line } from "react-chartjs-2"
+// api
+import { fetchActivityStream } from "@/utils/api"
 
 ChartJS.register(
   CategoryScale,
@@ -35,17 +37,16 @@ interface ActivityStream {
 }
 
 export default function Analysis({ activityId }: { activityId: string }) {
-  const [stravaAccessToken, setStravaAccessToken] = React.useState<string>("")
-  const [loading, setLoading] = React.useState<boolean>(true)
-  const [activityStreamData, setActivityStreamData] =
-    React.useState<ActivityStream>({
-      time: [],
-      distance: [],
-      moving: [],
-      velocity: [],
-      altitude: [],
-      grade: []
-    })
+  const [stravaAccessToken, setStravaAccessToken] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(true)
+  const [activityStreamData, setActivityStreamData] = useState<ActivityStream>({
+    time: [],
+    distance: [],
+    moving: [],
+    velocity: [],
+    altitude: [],
+    grade: []
+  })
 
   // retrive strava accessToken from sessionStorage
   useEffect(() => {
@@ -58,24 +59,19 @@ export default function Analysis({ activityId }: { activityId: string }) {
     }
   }, [stravaAccessToken])
 
-  // retrieve activity stream
   const getActivityStream = async () => {
-    const activityStreamURL: string = `https://www.strava.com/api/v3/activities/${activityId}/streams?keys=time,distance,velocity_smooth,watts,grade_smooth,moving,altitude&key_by_type=true`
     try {
-      const res = await fetch(activityStreamURL, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + stravaAccessToken
-        }
-      })
-      const data = await res.json()
+      const activityStream = await fetchActivityStream(
+        stravaAccessToken,
+        activityId
+      )
       setActivityStreamData({
-        time: data["time"]["data"],
-        distance: data["distance"]["data"],
-        moving: data["moving"]["data"],
-        altitude: data["altitude"]["data"],
-        grade: data["grade_smooth"]["data"],
-        velocity: data["velocity_smooth"]["data"]
+        time: activityStream["time"]["data"],
+        distance: activityStream["distance"]["data"],
+        moving: activityStream["moving"]["data"],
+        altitude: activityStream["altitude"]["data"],
+        grade: activityStream["grade_smooth"]["data"],
+        velocity: activityStream["velocity_smooth"]["data"]
       })
       setLoading(false)
     } catch (err) {
@@ -104,8 +100,10 @@ export default function Analysis({ activityId }: { activityId: string }) {
       }
     },
     elevationYAxis: {
-      // Define options for the "Elevation" dataset's Y-axis scale
-      type: "linear" // Use 'linear' for a linear scale
+      type: "linear" // or "log"
+    },
+    animation: {
+      duration: 0
     }
   }
 

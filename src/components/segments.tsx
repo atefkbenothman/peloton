@@ -1,6 +1,17 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 // mapbox
 import polyline from "@mapbox/polyline"
+// api
+import { fetchSegmentDetail } from "@/utils/api"
+
+interface Segment {
+  average_grade: number
+  climb_category: number
+  distance: number
+  id: number
+  maximum_grade: number
+  name: string
+}
 
 interface SegmentEffort {
   average_watts: number
@@ -12,15 +23,6 @@ interface SegmentEffort {
   segment: Segment
 }
 
-interface Segment {
-  average_grade: number
-  climb_category: number
-  distance: number
-  id: number
-  maximum_grade: number
-  name: string
-}
-
 export default function Segments({
   segments,
   setSegmentRoute
@@ -28,7 +30,7 @@ export default function Segments({
   segments: SegmentEffort[]
   setSegmentRoute: any
 }) {
-  const [stravaAccessToken, setStravaAccessToken] = React.useState<string>("")
+  const [stravaAccessToken, setStravaAccessToken] = useState<string>("")
 
   useEffect(() => {
     setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
@@ -36,14 +38,8 @@ export default function Segments({
 
   const getSegmentDetails = async (id: number) => {
     try {
-      const res = await fetch(`https://www.strava.com/api/v3/segments/${id}`, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + stravaAccessToken
-        }
-      })
-      const data = await res.json()
-      const segmentPolyline = polyline.toGeoJSON(data.map.polyline)
+      const segmentDetails = await fetchSegmentDetail(stravaAccessToken, id)
+      const segmentPolyline = polyline.toGeoJSON(segmentDetails.map.polyline)
       setSegmentRoute(segmentPolyline)
     } catch (err) {
       console.error(err)
@@ -95,7 +91,7 @@ export default function Segments({
           {segments.map((s: SegmentEffort) => (
             <tr
               key={s.segment.id}
-              className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+              className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer"
               onClick={() => {
                 getSegmentDetails(s.segment.id)
               }}

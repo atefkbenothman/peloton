@@ -1,5 +1,5 @@
 import React from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 // next
 import Image from "next/image"
 import { useRouter } from "next/router"
@@ -9,9 +9,9 @@ import stravaConnect from "public/strava-connect.svg"
 export default function Login() {
   const router = useRouter()
 
-  const [clientAccessToken, setClientAccessToken] = React.useState("")
-  const [clientRefreshToken, setClientRefreshToken] = React.useState("")
-  const [isAuthorized, setIsAuthorized] = React.useState(false)
+  const [clientAccessToken, setClientAccessToken] = useState("")
+  const [clientRefreshToken, setClientRefreshToken] = useState("")
+  const [isAuthorized, setIsAuthorized] = useState(false)
 
   // stay logged in between page loads
   useEffect(() => {

@@ -1,5 +1,5 @@
 import React from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 // chartjs
 import {
   Chart as ChartJS,
@@ -78,7 +78,7 @@ export default function PowerZones({
 }: {
   segmentEfforts: SegmentEffort[]
 }) {
-  const [powerZonesTotal, setPowerZonesTotal] = React.useState<PowerZoneTotal>({
+  const [powerZonesTotal, setPowerZonesTotal] = useState<PowerZoneTotal>({
     one: 0,
     two: 0,
     three: 0,
@@ -133,6 +133,9 @@ export default function PowerZones({
           text: "minutes"
         }
       }
+    },
+    animation: {
+      duration: 0
     }
   }
 

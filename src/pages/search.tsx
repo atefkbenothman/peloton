@@ -1,12 +1,12 @@
 import React from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export default function Search() {
-  const [stravaAccessToken, setStravaAccessToken] = React.useState("")
-  const [date, setDate] = React.useState("")
-  const [activities, setActivities] = React.useState([])
-  const [numActivities, setNumActivities] = React.useState(0)
-  const [totalDistance, setTotalDistance] = React.useState(0)
+  const [stravaAccessToken, setStravaAccessToken] = useState("")
+  const [date, setDate] = useState("")
+  const [activities, setActivities] = useState([])
+  const [numActivities, setNumActivities] = useState(0)
+  const [totalDistance, setTotalDistance] = useState(0)
 
   // set activity URL based on dev/prod environment
   let activityURL = "http://localhost:3000/activities"

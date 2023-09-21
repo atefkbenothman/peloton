@@ -1,10 +1,11 @@
 import React from "react"
+import { useState } from "react"
 // datepicker
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 
 export default function Stats() {
-  const [date, setDate] = React.useState(new Date())
+  const [date, setDate] = useState(new Date())
 
   function handleSearch(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()

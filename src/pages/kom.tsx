@@ -1,5 +1,5 @@
 import React from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 // next
 import Image from "next/image"
 // mapbox
@@ -24,18 +24,18 @@ export default function Kom() {
     process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN?.toString() || ""
   mapboxgl.accessToken = mapboxAccessToken
 
-  const [stravaAccessToken, setStravaAccessToken] = React.useState("")
-  const [token, setToken] = React.useState("")
-  const [data, setData] = React.useState("")
-  const [segments, setSegments] = React.useState<any[]>([])
-  const [startCoords, setStartCoords] = React.useState({
+  const [stravaAccessToken, setStravaAccessToken] = useState("")
+  const [token, setToken] = useState("")
+  const [data, setData] = useState("")
+  const [segments, setSegments] = useState<any[]>([])
+  const [startCoords, setStartCoords] = useState({
     longitude: -122.43640674612058,
     latitude: 37.77028481277563
   })
-  const [radius, setRadius] = React.useState(645) // in meters. ~0.4 miles
-  const [minCat, setMinCat] = React.useState("0")
-  const [maxCat, setMaxCat] = React.useState("5")
-  const [segmentRoute, setSegmentRoute] = React.useState<any[]>([])
+  const [radius, setRadius] = useState(645) // in meters. ~0.4 miles
+  const [minCat, setMinCat] = useState("0")
+  const [maxCat, setMaxCat] = useState("5")
+  const [segmentRoute, setSegmentRoute] = useState<any[]>([])
 
   useEffect(() => {
     setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")

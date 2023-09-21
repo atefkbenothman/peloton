@@ -1,17 +1,19 @@
 import React from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 // next
 import { useRouter } from "next/router"
 import Image from "next/image"
+// components
+import Segments from "@/components/segments"
+import PowerZones from "@/components/powerZones"
+import Analysis from "@/components/analysis"
+// api
+import { fetchActivityDetails, fetchActivityPhotos } from "@/utils/api"
 // mapbox
 import mapboxgl from "mapbox-gl"
 import polyline from "@mapbox/polyline"
 import Map, { Source, Layer, NavigationControl } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
-// components
-import Segments from "@/components/segments"
-import PowerZones from "@/components/powerzones"
-import Analysis from "@/components/analysis"
 // flowbite
 import { Tabs, CustomFlowbiteTheme } from "flowbite-react"
 
@@ -63,8 +65,8 @@ export default function ActivityDetails() {
     process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN?.toString() || ""
   mapboxgl.accessToken = mapboxAccessToken
 
-  const [stravaAccessToken, setStravaAccessToken] = React.useState<string>("")
-  const [activityDetails, setActivityDetails] = React.useState<ActivityDetail>({
+  const [stravaAccessToken, setStravaAccessToken] = useState<string>("")
+  const [activityDetails, setActivityDetails] = useState<ActivityDetail>({
     name: "",
     description: "",
     distance: 0,
@@ -81,11 +83,11 @@ export default function ActivityDetails() {
     segment_efforts: [],
     start_latlng: []
   })
-  const [segmentEffortCount, setSegmentEffortCount] = React.useState<number>(0)
-  const [activityRoute, setActivityRoute] = React.useState<string>("")
-  const [segmentRoute, setSegmentRoute] = React.useState<any[]>([])
-  const [activityPhotos, setActivityPhotos] = React.useState<any[]>([])
-  const [activityPhotoCount, setActivityPhotoCount] = React.useState<number>(0)
+  const [segmentEffortCount, setSegmentEffortCount] = useState<number>(0)
+  const [activityRoute, setActivityRoute] = useState<string>("")
+  const [segmentRoute, setSegmentRoute] = useState<any[]>([])
+  const [activityPhotos, setActivityPhotos] = useState<any[]>([])
+  const [activityPhotoCount, setActivityPhotoCount] = useState<number>(0)
 
   // retrive strava accessToken from sessionStorage
   useEffect(() => {
@@ -102,19 +104,14 @@ export default function ActivityDetails() {
 
   // retrieve activity photos from strava api
   const getActivityPhotos = async () => {
-    const activityPhotosURL: string = `https://www.strava.com/api/v3/activities/${activityId}/photos?size=2000&photo_sources=true`
     try {
-      const res = await fetch(activityPhotosURL, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + stravaAccessToken
-        }
-      })
-      const data = await res.json()
-      let photos: any[] = []
-      for (const photo of data) {
-        const photoURL = photo.urls["2000"]
-        photos.push(photoURL)
+      const activityPhotos = await fetchActivityPhotos(
+        stravaAccessToken,
+        activityId
+      )
+      let photos = []
+      for (const photo of activityPhotos) {
+        photos.push(photo.urls["2000"])
       }
       setActivityPhotos(photos)
       setActivityPhotoCount(photos.length)
@@ -125,19 +122,14 @@ export default function ActivityDetails() {
 
   // retrive activity details from strava api
   const getActivityDetails = async () => {
-    const activityDetailURL: string = `https://www.strava.com/api/v3/activities/${activityId}`
     try {
-      const res = await fetch(activityDetailURL, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + stravaAccessToken
-        }
-      })
-      const data = await res.json()
-      setActivityDetails(data)
-      getGeoJson(data)
-      const segmentCount = data.segment_efforts.length
-      setSegmentEffortCount(segmentCount)
+      const activityDetails = await fetchActivityDetails(
+        stravaAccessToken,
+        activityId
+      )
+      setActivityDetails(activityDetails)
+      getGeoJson(activityDetails)
+      setSegmentEffortCount(activityDetails.segment_efforts.length)
     } catch (err) {
       console.error(err)
     }
@@ -175,7 +167,7 @@ export default function ActivityDetails() {
             <>
               <div className="mb-6 h-96">
                 <Map
-                  key={activityId?.toString()}
+                  key={activityId}
                   mapboxAccessToken={mapboxgl.accessToken}
                   initialViewState={{
                     longitude: activityDetails.start_latlng[1],
