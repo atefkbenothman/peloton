@@ -88,13 +88,13 @@ export default function Segments({
 
         {/* body */}
         <tbody className="border-b">
-          {segments.map((s: SegmentEffort) => (
+          {segments.map((s: SegmentEffort, idx) => (
             <tr
-              key={s.segment.id}
               className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer"
               onClick={() => {
                 getSegmentDetails(s.segment.id)
               }}
+              key={idx + s.segment.id}
             >
               <td
                 className="text-xs text-gray-900 font-semibold px-4 py-1 border-r break-normal text-left"
