@@ -132,3 +132,24 @@ export async function fetchSegmentDetail(
     console.error(err)
   }
 }
+
+// return the top 10 segments matching a specified query
+export async function fetchSegments(stravaAccessToken: string, coords: string) {
+  const params = new URLSearchParams({
+    bounds: coords,
+    activity_type: "riding"
+  }).toString()
+  const segmentExploreURL = `https://www.strava.com/api/v3/segments/explore?${params}`
+  try {
+    const res = await fetch(segmentExploreURL, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + stravaAccessToken
+      }
+    })
+    const data = await res.json()
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}

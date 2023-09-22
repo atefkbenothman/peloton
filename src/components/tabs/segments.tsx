@@ -48,9 +48,7 @@ export default function Segments({
 
   return (
     <div className="max-h-[400px] overflow-y-auto rounded-lg bg-gray-200 border-4 border">
-      {/* table */}
       <table className="w-full table-fixed bg-gray-200">
-        {/* head */}
         <thead className="sticky top-0 text-xs bg-gray-200">
           <tr>
             <th
@@ -85,8 +83,6 @@ export default function Segments({
             </th>
           </tr>
         </thead>
-
-        {/* body */}
         <tbody className="border-b">
           {segments.map((s: SegmentEffort, idx) => (
             <tr
