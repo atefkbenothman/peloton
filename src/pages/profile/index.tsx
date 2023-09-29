@@ -3,7 +3,11 @@ import { useEffect, useState } from "react"
 // next
 import Image from "next/image"
 // api
-import { fetchAthleteData, fetchAthleteStats } from "@/utils/api"
+import {
+  fetchAthleteData,
+  fetchAthleteStats,
+  fetchLeaderboard
+} from "@/utils/api"
 
 interface Athlete {
   id: number
@@ -78,6 +82,8 @@ export default function Profile() {
       setAthleteData(athleteData)
       // get athlete stats
       getAthleteStats(athleteData.id)
+      // get segment leaderboard
+      getSegmentLeaderboard()
     } catch (err) {
       console.error(err)
     }
@@ -87,6 +93,18 @@ export default function Profile() {
     try {
       const athleteStats = await fetchAthleteStats(stravaAccessToken, athleteId)
       setAthleteStats(athleteStats)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const getSegmentLeaderboard = async () => {
+    try {
+      const segmentLeaderboard = await fetchLeaderboard(
+        stravaAccessToken,
+        "123"
+      )
+      console.log(segmentLeaderboard)
     } catch (err) {
       console.error(err)
     }
