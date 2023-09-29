@@ -160,12 +160,12 @@ export async function fetchLeaderboard(
   segmentId: string
 ) {
   const segmentLeaderboardURL = `https://www.strava.com/segments/20465905/leaderboard?raw=true&page=1&per_page=10&viewer_context=true&activity_athlete_id=94900785`
-  // const segmentLeaderboardURL = `https://www.strava.com/api/v3/athlete`
   try {
     const res = await fetch(segmentLeaderboardURL, {
       method: "GET",
       headers: {
         authority: "www.strava.com",
+        origin: "https://www.strava.com",
         accept: "*/*",
         "accept-language": "en-US,en;q=0.9",
         "cache-control": "no-cache",
@@ -179,7 +179,7 @@ export async function fetchLeaderboard(
         "sec-ch-ua-mobile": "?0",
         "sec-ch-ua-platform": '"macOS"',
         "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
+        "sec-fetch-mode": "no-cors",
         "sec-fetch-site": "same-origin",
         "user-agent":
           "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",

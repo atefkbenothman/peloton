@@ -83,7 +83,7 @@ export default function Profile() {
       // get athlete stats
       getAthleteStats(athleteData.id)
       // get segment leaderboard
-      getSegmentLeaderboard()
+      // getSegmentLeaderboard()
     } catch (err) {
       console.error(err)
     }
@@ -98,17 +98,17 @@ export default function Profile() {
     }
   }
 
-  const getSegmentLeaderboard = async () => {
-    try {
-      const segmentLeaderboard = await fetchLeaderboard(
-        stravaAccessToken,
-        "123"
-      )
-      console.log(segmentLeaderboard)
-    } catch (err) {
-      console.error(err)
-    }
-  }
+  // const getSegmentLeaderboard = async () => {
+  //   try {
+  //     const segmentLeaderboard = await fetchLeaderboard(
+  //       stravaAccessToken,
+  //       "123"
+  //     )
+  //     console.log(segmentLeaderboard)
+  //   } catch (err) {
+  //     console.error(err)
+  //   }
+  // }
 
   return (
     <div className="bg-gray-100">
