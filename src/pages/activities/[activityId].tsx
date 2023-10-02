@@ -3,10 +3,10 @@ import { useEffect, useState } from "react"
 // next
 import { useRouter } from "next/router"
 // components
-import ActivityHeader from "@/components/activityHeader"
-import ActivityMap from "@/components/activityMap"
-import ActivityStats from "@/components/activityStats"
-import ActivityTabs from "@/components/activityTabs"
+import ActivityHeader from "@/components/activity/activityHeader"
+import ActivityMap from "@/components/activity/activityMap"
+import ActivityStats from "@/components/activity/activityStats"
+import ActivityTabs from "@/components/activity/activityTabs"
 // api
 import { fetchActivityDetails, fetchActivityPhotos } from "@/utils/api"
 // mapbox

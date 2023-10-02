@@ -16,11 +16,15 @@
 
 <br>
 
-<img width="1536" alt="Screen Shot 2023-09-20 at 7 16 21 PM" src="https://github.com/atefkbenothman/strava/assets/92714853/7b25342f-728b-487c-ad4d-51e353a266c4">
+<img width="1536" alt="Screen Shot 2023-09-21 at 8 04 04 PM" src="https://github.com/atefkbenothman/strava/assets/92714853/8c6dfda3-c53c-45ef-80ff-0b0798ec3c2a">
 
 <br>
 
-## Local Usage
+<img width="1536" alt="Screen Shot 2023-09-21 at 8 03 40 PM" src="https://github.com/atefkbenothman/strava/assets/92714853/863c56b9-2112-4d2f-afc9-815774cb37c3">
+
+<br>
+
+## Local Development
 
 1. clone the repo
 2. create a `.env.local` file in the base directory with the following variables:

@@ -1,9 +1,9 @@
 import React from "react"
 // components
-import Segments from "@/components/segments"
-import PowerZones from "@/components/powerzones"
-import Analysis from "@/components/analysis"
-import Photos from "@/components/photos"
+import Segments from "@/components/tabs/segments"
+import PowerZones from "@/components/tabs/powerzones"
+import Analysis from "@/components/tabs/analysis"
+import Photos from "@/components/tabs/photos"
 // flowbite
 import { Tabs, CustomFlowbiteTheme } from "flowbite-react"
 
