@@ -122,6 +122,12 @@ export default function Search() {
                           scope="col"
                           className="text-sm text-gray-900 px-6 py-2"
                         >
+                          type
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm text-gray-900 px-6 py-2"
+                        >
                           date
                         </th>
                         <th
@@ -150,6 +156,9 @@ export default function Search() {
                             </a>
                           </td>
                           <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
+                            {activity.sport_type}
+                          </td>
+                          <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
                             {new Date(activity.start_date).toLocaleDateString()}
                           </td>
                           <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
@@ -166,6 +175,7 @@ export default function Search() {
                         <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-left">
                           Total ({numActivities})
                         </td>
+                        <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-left"></td>
                         <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-left"></td>
                         <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-center">
                           {/* Calculate and display the total moving time in hours and minutes format */}
