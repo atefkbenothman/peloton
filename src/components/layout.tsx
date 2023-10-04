@@ -2,10 +2,15 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/router"
+import { usePathname } from "next/navigation"
+// utils
+import { cn } from "@/utils/tailwind"
 // svg
 import stravaLogo from "public/strava-logo.svg"
 
 function NavBar() {
+  const fullPathname = usePathname()
+  const pathname = "/" + fullPathname?.split("/")?.[1]
   const router = useRouter()
 
   function goToPage(url: string) {
@@ -60,7 +65,10 @@ function NavBar() {
             <li>
               <Link
                 href="/"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                className={cn(
+                  "flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700",
+                  pathname === "/" ? "bg-gray-200" : "bg-gray-300"
+                )}
               >
                 <svg
                   className="w-6 h-6 text-gray-800 dark:text-white"
@@ -85,7 +93,10 @@ function NavBar() {
             <li>
               <Link
                 href="/login"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                className={cn(
+                  "flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700",
+                  pathname === "/login" ? "bg-gray-200" : "bg-gray-300"
+                )}
               >
                 <svg
                   className="w-6 h-6 text-gray-800 dark:text-white"
@@ -110,7 +121,10 @@ function NavBar() {
             <li>
               <Link
                 href="/profile"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                className={cn(
+                  "flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700",
+                  pathname === "/profile" ? "bg-gray-200" : "bg-gray-300"
+                )}
               >
                 <svg
                   className="w-6 h-6 text-gray-800 dark:text-white"
@@ -135,7 +149,10 @@ function NavBar() {
             <li>
               <Link
                 href="/activities"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                className={cn(
+                  "flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700",
+                  pathname === "/activities" ? "bg-gray-200" : "bg-gray-300"
+                )}
               >
                 <svg
                   className="w-6 h-6 text-gray-800 dark:text-white"
@@ -162,7 +179,10 @@ function NavBar() {
             <li>
               <Link
                 href="/search"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                className={cn(
+                  "flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700",
+                  pathname === "/search" ? "bg-gray-200" : "bg-gray-300"
+                )}
               >
                 <svg
                   className="w-6 h-6 text-gray-800 dark:text-white"
@@ -187,7 +207,10 @@ function NavBar() {
             <li>
               <Link
                 href="/kom"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                className={cn(
+                  "flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700",
+                  pathname === "/kom" ? "bg-gray-200" : "bg-gray-300"
+                )}
               >
                 <svg
                   className="w-6 h-6 text-gray-800 dark:text-white"
@@ -215,7 +238,10 @@ function NavBar() {
             <li>
               <Link
                 href="/settings"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                className={cn(
+                  "flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700",
+                  pathname === "/settings" ? "bg-gray-200" : "bg-gray-300"
+                )}
               >
                 <svg
                   className="w-6 h-6 text-gray-800 dark:text-white"
