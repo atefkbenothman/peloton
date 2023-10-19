@@ -5,8 +5,6 @@ import { useRouter } from "next/router"
 import { usePathname } from "next/navigation"
 // utils
 import { cn } from "@/utils/tailwind"
-// svg
-import stravaLogo from "public/strava-logo.svg"
 
 function NavBar() {
   const fullPathname = usePathname()
