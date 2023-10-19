@@ -137,6 +137,53 @@ export async function getSegment(
   }
 }
 
+export async function getAllAthleteActivities(
+  date: Date | null,
+  stravaAccessToken: string | null
+) {
+  // if no date was specified, set the date to some time in the past so we can
+  // get all activities
+  if (!date) {
+    date = new Date("2000-01-01")
+  }
+  const baseURL = "https://www.strava.com/api/v3/athlete/activities"
+  const dateToEpoch = (Date.parse(date.toISOString()) / 1000).toString()
+  let allActivities: any = []
+  let page = 1
+  try {
+    while (true) {
+      const params = new URLSearchParams({
+        after: dateToEpoch,
+        page: page.toString(),
+        per_page: "200"
+      }).toString()
+
+      const activitiesURL = baseURL + "?" + params
+
+      const res = await fetch(activitiesURL, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + stravaAccessToken
+        }
+      })
+      const data = await res.json()
+      // check if there are still activities on this page
+      if (data.length === 0) {
+        // no more
+        break
+      }
+      for (let i = 0; i < data.length; i++) {
+        allActivities.push(data[i])
+      }
+      // check next page
+      page++
+    }
+    return allActivities
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 // return the top 10 segments matching a specified query
 export async function fetchSegments(stravaAccessToken: string, coords: string) {
   const params = new URLSearchParams({

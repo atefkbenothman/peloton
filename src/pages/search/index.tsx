@@ -1,14 +1,17 @@
 import React from "react"
 import { useEffect, useState } from "react"
+// swr
+import useSWR from "swr"
 // components
 import PageHeader from "@/components/pageHeader"
 import PageContent from "@/components/pageContent"
+// api
+import { getAllAthleteActivities } from "@/utils/api"
 
 export default function Search() {
   const [stravaAccessToken, setStravaAccessToken] = useState("")
-  const [date, setDate] = useState("")
-  const [activities, setActivities] = useState([])
-  const [numActivities, setNumActivities] = useState(0)
+  const [allActivities, setAllActivities] = useState<any>(null)
+  const [date, setDate] = useState<Date | null>(null)
   const [totalDistance, setTotalDistance] = useState(0)
 
   // set activity URL based on dev/prod environment
@@ -21,61 +24,30 @@ export default function Search() {
     setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
   }, [])
 
-  const handleDateChange = (e: any) => {
-    const date = e.target.value
-    setDate(date)
+  const { data: activities } = useSWR(
+    stravaAccessToken ? ["allActivities", null, stravaAccessToken] : null,
+    ([key, fromDate, token]) => getAllAthleteActivities(fromDate, token),
+    {
+      revalidateOnFocus: false
+    }
+  )
+
+  useEffect(() => {
+    if (activities) {
+      setAllActivities(activities)
+    }
+  }, [activities])
+
+  const handleSearch = (e: any) => {
+    if (activities && date) {
+      const acts = activities.filter((a: any) => new Date(a.start_date) > date)
+      setAllActivities(acts)
+    }
   }
 
-  const handleSearch = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault
-    if (!date) {
-      console.log("choose a date first!")
-      return
-    }
-    const baseActivitiesURL = "https://www.strava.com/api/v3/athlete/activities"
-    const dateToEpoch = (Date.parse(date) / 1000).toString()
-    let page = 1
-    let allActivities: any = []
-    try {
-      while (true) {
-        const params = new URLSearchParams({
-          after: dateToEpoch,
-          page: page.toString(),
-          per_page: "200"
-        })
-        const paramsString = params.toString()
-        const activitiesURL = `${baseActivitiesURL}?${paramsString}`
-        const res = await fetch(activitiesURL, {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + stravaAccessToken
-          }
-        })
-        const data = await res.json()
-        // check if there are still activities on this page
-        if (data.length === 0) {
-          // no more activities, break the loop
-          break
-        }
-        // filter activities with type "ride"
-        const rideActivities = data.filter(
-          (activity: any) => activity.type === "Ride"
-        )
-        // append activities
-        allActivities = [...allActivities, ...rideActivities]
-        // move to next page for next request
-        page++
-      }
-      setActivities(allActivities)
-      setNumActivities(allActivities.length)
-      // calculate total distance
-      const totalMiles = allActivities.reduce((total: any, activity: any) => {
-        return total + activity.distance
-      }, 0)
-      setTotalDistance(totalMiles)
-    } catch (err) {
-      console.error(err)
-    }
+  const handleDateChange = (e: any) => {
+    setDate(new Date(e.target.value))
+    const selectedDate = new Date(e.target.value)
   }
 
   return (
@@ -145,64 +117,70 @@ export default function Search() {
                       </tr>
                     </thead>
                     <tbody className="border-b">
-                      {activities.map((activity: any, idx) => (
-                        <tr
-                          className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-                          key={activity.id}
-                        >
-                          <td className="text-sm text-gray-900 font-semibold px-4 py-1 border-r break-normal text-left">
-                            <a href={`${activityURL}/${activity.id}`}>
-                              {activity.name}
-                            </a>
-                          </td>
-                          <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
-                            {activity.sport_type}
-                          </td>
-                          <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
-                            {new Date(activity.start_date).toLocaleDateString()}
-                          </td>
-                          <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
-                            {(activity.moving_time / 60).toFixed(0)} mins
-                          </td>
-                          <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
-                            {(activity.distance / 1609.344).toFixed(2)} mi
-                          </td>
-                        </tr>
-                      ))}
+                      {allActivities &&
+                        allActivities.map((activity: any) => (
+                          <tr
+                            className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                            key={activity.id}
+                          >
+                            <td className="text-sm text-gray-900 font-semibold px-4 py-1 border-r break-normal text-left">
+                              <a href={`${activityURL}/${activity.id}`}>
+                                {activity.name}
+                              </a>
+                            </td>
+                            <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
+                              {activity.sport_type}
+                            </td>
+                            <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
+                              {new Date(
+                                activity.start_date
+                              ).toLocaleDateString()}
+                            </td>
+                            <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
+                              {(activity.moving_time / 60).toFixed(0)} mins
+                            </td>
+                            <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
+                              {(activity.distance / 1609.344).toFixed(2)} mi
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                     <tfoot className="border-b">
                       <tr className="bg-gray-100 border-b">
                         <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-left">
-                          Total ({numActivities})
+                          Total ({allActivities?.length | 0})
                         </td>
                         <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-left"></td>
                         <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-left"></td>
                         <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-center">
                           {/* Calculate and display the total moving time in hours and minutes format */}
-                          {(() => {
-                            const totalMovingTimeSeconds = activities.reduce(
-                              (total, activity: any) =>
-                                total + activity.moving_time,
-                              0
-                            )
-                            const hours = Math.floor(
-                              totalMovingTimeSeconds / 3600
-                            )
-                            const minutes = Math.floor(
-                              (totalMovingTimeSeconds % 3600) / 60
-                            )
-                            return `${hours} hr ${minutes} mins`
-                          })()}
+                          {allActivities &&
+                            (() => {
+                              const totalMovingTimeSeconds =
+                                allActivities.reduce(
+                                  (total: any, activity: any) =>
+                                    total + activity.moving_time,
+                                  0
+                                )
+                              const hours = Math.floor(
+                                totalMovingTimeSeconds / 3600
+                              )
+                              const minutes = Math.floor(
+                                (totalMovingTimeSeconds % 3600) / 60
+                              )
+                              return `${hours} hr ${minutes} mins`
+                            })()}
                         </td>
                         <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-center">
                           {/* Calculate and display the total distance */}
-                          {(
-                            activities.reduce(
-                              (total, activity: any) =>
-                                total + activity.distance,
-                              0
-                            ) / 1609.344
-                          ).toFixed(2)}{" "}
+                          {allActivities &&
+                            (
+                              allActivities.reduce(
+                                (total: any, activity: any) =>
+                                  total + activity.distance,
+                                0
+                              ) / 1609.344
+                            ).toFixed(2)}{" "}
                           mi
                         </td>
                       </tr>
