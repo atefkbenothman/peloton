@@ -1,5 +1,7 @@
 import React from "react"
 import { useEffect, useState } from "react"
+// swr
+import useSWR from "swr"
 // next
 import { useRouter } from "next/router"
 // components
@@ -8,105 +10,47 @@ import ActivityMap from "@/components/activity/activityMap"
 import ActivityStats from "@/components/activity/activityStats"
 import ActivityTabs from "@/components/activity/activityTabs"
 // api
-import { fetchActivityDetails, fetchActivityPhotos } from "@/utils/api"
+import { getActivity, getActivityPhotos } from "@/utils/api"
 // mapbox
 import polyline from "@mapbox/polyline"
 
-interface ActivityDetail {
-  name: string
-  description: string
-  distance: number
-  moving_time: number
-  average_speed: number
-  max_speed: number
-  average_watts: number
-  max_watts: number
-  total_elevation_gain: number
-  calories: number
-  start_date: number
-  average_temp: number
-  device_name: string
-  segment_efforts: any[]
-  start_latlng: any[]
-}
-
 export default function ActivityDetails() {
   const router = useRouter()
+  // get activityId from url
   const activityId: string = Array.isArray(router.query.activityId)
     ? router.query.activityId[0]
     : router.query.activityId ?? ""
 
   const [stravaAccessToken, setStravaAccessToken] = useState<string>("")
-  const [activityDetails, setActivityDetails] = useState<ActivityDetail>({
-    name: "",
-    description: "",
-    distance: 0,
-    moving_time: 0,
-    average_speed: 0,
-    max_speed: 0,
-    average_watts: 0,
-    max_watts: 0,
-    total_elevation_gain: 0,
-    calories: 0,
-    start_date: 0,
-    average_temp: 0,
-    device_name: "",
-    segment_efforts: [],
-    start_latlng: []
-  })
-  const [activityRoute, setActivityRoute] = useState<string>("")
   const [segmentRoute, setSegmentRoute] = useState<any[]>([])
-  const [activityPhotos, setActivityPhotos] = useState<any[]>([])
+  const [route, setRoute] = useState<any | null>(null)
 
   // retrive strava accessToken from sessionStorage
   useEffect(() => {
     setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
   }, [])
 
-  // get activityId from url
+  const { data: activity } = useSWR(
+    activityId ? ["activity", activityId, stravaAccessToken] : null,
+    ([key, activityId, token]) => getActivity(activityId, token),
+    {
+      revalidateOnFocus: false
+    }
+  )
+
+  const { data: photos } = useSWR(
+    activityId ? ["activityPhotos", activityId, stravaAccessToken] : null,
+    ([key, activityId, token]) => getActivityPhotos(activityId, token),
+    {
+      revalidateOnFocus: false
+    }
+  )
+
   useEffect(() => {
-    if (stravaAccessToken && activityId) {
-      getActivityDetails()
-      getActivityPhotos()
+    if (activity && activity.map) {
+      setRoute(polyline.toGeoJSON(activity.map.summary_polyline))
     }
-  }, [activityId, stravaAccessToken])
-
-  // retrieve activity photos from strava api
-  const getActivityPhotos = async () => {
-    try {
-      const activityPhotos = await fetchActivityPhotos(
-        stravaAccessToken,
-        activityId
-      )
-      let photos = []
-      for (const photo of activityPhotos) {
-        photos.push(photo.urls["2000"])
-      }
-      setActivityPhotos(photos)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  // retrive activity details from strava api
-  const getActivityDetails = async () => {
-    try {
-      const activityDetails = await fetchActivityDetails(
-        stravaAccessToken,
-        activityId
-      )
-      setActivityDetails(activityDetails)
-      getGeoJson(activityDetails)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  // get the polyline of the activity route
-  function getGeoJson(data: any) {
-    const polylineData: any = polyline.toGeoJSON(data.map.summary_polyline)
-    setActivityRoute(polylineData)
-  }
+  }, [activity])
 
   return (
     <div className="bg-gray-100">
@@ -114,34 +58,28 @@ export default function ActivityDetails() {
         <div className="mx-6 py-6">
           {/* Header */}
           <div className="mb-6">
-            {activityDetails && (
-              <ActivityHeader activityDetails={activityDetails} />
-            )}
+            {activity && <ActivityHeader activityDetails={activity} />}
           </div>
           {/* Map */}
           <div className="mb-6 h-96">
-            {(activityDetails.start_latlng || []).length !== 0 && (
+            {activity && (activity.start_latlng || []).length !== 0 && (
               <ActivityMap
-                activityId={activityId}
-                activityDetails={activityDetails}
-                activityRoute={activityRoute}
+                activityId={activity.id}
+                activityDetails={activity}
+                activityRoute={route}
                 segmentRoute={segmentRoute}
               />
             )}
           </div>
           {/* Stats */}
-          <div>
-            {activityDetails && (
-              <ActivityStats activityDetails={activityDetails} />
-            )}
-          </div>
+          <div>{activity && <ActivityStats activityDetails={activity} />}</div>
           {/* Tabs */}
           <div className="my-10">
-            {activityDetails && (
+            {activity && (
               <ActivityTabs
-                activityId={activityId}
-                activityDetails={activityDetails}
-                activityPhotos={activityPhotos}
+                activityId={activity.id}
+                activityDetails={activity}
+                activityPhotos={photos}
                 setSegmentRoute={setSegmentRoute}
               />
             )}

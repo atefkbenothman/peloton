@@ -233,7 +233,7 @@ function NavBar() {
           </ul>
 
           {/* Seperator */}
-          <ul className="pt-4 mt-4 space-y-2 text-lg font-semibold border-t border-gray-400 dark:border-gray-700">
+          <ul className="pt-4 mt-4 space-y-2 text-lg font-semibold border-t-2 border-gray-400 dark:border-gray-700">
             {/* Settings */}
             <li>
               <Link

@@ -2,49 +2,37 @@ import React, { useEffect, useState } from "react"
 // mapbox
 import polyline from "@mapbox/polyline"
 // api
-import { fetchSegmentDetail } from "@/utils/api"
-
-interface Segment {
-  average_grade: number
-  climb_category: number
-  distance: number
-  id: number
-  maximum_grade: number
-  name: string
-}
-
-interface SegmentEffort {
-  average_watts: number
-  distance: number
-  elapsed_time: number
-  moving_time: number
-  name: string
-  pr_rank: number
-  segment: Segment
-}
+import { getSegment, fetchSegmentDetail } from "@/utils/api"
+import useSWR from "swr"
 
 export default function Segments({
   segments,
   setSegmentRoute
 }: {
-  segments: SegmentEffort[]
+  segments: any[]
   setSegmentRoute: any
 }) {
   const [stravaAccessToken, setStravaAccessToken] = useState<string>("")
+  const [segmentId, setSegmentId] = useState<number | null>(null)
 
   useEffect(() => {
     setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
   }, [])
 
-  const getSegmentDetails = async (id: number) => {
-    try {
-      const segmentDetails = await fetchSegmentDetail(stravaAccessToken, id)
-      const segmentPolyline = polyline.toGeoJSON(segmentDetails.map.polyline)
-      setSegmentRoute(segmentPolyline)
-    } catch (err) {
-      console.error(err)
+  const { data: segment } = useSWR(
+    segmentId ? ["segment", segmentId, stravaAccessToken] : null,
+    ([key, segmentId, token]) => getSegment(segmentId, token),
+    {
+      revalidateOnFocus: false
     }
-  }
+  )
+
+  useEffect(() => {
+    if (segmentId && segment) {
+      const route = polyline.toGeoJSON(segment.map.polyline)
+      setSegmentRoute(route)
+    }
+  }, [segmentId, segment])
 
   return (
     <div className="max-h-[400px] overflow-y-auto rounded-lg bg-gray-200 border-4 border">
@@ -84,11 +72,11 @@ export default function Segments({
           </tr>
         </thead>
         <tbody className="border-b">
-          {segments.map((s: SegmentEffort, idx) => (
+          {segments.map((s: any, idx) => (
             <tr
               className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer"
               onClick={() => {
-                getSegmentDetails(s.segment.id)
+                setSegmentId(s.segment.id)
               }}
               key={idx + s.segment.id}
             >

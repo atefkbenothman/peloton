@@ -1,5 +1,8 @@
 import React from "react"
 import { useEffect, useState } from "react"
+// components
+import PageHeader from "@/components/pageHeader"
+import PageContent from "@/components/pageContent"
 
 export default function Search() {
   const [stravaAccessToken, setStravaAccessToken] = useState("")
@@ -77,13 +80,10 @@ export default function Search() {
 
   return (
     <div className="bg-gray-100">
-      <div className="min-h-screen mx-6 py-6">
+      <div className="min-h-screen">
         <div className="m-auto">
-          {/* Profile Section */}
-          <div className="mb-10">
-            {/* Title */}
-            <p className="text-3xl font-bold text-black mb-4">Search</p>
-
+          <PageHeader title="Search" />
+          <PageContent>
             {stravaAccessToken ? (
               <>
                 {/* Search */}
@@ -215,7 +215,7 @@ export default function Search() {
                 <p className="font-bold text-red-500">Please login first</p>
               </>
             )}
-          </div>
+          </PageContent>
         </div>
       </div>
     </div>

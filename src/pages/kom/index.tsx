@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 // api
 import { fetchSegments } from "@/utils/api"
 // components
+import PageHeader from "@/components/pageHeader"
+import PageContent from "@/components/pageContent"
 import KomMap from "@/components/kom/map"
 import Segments from "@/components/kom/segments"
 // mapbox
@@ -88,63 +90,66 @@ export default function Kom() {
 
   return (
     <div className="bg-gray-100">
-      <div className="min-h-screen mx-6 py-6">
+      <div className="min-h-screen">
         <div className="m-auto">
-          <h1 className="text-3xl font-bold mb-6">KOM Search</h1>
-
-          <div className="grid grid-cols-4 gap-6">
-            <div className="mt-2 mb-6">
-              <label>radius: </label>
-              <br />
-              <input
-                className="bg-gray-300 border rounded p-1"
-                required
-                onChange={handleRadiusInput}
-                defaultValue={radius}
+          <PageHeader title="KOM Finder" />
+          <PageContent>
+            <div className="w-fit">
+              <div className="flex gap-4">
+                <div className="">
+                  <label>Radius:</label>
+                  <br />
+                  <input
+                    className="bg-gray-300 border rounded p-1 shadow"
+                    required
+                    onChange={handleRadiusInput}
+                    defaultValue={radius}
+                  />
+                </div>
+                <div className="">
+                  <label>Min category:</label>
+                  <br />
+                  <input
+                    className="bg-gray-300 border rounded p-1 shadow"
+                    required
+                    onChange={handleMinCatInput}
+                    defaultValue={minCat}
+                  />
+                </div>
+                <div className="">
+                  <label>Max category:</label>
+                  <br />
+                  <input
+                    className="bg-gray-300 border rounded p-1 shadow"
+                    required
+                    onChange={handleMaxCatInput}
+                    defaultValue={maxCat}
+                  />
+                </div>
+              </div>
+              <div className="w-full my-4">
+                <button
+                  className="btn bg-green-500 text-white rounded p-2 w-full shadow font-bold"
+                  onClick={handleSearch}
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+            <div className="w-full h-96">
+              <KomMap
+                segmentRoute={segmentRoute}
+                coords={startCoords}
+                updateStartCoords={updateStartCoords}
               />
             </div>
-            <div className="mt-2 mb-6">
-              <label>min cat: </label>
-              <br />
-              <input
-                className="bg-gray-300 border rounded p-1"
-                required
-                onChange={handleMinCatInput}
-                defaultValue={minCat}
+            <div className="my-4">
+              <Segments
+                segments={segments}
+                getPolyline={getPolyline}
               />
             </div>
-            <div className="mt-2 mb-6">
-              <label>max cat: </label>
-              <br />
-              <input
-                className="bg-gray-300 border rounded p-1"
-                required
-                onChange={handleMaxCatInput}
-                defaultValue={maxCat}
-              />
-            </div>
-            <div className="mt-7 mb-2">
-              <button
-                className="btn mb-6 bg-green-500 text-white rounded p-2 shadow font-bold"
-                onClick={handleSearch}
-              >
-                Search
-              </button>
-            </div>
-          </div>
-
-          <div className="mb-6 w-full h-96">
-            <KomMap
-              segmentRoute={segmentRoute}
-              coords={startCoords}
-              updateStartCoords={updateStartCoords}
-            />
-          </div>
-
-          <Segments
-            segments={segments}
-            getPolyline={getPolyline}
-          />
+          </PageContent>
         </div>
       </div>
     </div>

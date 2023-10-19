@@ -3,6 +3,9 @@ import { useEffect, useState } from "react"
 // next
 import Image from "next/image"
 import { useRouter } from "next/router"
+// components
+import PageHeader from "@/components/pageHeader"
+import PageContent from "@/components/pageContent"
 // svg
 import stravaConnect from "public/strava-connect.svg"
 
@@ -99,53 +102,55 @@ export default function Login() {
 
   return (
     <div className="bg-gray-100">
-      <div className="min-h-screen mx-6 py-6">
+      <div className="min-h-screen">
         <div className="m-auto">
-          {/* Connect Button */}
-          <div className="mb-4 rounded-lg">
-            <button onClick={requestAccess}>
-              <Image
-                src={stravaConnect}
-                alt="map"
-                className="block p-0 m-0"
-                width={200}
-                height={100}
-              />
-            </button>
-          </div>
-          {/* Debug */}
-          <div className="inline-flex m-2">
-            <p className="font-bold">authorized: </p>
-            {isAuthorized ? (
-              <>
-                <p className="text-green-600 font-bold ml-2">
-                  {isAuthorized.toString()}
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="text-red-600 font-bold ml-2">
-                  {isAuthorized.toString()}
-                </p>
-              </>
-            )}
-          </div>
-          <div>
-            {clientAccessToken && (
-              <div>
-                {isAuthorized && (
-                  <div className="mx-2 my-4">
-                    <button
-                      className="btn bg-blue-300 rounded p-2 shadow font-bold text-white"
-                      onClick={handleRefresh}
-                    >
-                      Refresh
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+          <PageHeader title="Login" />
+          <PageContent>
+            {/* <div className="inline-flex m-1">
+              <p className="font-bold">authorized: </p>
+              {isAuthorized ? (
+                <>
+                  <p className="text-green-600 font-bold ml-2">
+                    {isAuthorized.toString()}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-red-600 font-bold ml-2">
+                    {isAuthorized.toString()}
+                  </p>
+                </>
+              )}
+            </div> */}
+            {/* Connect Button */}
+            <div className="rounded-lg mb-4">
+              <button onClick={requestAccess}>
+                <Image
+                  src={stravaConnect}
+                  alt="map"
+                  width={200}
+                  height={100}
+                />
+              </button>
+            </div>
+            {/* Sign Out Button */}
+            <div className="m-1">
+              {clientAccessToken && (
+                <div>
+                  {isAuthorized && (
+                    <div className="">
+                      <button
+                        className="btn bg-red-500 rounded p-2 shadow font-bold text-white"
+                        onClick={handleRefresh}
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </PageContent>
         </div>
       </div>
     </div>

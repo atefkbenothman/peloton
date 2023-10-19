@@ -1,13 +1,14 @@
 import React from "react"
 import { useEffect, useState } from "react"
+// swr
+import useSWR from "swr"
 // next
 import Image from "next/image"
+// components
+import PageHeader from "@/components/pageHeader"
+import PageContent from "@/components/pageContent"
 // api
-import {
-  fetchAthleteData,
-  fetchAthleteStats,
-  fetchLeaderboard
-} from "@/utils/api"
+import { getAthlete, getAthleteStats } from "@/utils/api"
 
 interface Athlete {
   id: number
@@ -39,92 +40,40 @@ interface AthleteStats {
 
 export default function Profile() {
   const [stravaAccessToken, setStravaAccessToken] = useState<string>("")
-  const [athleteData, setAthleteData] = useState<Athlete>({
-    id: 0,
-    firstname: "",
-    lastname: "",
-    username: "",
-    profile: "",
-    city: "",
-    state: "",
-    country: "",
-    weight: "",
-    ftp: ""
-  })
-  const [athleteStats, setAthleteStats] = useState<AthleteStats>({
-    all_ride_totals: {
-      count: 0,
-      distance: 0,
-      elapsed_time: 0,
-      elevation_gain: 0
-    },
-    ytd_ride_totals: {
-      count: 0,
-      distance: 0,
-      elapsed_time: 0,
-      elevation_gain: 0
-    }
-  })
 
   useEffect(() => {
     setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
   }, [])
 
-  useEffect(() => {
-    if (stravaAccessToken) {
-      getAthleteData()
+  const { data: athlete } = useSWR(
+    stravaAccessToken ? ["athlete", stravaAccessToken] : null,
+    ([key, token]) => getAthlete(token),
+    {
+      revalidateOnFocus: false
     }
-  }, [stravaAccessToken])
+  )
 
-  const getAthleteData = async () => {
-    try {
-      const athleteData = await fetchAthleteData(stravaAccessToken)
-      setAthleteData(athleteData)
-      // get athlete stats
-      getAthleteStats(athleteData.id)
-      // get segment leaderboard
-      // getSegmentLeaderboard()
-    } catch (err) {
-      console.error(err)
+  const { data: athleteStats } = useSWR(
+    athlete ? ["athleteStats", athlete?.id, stravaAccessToken] : null,
+    ([key, athleteId, token]) => getAthleteStats(athleteId, token),
+    {
+      revalidateOnFocus: false
     }
-  }
-
-  const getAthleteStats = async (athleteId: number) => {
-    try {
-      const athleteStats = await fetchAthleteStats(stravaAccessToken, athleteId)
-      setAthleteStats(athleteStats)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  // const getSegmentLeaderboard = async () => {
-  //   try {
-  //     const segmentLeaderboard = await fetchLeaderboard(
-  //       stravaAccessToken,
-  //       "123"
-  //     )
-  //     console.log(segmentLeaderboard)
-  //   } catch (err) {
-  //     console.error(err)
-  //   }
-  // }
+  )
 
   return (
     <div className="bg-gray-100">
-      <div className="min-h-screen mx-6 py-6">
+      <div className="min-h-screen">
         <div className="m-auto">
           {/* Profile Section */}
-          <div className="mb-10">
-            {/* Title */}
-            <p className="text-3xl font-bold text-black mb-4">Profile</p>
-
-            {stravaAccessToken ? (
+          <PageHeader title="Profile" />
+          <PageContent>
+            {athlete && athleteStats ? (
               <>
                 {/* Data */}
                 <div className="flex items-start space-x-4 mb-10">
                   <Image
-                    src={athleteData.profile}
+                    src={athlete.profile}
                     alt="profile picture"
                     className="w-24 h-24 rounded"
                     width={100}
@@ -133,12 +82,11 @@ export default function Profile() {
                   <div className="dark:text-white">
                     <div className="flex items-baseline">
                       <p className="text-xl font-bold">
-                        {athleteData.firstname} {athleteData.lastname}
+                        {athlete.firstname} {athlete.lastname}
                       </p>
                     </div>
                     <div className="text-sm font-normal dark:text-gray-400">
-                      {athleteData.city}, {athleteData.state},{" "}
-                      {athleteData.country}
+                      {athlete.city}, {athlete.state}, {athlete.country}
                     </div>
                   </div>
                 </div>
@@ -151,8 +99,8 @@ export default function Profile() {
                     {/* Data */}
                     <div className="grid grid-cols-1">
                       <div className="m-2">
-                        <p>Weight: {athleteData.weight || "null"} kg</p>
-                        <p>FTP: {athleteData.ftp || "null"}</p>
+                        <p>Weight: {athlete.weight || "null"} kg</p>
+                        <p>FTP: {athlete.ftp || "null"}</p>
                       </div>
                     </div>
                   </div>
@@ -298,7 +246,7 @@ export default function Profile() {
                 <p className="font-bold text-red-500">Please login first</p>
               </>
             )}
-          </div>
+          </PageContent>
         </div>
       </div>
     </div>

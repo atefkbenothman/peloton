@@ -1,5 +1,9 @@
 import React from "react"
 import { useEffect, useState } from "react"
+// swr
+import useSWR from "swr"
+// api
+import { getActivityStream } from "@/utils/api"
 // chartjs
 import {
   Chart as ChartJS,
@@ -13,8 +17,6 @@ import {
   Filler
 } from "chart.js"
 import { Line } from "react-chartjs-2"
-// api
-import { fetchActivityStream } from "@/utils/api"
 
 ChartJS.register(
   CategoryScale,
@@ -27,59 +29,27 @@ ChartJS.register(
   Filler
 )
 
-interface ActivityStream {
-  time: number[]
-  distance: number[]
-  moving: number[]
-  velocity: number[]
-  altitude: number[]
-  grade: number[]
-}
-
 export default function Analysis({ activityId }: { activityId: string }) {
   const [stravaAccessToken, setStravaAccessToken] = useState<string>("")
-  const [loading, setLoading] = useState<boolean>(true)
-  const [activityStreamData, setActivityStreamData] = useState<ActivityStream>({
-    time: [],
-    distance: [],
-    moving: [],
-    velocity: [],
-    altitude: [],
-    grade: []
-  })
 
-  // retrive strava accessToken from sessionStorage
   useEffect(() => {
     setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
   }, [])
 
-  useEffect(() => {
-    if (stravaAccessToken) {
-      getActivityStream()
+  const {
+    data: activityStream,
+    error,
+    isLoading
+  } = useSWR(
+    stravaAccessToken
+      ? ["activityStream", activityId, stravaAccessToken]
+      : null,
+    ([key, activityId, token]) => getActivityStream(activityId, token),
+    {
+      revalidateOnFocus: false
     }
-  }, [stravaAccessToken])
+  )
 
-  const getActivityStream = async () => {
-    try {
-      const activityStream = await fetchActivityStream(
-        stravaAccessToken,
-        activityId
-      )
-      setActivityStreamData({
-        time: activityStream["time"]["data"],
-        distance: activityStream["distance"]["data"],
-        moving: activityStream["moving"]["data"],
-        altitude: activityStream["altitude"]["data"],
-        grade: activityStream["grade_smooth"]["data"],
-        velocity: activityStream["velocity_smooth"]["data"]
-      })
-      setLoading(false)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  // line graph options
   const options = {
     responsive: true,
     plugins: {
@@ -107,35 +77,38 @@ export default function Analysis({ activityId }: { activityId: string }) {
     }
   }
 
-  const data = {
-    labels: activityStreamData.time.map((t) => t),
-    datasets: [
-      {
-        label: "Speed",
-        fill: false,
-        pointStyle: false,
-        data: Object.values(activityStreamData.velocity),
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)"
-      },
-      {
-        label: "Grade",
-        fill: false,
-        pointStyle: false,
-        data: Object.values(activityStreamData.grade),
-        borderColor: "rgb(255, 206, 86)",
-        backgroundColor: "rgba(255, 206, 86, 0.5)"
-      },
-      {
-        label: "Elevation",
-        fill: true,
-        pointStyle: false,
-        data: Object.values(activityStreamData.altitude),
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-        yAxisID: "elevationYAxis"
-      }
-    ]
+  let data = null
+  if (activityStream) {
+    data = {
+      labels: activityStream.time.data.map((t: any) => t),
+      datasets: [
+        {
+          label: "Speed",
+          fill: false,
+          pointStyle: false,
+          data: Object.values(activityStream.velocity_smooth.data),
+          borderColor: "rgb(53, 162, 235)",
+          backgroundColor: "rgba(53, 162, 235, 0.5)"
+        },
+        {
+          label: "Grade",
+          fill: false,
+          pointStyle: false,
+          data: Object.values(activityStream.grade_smooth.data),
+          borderColor: "rgb(255, 206, 86)",
+          backgroundColor: "rgba(255, 206, 86, 0.5)"
+        },
+        {
+          label: "Elevation",
+          fill: true,
+          pointStyle: false,
+          data: Object.values(activityStream.altitude.data),
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
+          yAxisID: "elevationYAxis"
+        }
+      ]
+    }
   }
 
   return (
@@ -143,16 +116,20 @@ export default function Analysis({ activityId }: { activityId: string }) {
       className="flex justify-center items-center"
       style={{ width: "99%" }}
     >
-      {loading ? (
+      {isLoading ? (
         <>
           <p>loading...</p>
         </>
       ) : (
         <>
-          <Line
-            options={options}
-            data={data as any}
-          />
+          {activityStream && activityStream.time ? (
+            <Line
+              options={options}
+              data={data as any}
+            />
+          ) : (
+            <p>data is missing</p>
+          )}
         </>
       )}
     </div>
