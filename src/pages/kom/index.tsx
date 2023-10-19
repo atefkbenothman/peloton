@@ -1,7 +1,9 @@
 import React from "react"
 import { useEffect, useState } from "react"
+// swr
+import useSWR from "swr"
 // api
-import { fetchSegments } from "@/utils/api"
+import { getNearbySegments } from "@/utils/api"
 // components
 import PageHeader from "@/components/pageHeader"
 import PageContent from "@/components/pageContent"
@@ -12,7 +14,6 @@ import polyline from "@mapbox/polyline"
 
 export default function Kom() {
   const [stravaAccessToken, setStravaAccessToken] = useState("")
-  const [segments, setSegments] = useState<any[]>([])
   const [radius, setRadius] = useState(645) // in meters. ~0.4 miles
   const [minCat, setMinCat] = useState("0")
   const [maxCat, setMaxCat] = useState("5")
@@ -21,10 +22,21 @@ export default function Kom() {
     longitude: -122.43640674612058,
     latitude: 37.77028481277563
   })
+  const [coords, setCoords] = useState<any>(null)
 
   useEffect(() => {
     setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
   }, [])
+
+  const { data: segments } = useSWR(
+    stravaAccessToken && coords
+      ? ["nearbySegments", coords, stravaAccessToken]
+      : null,
+    ([key, coords, token]) => getNearbySegments(coords, token),
+    {
+      revalidateOnFocus: false
+    }
+  )
 
   function handleRadiusInput(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault()
@@ -43,8 +55,7 @@ export default function Kom() {
 
   function handleSearch(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
-    const boundsStr = calculateBounds()
-    searchSegment(boundsStr)
+    calculateBounds()
   }
 
   // get the top left coordinate and bottom right coordinate of a
@@ -67,25 +78,16 @@ export default function Kom() {
     const bottomRightLon = centerLon + dLon
 
     const boundsStr = `${topLeftLat},${topLeftLon},${bottomRightLat},${bottomRightLon}`
-    return boundsStr
-  }
-
-  function getPolyline(pl: string) {
-    const geoJson: any = polyline.toGeoJSON(pl)
-    setSegmentRoute(geoJson)
+    setCoords(boundsStr)
   }
 
   const updateStartCoords = (newCoords: any) => {
     setStartCoords(newCoords)
   }
 
-  const searchSegment = async (coords: string) => {
-    try {
-      const allSegments = await fetchSegments(stravaAccessToken, coords)
-      setSegments(allSegments.segments)
-    } catch (err) {
-      console.log(err)
-    }
+  function getPolyline(pl: string) {
+    const geoJson: any = polyline.toGeoJSON(pl)
+    setSegmentRoute(geoJson)
   }
 
   return (
@@ -145,7 +147,7 @@ export default function Kom() {
             </div>
             <div className="my-4">
               <Segments
-                segments={segments}
+                segments={segments?.segments || []}
                 getPolyline={getPolyline}
               />
             </div>

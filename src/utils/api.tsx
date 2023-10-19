@@ -137,6 +137,7 @@ export async function getSegment(
   }
 }
 
+// return all activities after a given date
 export async function getAllAthleteActivities(
   date: Date | null,
   stravaAccessToken: string | null
@@ -185,7 +186,10 @@ export async function getAllAthleteActivities(
 }
 
 // return the top 10 segments matching a specified query
-export async function fetchSegments(stravaAccessToken: string, coords: string) {
+export async function getNearbySegments(
+  coords: string,
+  stravaAccessToken: string
+) {
   const params = new URLSearchParams({
     bounds: coords,
     activity_type: "riding"

@@ -2,41 +2,13 @@ import React from "react"
 import { useEffect, useState } from "react"
 // swr
 import useSWR from "swr"
+// api
+import { getAthlete, getAthleteStats } from "@/utils/api"
 // next
 import Image from "next/image"
 // components
 import PageHeader from "@/components/pageHeader"
 import PageContent from "@/components/pageContent"
-// api
-import { getAthlete, getAthleteStats } from "@/utils/api"
-
-interface Athlete {
-  id: number
-  firstname: string
-  lastname: string
-  username: string
-  profile: string
-  city: string
-  state: string
-  country: string
-  weight: string
-  ftp: string
-}
-
-interface AthleteStats {
-  all_ride_totals: {
-    count: number
-    distance: number
-    elapsed_time: number
-    elevation_gain: number
-  }
-  ytd_ride_totals: {
-    count: number
-    distance: number
-    elapsed_time: number
-    elevation_gain: number
-  }
-}
 
 export default function Profile() {
   const [stravaAccessToken, setStravaAccessToken] = useState<string>("")
