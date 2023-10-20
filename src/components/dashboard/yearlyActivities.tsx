@@ -53,7 +53,7 @@ export default function YearlyActivities({
       })
       setMonthlyActivities(acts)
     }
-  }, [data])
+  }, [data, monthlyActivities])
 
   const barData = {
     labels: Object.keys(monthlyActivities),

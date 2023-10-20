@@ -30,11 +30,13 @@ export default function MonthlyDistance({
     4: 0
   })
 
-  const currentYear = new Date().getFullYear()
-  const currentMonth = new Date().getMonth()
-  const currentMonthStr = new Date().toLocaleString("en-US", { month: "short" })
+  const currentMonthStr = new Date().toLocaleString("en-US", {
+    month: "short"
+  })
 
   useEffect(() => {
+    const currentYear = new Date().getFullYear()
+    const currentMonth = new Date().getMonth()
     if (data) {
       const firstDayOfMonth = new Date(currentYear, currentMonth, 1)
       const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0)
@@ -51,7 +53,7 @@ export default function MonthlyDistance({
       })
       setWeeklyDistance(acts)
     }
-  }, [data])
+  }, [data, weeklyDistance])
 
   const barData = {
     labels: Object.keys(weeklyDistance),
