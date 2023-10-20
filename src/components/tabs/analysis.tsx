@@ -1,5 +1,7 @@
 import React from "react"
 import { useEffect, useState } from "react"
+// components
+import LoadingIndicator from "../loadingIndicator"
 // swr
 import useSWR from "swr"
 // api
@@ -46,7 +48,9 @@ export default function Analysis({ activityId }: { activityId: string }) {
       : null,
     ([key, activityId, token]) => getActivityStream(activityId, token),
     {
-      revalidateOnFocus: false
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false
     }
   )
 
@@ -117,9 +121,7 @@ export default function Analysis({ activityId }: { activityId: string }) {
       style={{ width: "99%" }}
     >
       {isLoading ? (
-        <>
-          <p>loading...</p>
-        </>
+        <LoadingIndicator />
       ) : (
         <>
           {activityStream && activityStream.time ? (

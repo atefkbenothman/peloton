@@ -57,33 +57,37 @@ export default function ActivityTabs({
 }) {
   return (
     <>
-      <Tabs.Group
-        style="default"
-        theme={customTheme}
-      >
-        {/* segments */}
-        <Tabs.Item
-          active
-          title={`Segments (${activityDetails.segment_efforts.length})`}
+      {activityId && activityDetails && activityPhotos ? (
+        <Tabs.Group
+          style="default"
+          theme={customTheme}
         >
-          <Segments
-            segments={activityDetails.segment_efforts}
-            setSegmentRoute={setSegmentRoute}
-          />
-        </Tabs.Item>
-        {/* power zones */}
-        <Tabs.Item title="Power Zones">
-          <PowerZones segmentEfforts={activityDetails.segment_efforts} />
-        </Tabs.Item>
-        {/* analytics */}
-        <Tabs.Item title="Analysis">
-          {activityId && <Analysis activityId={activityId} />}
-        </Tabs.Item>
-        {/* photos */}
-        <Tabs.Item title={`Photos (${activityPhotos.length})`}>
-          {activityPhotos && <Photos photos={activityPhotos} />}
-        </Tabs.Item>
-      </Tabs.Group>
+          {/* segments */}
+          <Tabs.Item
+            active
+            title={`Segments (${activityDetails.segment_efforts.length})`}
+          >
+            <Segments
+              segments={activityDetails.segment_efforts}
+              setSegmentRoute={setSegmentRoute}
+            />
+          </Tabs.Item>
+          {/* power zones */}
+          <Tabs.Item title="Power Zones">
+            <PowerZones segmentEfforts={activityDetails.segment_efforts} />
+          </Tabs.Item>
+          {/* analytics */}
+          <Tabs.Item title="Analysis">
+            {activityId && <Analysis activityId={activityId} />}
+          </Tabs.Item>
+          {/* photos */}
+          <Tabs.Item title={`Photos (${activityPhotos.length})`}>
+            {activityPhotos && <Photos photos={activityPhotos} />}
+          </Tabs.Item>
+        </Tabs.Group>
+      ) : (
+        <></>
+      )}
     </>
   )
 }

@@ -2,11 +2,13 @@ import React from "react"
 import { useEffect, useState } from "react"
 // swr
 import useSWR from "swr"
+// api
+import { getAllAthleteActivities } from "@/utils/api"
 // components
 import PageHeader from "@/components/pageHeader"
 import PageContent from "@/components/pageContent"
-// api
-import { getAllAthleteActivities } from "@/utils/api"
+import LoginFirst from "@/components/loginFirst"
+import LoadingIndicator from "@/components/loadingIndicator"
 
 export default function Search() {
   const [stravaAccessToken, setStravaAccessToken] = useState("")
@@ -32,7 +34,9 @@ export default function Search() {
     stravaAccessToken ? ["allActivities", null, stravaAccessToken] : null,
     ([key, fromDate, token]) => getAllAthleteActivities(fromDate, token),
     {
-      revalidateOnFocus: false
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false
     }
   )
 
@@ -62,7 +66,7 @@ export default function Search() {
           <PageContent>
             {stravaAccessToken ? (
               isLoading ? (
-                <p>Loading...</p>
+                <LoadingIndicator />
               ) : (
                 <>
                   {/* Search */}
@@ -197,9 +201,7 @@ export default function Search() {
                 </>
               )
             ) : (
-              <>
-                <p className="font-bold text-red-500">Please login first</p>
-              </>
+              <LoginFirst />
             )}
           </PageContent>
         </div>

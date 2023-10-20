@@ -31,18 +31,26 @@ export default function ActivityDetails() {
   }, [])
 
   const { data: activity } = useSWR(
-    activityId ? ["activity", activityId, stravaAccessToken] : null,
+    activityId && stravaAccessToken
+      ? ["activity", activityId, stravaAccessToken]
+      : null,
     ([key, activityId, token]) => getActivity(activityId, token),
     {
-      revalidateOnFocus: false
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false
     }
   )
 
   const { data: photos } = useSWR(
-    activityId ? ["activityPhotos", activityId, stravaAccessToken] : null,
+    activityId && stravaAccessToken
+      ? ["activityPhotos", activityId, stravaAccessToken]
+      : null,
     ([key, activityId, token]) => getActivityPhotos(activityId, token),
     {
-      revalidateOnFocus: false
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false
     }
   )
 

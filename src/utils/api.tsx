@@ -167,6 +167,9 @@ export async function getAllAthleteActivities(
           Authorization: "Bearer " + stravaAccessToken
         }
       })
+      if (!res.ok) {
+        break
+      }
       const data = await res.json()
       // check if there are still activities on this page
       if (data.length === 0) {

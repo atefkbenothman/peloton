@@ -1,18 +1,21 @@
 import React from "react"
 // next
+import { useRouter } from "next/router"
 import Image from "next/image"
 // mapbox
 import mapboxgl from "mapbox-gl"
 import polyline from "@mapbox/polyline"
 
 export default function ActivityCard({ activity }: { activity: any }) {
+  const router = useRouter()
+
   // set mapbox access token
   const mapboxAccessToken: string =
     process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN?.toString() || ""
   mapboxgl.accessToken = mapboxAccessToken
 
   function goToActivityPage() {
-    window.location.href = `/activities/${activity.id}`
+    router.push(`/activities/${activity.id}`)
   }
 
   return (

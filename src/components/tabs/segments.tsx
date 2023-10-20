@@ -20,10 +20,14 @@ export default function Segments({
   }, [])
 
   const { data: segment } = useSWR(
-    segmentId ? ["segment", segmentId, stravaAccessToken] : null,
+    segmentId && stravaAccessToken
+      ? ["segment", segmentId, stravaAccessToken]
+      : null,
     ([key, segmentId, token]) => getSegment(segmentId, token),
     {
-      revalidateOnFocus: false
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false
     }
   )
 

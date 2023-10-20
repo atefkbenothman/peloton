@@ -9,6 +9,7 @@ import PageHeader from "@/components/pageHeader"
 import PageContent from "@/components/pageContent"
 import KomMap from "@/components/kom/map"
 import Segments from "@/components/kom/segments"
+import LoginFirst from "@/components/loginFirst"
 // mapbox
 import polyline from "@mapbox/polyline"
 
@@ -34,7 +35,9 @@ export default function Kom() {
       : null,
     ([key, coords, token]) => getNearbySegments(coords, token),
     {
-      revalidateOnFocus: false
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false
     }
   )
 
@@ -96,61 +99,67 @@ export default function Kom() {
         <div className="m-auto">
           <PageHeader title="KOM Finder" />
           <PageContent>
-            <div className="w-fit">
-              <div className="flex gap-4">
-                <div className="">
-                  <label>Radius:</label>
-                  <br />
-                  <input
-                    className="bg-gray-300 border rounded p-1 shadow"
-                    required
-                    onChange={handleRadiusInput}
-                    defaultValue={radius}
+            {stravaAccessToken ? (
+              <>
+                <div className="w-fit">
+                  <div className="flex gap-4">
+                    <div className="">
+                      <label>Radius:</label>
+                      <br />
+                      <input
+                        className="bg-gray-300 border rounded p-1 shadow"
+                        required
+                        onChange={handleRadiusInput}
+                        defaultValue={radius}
+                      />
+                    </div>
+                    <div className="">
+                      <label>Min category:</label>
+                      <br />
+                      <input
+                        className="bg-gray-300 border rounded p-1 shadow"
+                        required
+                        onChange={handleMinCatInput}
+                        defaultValue={minCat}
+                      />
+                    </div>
+                    <div className="">
+                      <label>Max category:</label>
+                      <br />
+                      <input
+                        className="bg-gray-300 border rounded p-1 shadow"
+                        required
+                        onChange={handleMaxCatInput}
+                        defaultValue={maxCat}
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full my-4">
+                    <button
+                      className="btn bg-green-500 text-white rounded p-2 w-full shadow font-bold"
+                      onClick={handleSearch}
+                    >
+                      Search
+                    </button>
+                  </div>
+                </div>
+                <div className="w-full h-96">
+                  <KomMap
+                    segmentRoute={segmentRoute}
+                    coords={startCoords}
+                    updateStartCoords={updateStartCoords}
                   />
                 </div>
-                <div className="">
-                  <label>Min category:</label>
-                  <br />
-                  <input
-                    className="bg-gray-300 border rounded p-1 shadow"
-                    required
-                    onChange={handleMinCatInput}
-                    defaultValue={minCat}
+                <div className="my-4">
+                  <Segments
+                    segments={segments?.segments || []}
+                    getPolyline={getPolyline}
                   />
                 </div>
-                <div className="">
-                  <label>Max category:</label>
-                  <br />
-                  <input
-                    className="bg-gray-300 border rounded p-1 shadow"
-                    required
-                    onChange={handleMaxCatInput}
-                    defaultValue={maxCat}
-                  />
-                </div>
-              </div>
-              <div className="w-full my-4">
-                <button
-                  className="btn bg-green-500 text-white rounded p-2 w-full shadow font-bold"
-                  onClick={handleSearch}
-                >
-                  Search
-                </button>
-              </div>
-            </div>
-            <div className="w-full h-96">
-              <KomMap
-                segmentRoute={segmentRoute}
-                coords={startCoords}
-                updateStartCoords={updateStartCoords}
-              />
-            </div>
-            <div className="my-4">
-              <Segments
-                segments={segments?.segments || []}
-                getPolyline={getPolyline}
-              />
-            </div>
+              </>
+            ) : (
+              <LoginFirst />
+            )}
           </PageContent>
         </div>
       </div>

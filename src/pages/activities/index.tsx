@@ -6,6 +6,8 @@ import useSWR from "swr"
 import PageHeader from "@/components/pageHeader"
 import PageContent from "@/components/pageContent"
 import ActivityCard from "@/components/activityCard"
+import LoginFirst from "@/components/loginFirst"
+import LoadingIndicator from "@/components/loadingIndicator"
 // api
 import { getAthleteActivities } from "@/utils/api"
 
@@ -25,7 +27,9 @@ export default function Activities() {
     stravaAccessToken ? ["activities", stravaAccessToken] : null,
     ([key, token]) => getAthleteActivities(token),
     {
-      revalidateOnFocus: false
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false
     }
   )
 
@@ -34,19 +38,25 @@ export default function Activities() {
       <div className="min-h-screen m-auto">
         <PageHeader title="Activities" />
         <PageContent>
-          <div className="w-full px-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-            {isLoading ? (
-              <p>Loading...</p>
-            ) : (
-              Array.isArray(activities) &&
-              activities.map((activity) => (
-                <ActivityCard
-                  key={activity.id}
-                  activity={activity}
-                />
-              ))
-            )}
-          </div>
+          {stravaAccessToken ? (
+            <div>
+              {isLoading ? (
+                <LoadingIndicator />
+              ) : (
+                <div className="w-full px-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+                  {Array.isArray(activities) &&
+                    activities.map((activity) => (
+                      <ActivityCard
+                        key={activity.id}
+                        activity={activity}
+                      />
+                    ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <LoginFirst />
+          )}
         </PageContent>
       </div>
     </div>
