@@ -12,6 +12,7 @@ import YearlyActivities from "@/components/dashboard/yearlyActivities"
 import YearlyDistance from "@/components/dashboard/yearlyDistance"
 import MonthlyDistance from "@/components/dashboard/monthlyDistance"
 import DailyDistance from "@/components/dashboard/dailyDistance"
+import ErrorCard from "@/components/errorCard"
 
 export default function Home() {
   const [stravaAccessToken, setStravaAccessToken] = useState("")
@@ -30,7 +31,10 @@ export default function Home() {
     {
       revalidateIfStale: false,
       revalidateOnFocus: false,
-      revalidateOnReconnect: false
+      revalidateOnReconnect: false,
+      onErrorRetry: (error) => {
+        if (error.status === 429) return
+      }
     }
   )
 
@@ -40,31 +44,37 @@ export default function Home() {
         <div className="m-auto">
           <PageHeader title={"Dashboard"} />
           <PageContent>
-            {stravaAccessToken ? (
-              <div className="grid grid-cols-3">
-                <div>
-                  <YearlyActivities
-                    data={activities}
-                    loading={isLoading}
-                  />
-                  <YearlyDistance
-                    data={activities}
-                    loading={isLoading}
-                  />
-                </div>
-                <div>
-                  <MonthlyDistance
-                    data={activities}
-                    loading={isLoading}
-                  />
-                  <DailyDistance
-                    data={activities}
-                    loading={isLoading}
-                  />
-                </div>
-              </div>
+            {error ? (
+              <ErrorCard error={error} />
             ) : (
-              <LoginFirst />
+              <>
+                {stravaAccessToken ? (
+                  <div className="grid grid-cols-3">
+                    <div>
+                      <YearlyActivities
+                        data={activities}
+                        loading={isLoading}
+                      />
+                      <YearlyDistance
+                        data={activities}
+                        loading={isLoading}
+                      />
+                    </div>
+                    <div>
+                      <MonthlyDistance
+                        data={activities}
+                        loading={isLoading}
+                      />
+                      <DailyDistance
+                        data={activities}
+                        loading={isLoading}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <LoginFirst />
+                )}
+              </>
             )}
           </PageContent>
         </div>

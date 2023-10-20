@@ -62,36 +62,34 @@ export default function ActivityDetails() {
 
   return (
     <div className="bg-gray-100">
-      <div className="w-full">
-        <div className="mx-6 py-6">
-          {/* Header */}
-          <div className="mb-6">
-            {activity && <ActivityHeader activityDetails={activity} />}
-          </div>
-          {/* Map */}
-          <div className="mb-6 h-96">
-            {activity && (activity.start_latlng || []).length !== 0 && (
-              <ActivityMap
-                activityId={activity.id}
-                activityDetails={activity}
-                activityRoute={route}
-                segmentRoute={segmentRoute}
-              />
-            )}
-          </div>
-          {/* Stats */}
-          <div>{activity && <ActivityStats activityDetails={activity} />}</div>
-          {/* Tabs */}
-          <div className="my-4">
-            {activity && (
-              <ActivityTabs
-                activityId={activity.id}
-                activityDetails={activity}
-                activityPhotos={photos}
-                setSegmentRoute={setSegmentRoute}
-              />
-            )}
-          </div>
+      <div className="mx-6 py-6">
+        {/* Header */}
+        <div className="mb-6">
+          {activity && <ActivityHeader activityDetails={activity} />}
+        </div>
+        {/* Map */}
+        <div className="mb-6 h-96">
+          {activity && (activity.start_latlng || []).length !== 0 && (
+            <ActivityMap
+              activityId={activity.id}
+              activityDetails={activity}
+              activityRoute={route}
+              segmentRoute={segmentRoute}
+            />
+          )}
+        </div>
+        {/* Stats */}
+        <div>{activity && <ActivityStats activityDetails={activity} />}</div>
+        {/* Tabs */}
+        <div className="my-4">
+          {activity && (
+            <ActivityTabs
+              activityId={activity.id}
+              activityDetails={activity}
+              activityPhotos={photos}
+              setSegmentRoute={setSegmentRoute}
+            />
+          )}
         </div>
       </div>
     </div>

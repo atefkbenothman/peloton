@@ -56,28 +56,32 @@ export default function Analysis({ activityId }: { activityId: string }) {
 
   const options = {
     responsive: true,
-    plugins: {
-      legend: {
-        position: "top" as const
-      },
-      title: {
-        display: true,
-        text: "Stream Data"
-      }
-    },
-    scales: {
-      x: {
-        display: false
-      },
-      y: {
-        display: false
-      }
-    },
     elevationYAxis: {
       type: "linear" // or "log"
     },
-    animation: {
-      duration: 0
+    responsiveAnimationDuration: 0, // animation duration after a resize
+    animation: false,
+    parsing: true,
+    spanGaps: false,
+    showLine: true,
+    pointRadius: 0,
+    xAxes: [
+      {
+        type: "time",
+        ticks: {
+          autoSkip: true,
+          maxTicksLimit: 20
+        }
+      }
+    ],
+    scales: {
+      x: {
+        ticks: {
+          maxRotation: 0,
+          autoSkip: true,
+          maxTicksLimit: 20
+        }
+      }
     }
   }
 
@@ -92,7 +96,8 @@ export default function Analysis({ activityId }: { activityId: string }) {
           pointStyle: false,
           data: Object.values(activityStream.velocity_smooth.data),
           borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.5)"
+          backgroundColor: "rgba(53, 162, 235, 0.5)",
+          normalized: true
         },
         {
           label: "Grade",
@@ -100,7 +105,8 @@ export default function Analysis({ activityId }: { activityId: string }) {
           pointStyle: false,
           data: Object.values(activityStream.grade_smooth.data),
           borderColor: "rgb(255, 206, 86)",
-          backgroundColor: "rgba(255, 206, 86, 0.5)"
+          backgroundColor: "rgba(255, 206, 86, 0.5)",
+          normalized: true
         },
         {
           label: "Elevation",
@@ -109,26 +115,30 @@ export default function Analysis({ activityId }: { activityId: string }) {
           data: Object.values(activityStream.altitude.data),
           borderColor: "rgb(255, 99, 132)",
           backgroundColor: "rgba(255, 99, 132, 0.5)",
-          yAxisID: "elevationYAxis"
+          yAxisID: "elevationYAxis",
+          normalized: true
         }
       ]
     }
   }
 
   return (
-    <div
-      className="flex justify-center items-center"
-      style={{ width: "99%" }}
-    >
+    <div>
       {isLoading ? (
         <LoadingIndicator />
       ) : (
         <>
           {activityStream && activityStream.time ? (
-            <Line
-              options={options}
-              data={data as any}
-            />
+            <div className="grid grid-cols-1 gap-10 w-3/4">
+              <div>
+                <p className="font-bold text-lg">Stream</p>
+                <Line
+                  className="bg-gray-200 p-2 rounded-lg border-0"
+                  data={data as any}
+                  options={options as any}
+                />
+              </div>
+            </div>
           ) : (
             <p>data is missing</p>
           )}

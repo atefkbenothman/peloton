@@ -1,18 +1,23 @@
 // return the currently authenticated athlete
 export async function getAthlete(stravaAccessToken: string | null) {
-  try {
-    const athleteDataURL = "https://www.strava.com/api/v3/athlete"
-    const res = await fetch(athleteDataURL, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + stravaAccessToken
-      }
-    })
-    const data = await res.json()
-    return data
-  } catch (err) {
-    console.error(err)
+  const athleteDataURL = "https://www.strava.com/api/v3/athlete"
+  const res = await fetch(athleteDataURL, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + stravaAccessToken
+    }
+  })
+  if (!res.ok) {
+    const error: any = new Error(
+      `an error occurred while fetching the api "${athleteDataURL}".`
+    )
+    const e = await res.json()
+    error.info = e.message
+    error.status = res.status
+    throw error
   }
+  const data = await res.json()
+  return data
 }
 
 // return the activity stats of an athlete
@@ -20,19 +25,24 @@ export async function getAthleteStats(
   athleteId: number,
   stravaAccessToken: string | null
 ) {
-  try {
-    const athleteStatsURL = `https://www.strava.com/api/v3/athletes/${athleteId}/stats`
-    const res = await fetch(athleteStatsURL, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + stravaAccessToken
-      }
-    })
-    const data = await res.json()
-    return data
-  } catch (err) {
-    console.error(err)
+  const athleteStatsURL = `https://www.strava.com/api/v3/athletes/${athleteId}/stats`
+  const res = await fetch(athleteStatsURL, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + stravaAccessToken
+    }
+  })
+  if (!res.ok) {
+    const error: any = new Error(
+      `an error occurred while fetching the api "${athleteStatsURL}".`
+    )
+    const e = await res.json()
+    error.info = e.message
+    error.status = res.status
+    throw error
   }
+  const data = await res.json()
+  return data
 }
 
 // return the the authenticated athlete's heart rate and power zones
@@ -45,6 +55,15 @@ export async function getAthleteZones(stravaAccessToken: string | null) {
         Authorization: "Bearer " + stravaAccessToken
       }
     })
+    if (!res.ok) {
+      const error: any = new Error(
+        `an error occurred while fetching the api "${athleteZonesURL}".`
+      )
+      const e = await res.json()
+      error.info = e.message
+      error.status = res.status
+      throw error
+    }
     const data = await res.json()
     return data
   } catch (err) {
@@ -56,18 +75,23 @@ export async function getAthleteZones(stravaAccessToken: string | null) {
 export async function getAthleteActivities(stravaAccessToken: string | null) {
   const numActivities = 15
   const activitiesURL = `https://www.strava.com/api/v3/athlete/activities?per_page=${numActivities}`
-  try {
-    const res = await fetch(activitiesURL, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + stravaAccessToken
-      }
-    })
-    const data = await res.json()
-    return data
-  } catch (err) {
-    console.error(err)
+  const res = await fetch(activitiesURL, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + stravaAccessToken
+    }
+  })
+  if (!res.ok) {
+    const error: any = new Error(
+      `an error occurred while fetching the api "${activitiesURL}".`
+    )
+    const e = await res.json()
+    error.info = e.message
+    error.status = res.status
+    throw error
   }
+  const data = await res.json()
+  return data
 }
 
 // return the given activity that is owned by the authenticated athlete
@@ -76,18 +100,23 @@ export async function getActivity(
   stravaAccessToken: string
 ) {
   const activityURL = `https://www.strava.com/api/v3/activities/${activityId}`
-  try {
-    const res = await fetch(activityURL, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + stravaAccessToken
-      }
-    })
-    const data = await res.json()
-    return data
-  } catch (err) {
-    console.error(err)
+  const res = await fetch(activityURL, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + stravaAccessToken
+    }
+  })
+  if (!res.ok) {
+    const error: any = new Error(
+      `an error occurred while fetching the api "${activityURL}".`
+    )
+    const e = await res.json()
+    error.info = e.message
+    error.status = res.status
+    throw error
   }
+  const data = await res.json()
+  return data
 }
 
 // return all photos from a given activity
@@ -95,23 +124,28 @@ export async function getActivityPhotos(
   activityId: string,
   stravaAccessToken: string
 ) {
-  try {
-    const activityPhotosURL = `https://www.strava.com/api/v3/activities/${activityId}/photos?size=2000&photo_sources=true`
-    const res = await fetch(activityPhotosURL, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + stravaAccessToken
-      }
-    })
-    const data = await res.json()
-    let photos = []
-    for (const photo of data) {
-      photos.push(photo.urls["2000"])
+  const activityPhotosURL = `https://www.strava.com/api/v3/activities/${activityId}/photos?size=2000&photo_sources=true`
+  const res = await fetch(activityPhotosURL, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + stravaAccessToken
     }
-    return photos
-  } catch (err) {
-    console.error(err)
+  })
+  if (!res.ok) {
+    const error: any = new Error(
+      `an error occurred while fetching the api "${activityPhotosURL}".`
+    )
+    const e = await res.json()
+    error.info = e.message
+    error.status = res.status
+    throw error
   }
+  const data = await res.json()
+  let photos = []
+  for (const photo of data) {
+    photos.push(photo.urls["2000"])
+  }
+  return photos
 }
 
 // return the given activity's streams
@@ -120,18 +154,23 @@ export async function getActivityStream(
   stravaAccessToken: string
 ) {
   const activityStreamURL = `https://www.strava.com/api/v3/activities/${activityId}/streams?keys=time,distance,velocity_smooth,watts,grade_smooth,moving,altitude&key_by_type=true`
-  try {
-    const res = await fetch(activityStreamURL, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + stravaAccessToken
-      }
-    })
-    const data = await res.json()
-    return data
-  } catch (err) {
-    console.error(err)
+  const res = await fetch(activityStreamURL, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + stravaAccessToken
+    }
+  })
+  if (!res.ok) {
+    const error: any = new Error(
+      `an error occurred while fetching the api "${activityStreamURL}".`
+    )
+    const e = await res.json()
+    error.info = e.message
+    error.status = res.status
+    throw error
   }
+  const data = await res.json()
+  return data
 }
 
 // return a segment effort from an activity that is owned by the authenticated athlete
@@ -140,18 +179,23 @@ export async function getSegment(
   stravaAccessToken: string | null
 ) {
   const segmentURL = `https://www.strava.com/api/v3/segments/${segmentId}`
-  try {
-    const res = await fetch(segmentURL, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + stravaAccessToken
-      }
-    })
-    const data = await res.json()
-    return data
-  } catch (err) {
-    console.error(err)
+  const res = await fetch(segmentURL, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + stravaAccessToken
+    }
+  })
+  if (!res.ok) {
+    const error: any = new Error(
+      `an error occurred while fetching the api "${segmentURL}".`
+    )
+    const e = await res.json()
+    error.info = e.message
+    error.status = res.status
+    throw error
   }
+  const data = await res.json()
+  return data
 }
 
 // return all activities after a given date
@@ -168,41 +212,43 @@ export async function getAllAthleteActivities(
   const dateToEpoch = (Date.parse(date.toISOString()) / 1000).toString()
   let allActivities: any = []
   let page = 1
-  try {
-    while (true) {
-      const params = new URLSearchParams({
-        after: dateToEpoch,
-        page: page.toString(),
-        per_page: "200"
-      }).toString()
+  while (true) {
+    const params = new URLSearchParams({
+      after: dateToEpoch,
+      page: page.toString(),
+      per_page: "200"
+    }).toString()
 
-      const activitiesURL = baseURL + "?" + params
+    const activitiesURL = baseURL + "?" + params
 
-      const res = await fetch(activitiesURL, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + stravaAccessToken
-        }
-      })
-      if (!res.ok) {
-        break
+    const res = await fetch(activitiesURL, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + stravaAccessToken
       }
-      const data = await res.json()
-      // check if there are still activities on this page
-      if (data.length === 0) {
-        // no more
-        break
-      }
-      for (let i = 0; i < data.length; i++) {
-        allActivities.push(data[i])
-      }
-      // check next page
-      page++
+    })
+    if (!res.ok) {
+      const error: any = new Error(
+        `an error occurred while fetching the api "${baseURL}".`
+      )
+      const e = await res.json()
+      error.info = e.message
+      error.status = res.status
+      throw error
     }
-    return allActivities
-  } catch (err) {
-    console.error(err)
+    const data = await res.json()
+    // check if there are still activities on this page
+    if (data.length === 0) {
+      // no more
+      break
+    }
+    for (let i = 0; i < data.length; i++) {
+      allActivities.push(data[i])
+    }
+    // check next page
+    page++
   }
+  return allActivities
 }
 
 // return the top 10 segments matching a specified query
@@ -215,16 +261,21 @@ export async function getNearbySegments(
     activity_type: "riding"
   }).toString()
   const segmentExploreURL = `https://www.strava.com/api/v3/segments/explore?${params}`
-  try {
-    const res = await fetch(segmentExploreURL, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + stravaAccessToken
-      }
-    })
-    const data = await res.json()
-    return data
-  } catch (err) {
-    console.error(err)
+  const res = await fetch(segmentExploreURL, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + stravaAccessToken
+    }
+  })
+  if (!res.ok) {
+    const error: any = new Error(
+      `an error occurred while fetching the api "${segmentExploreURL}".`
+    )
+    const e = await res.json()
+    error.info = e.message
+    error.status = res.status
+    throw error
   }
+  const data = await res.json()
+  return data
 }
