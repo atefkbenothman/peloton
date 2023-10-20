@@ -73,7 +73,7 @@ export default function ActivityTabs({
             />
           </Tabs.Item>
           {/* power zones */}
-          <Tabs.Item title="Power Zones">
+          <Tabs.Item title="Zones">
             <PowerZones segmentEfforts={activityDetails.segment_efforts} />
           </Tabs.Item>
           {/* analytics */}

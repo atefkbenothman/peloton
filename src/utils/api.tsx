@@ -35,6 +35,23 @@ export async function getAthleteStats(
   }
 }
 
+// return the the authenticated athlete's heart rate and power zones
+export async function getAthleteZones(stravaAccessToken: string | null) {
+  try {
+    const athleteZonesURL = "https://www.strava.com/api/v3/athlete/zones"
+    const res = await fetch(athleteZonesURL, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + stravaAccessToken
+      }
+    })
+    const data = await res.json()
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 // return the activities of an athlete for a specific identifier
 export async function getAthleteActivities(stravaAccessToken: string | null) {
   const numActivities = 15

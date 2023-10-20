@@ -82,7 +82,7 @@ export default function ActivityDetails() {
           {/* Stats */}
           <div>{activity && <ActivityStats activityDetails={activity} />}</div>
           {/* Tabs */}
-          <div className="my-10">
+          <div className="my-4">
             {activity && (
               <ActivityTabs
                 activityId={activity.id}

@@ -5,7 +5,7 @@ import Image from "next/image"
 export default function Photos({ photos }: { photos: any[] }) {
   return (
     <div>
-      {photos && photos[0] !== undefined ? (
+      {photos && photos[0] !== undefined && (
         <>
           <div className="grid grid-cols-4 gap-4">
             {photos.map((photo: any, idx) => (
@@ -20,8 +20,6 @@ export default function Photos({ photos }: { photos: any[] }) {
             ))}
           </div>
         </>
-      ) : (
-        <p>loading...</p>
       )}
     </div>
   )

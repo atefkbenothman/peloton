@@ -104,52 +104,43 @@ export default function Login() {
     <div className="bg-gray-100">
       <div className="min-h-screen">
         <div className="m-auto">
-          <PageHeader title="Login" />
+          {isAuthorized ? (
+            <PageHeader title="Logout" />
+          ) : (
+            <PageHeader title="Login" />
+          )}
           <PageContent>
-            {/* <div className="inline-flex m-1">
-              <p className="font-bold">authorized: </p>
+            <>
               {isAuthorized ? (
-                <>
-                  <p className="text-green-600 font-bold ml-2">
-                    {isAuthorized.toString()}
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="text-red-600 font-bold ml-2">
-                    {isAuthorized.toString()}
-                  </p>
-                </>
-              )}
-            </div> */}
-            {/* Connect Button */}
-            <div className="rounded-lg mb-4">
-              <button onClick={requestAccess}>
-                <Image
-                  src={stravaConnect}
-                  alt="map"
-                  width={200}
-                  height={100}
-                />
-              </button>
-            </div>
-            {/* Sign Out Button */}
-            <div className="m-1">
-              {clientAccessToken && (
                 <div>
-                  {isAuthorized && (
-                    <div className="">
-                      <button
-                        className="btn bg-red-500 rounded p-2 shadow font-bold text-white"
-                        onClick={handleRefresh}
-                      >
-                        Sign Out
-                      </button>
+                  {clientAccessToken && (
+                    <div>
+                      {isAuthorized && (
+                        <div>
+                          <button
+                            className="btn bg-red-500 rounded p-2 shadow font-bold text-white"
+                            onClick={handleRefresh}
+                          >
+                            Sign Out
+                          </button>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
+              ) : (
+                <div className="rounded-lg mb-4">
+                  <button onClick={requestAccess}>
+                    <Image
+                      src={stravaConnect}
+                      alt="map"
+                      width={200}
+                      height={100}
+                    />
+                  </button>
+                </div>
               )}
-            </div>
+            </>
           </PageContent>
         </div>
       </div>

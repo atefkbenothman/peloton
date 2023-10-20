@@ -1,5 +1,9 @@
 import React from "react"
 import { useEffect, useState } from "react"
+// api
+import { getAthleteZones } from "@/utils/api"
+// swr
+import useSWR from "swr"
 // chartjs
 import {
   Chart as ChartJS,
@@ -14,140 +18,123 @@ import { Bar } from "react-chartjs-2"
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-interface SegmentEffort {
-  name: string
-  average_watts: number
-  distance: number
-  elapsed_time: number
-  moving_time: number
-  pr_rank: number
+const zoneInfo: any = {
+  0: ["recovery", "gray"],
+  1: ["endurance", "blue"],
+  2: ["tempo", "green"],
+  3: ["threshold", "yellow"],
+  4: ["vo2 max", "orange"],
+  5: ["anaerobic", "red"],
+  6: ["neuromuscular", "purple"]
 }
-
-interface PowerZoneTotal {
-  [key: string]: number
-}
-
-interface ZoneRange {
-  zone: string
-  name: string
-  lower: number
-  upper: number
-}
-
-const zoneRanges: ZoneRange[] = [
-  {
-    zone: "one",
-    name: "Recovery",
-    lower: 95,
-    upper: 142
-  },
-  {
-    zone: "two",
-    name: "Endurance",
-    lower: 143,
-    upper: 194
-  },
-  {
-    zone: "three",
-    name: "Sweet Spot",
-    lower: 195,
-    upper: 225
-  },
-  {
-    zone: "four",
-    name: "Lactate",
-    lower: 226,
-    upper: 260
-  },
-  {
-    zone: "five",
-    name: "Vo2",
-    lower: 270,
-    upper: 355
-  },
-  {
-    zone: "six",
-    name: "Neuromuscular",
-    lower: 356,
-    upper: 999
-  }
-]
 
 export default function PowerZones({
   segmentEfforts
 }: {
-  segmentEfforts: SegmentEffort[]
+  segmentEfforts: any[]
 }) {
-  const [powerZonesTotal, setPowerZonesTotal] = useState<PowerZoneTotal>({
-    one: 0,
-    two: 0,
-    three: 0,
-    four: 0,
-    five: 0,
-    six: 0
+  const [stravaAccessToken, setStravaAccessToken] = useState<string>("")
+  const [powerZonesTotal, setPowerZonesTotal] = useState({
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0
+  })
+  const [heartrateZonesTotal, setHeartrateZonesTotal] = useState({
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0
   })
 
   useEffect(() => {
-    calculatePowerZonesTotal()
-  }, [segmentEfforts])
+    setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
+  }, [])
 
-  // calculate time spent in each power zone
-  function calculatePowerZonesTotal() {
-    let zones: PowerZoneTotal = {
-      one: 0,
-      two: 0,
-      three: 0,
-      four: 0,
-      five: 0,
-      six: 0
+  const { data: zones } = useSWR(
+    stravaAccessToken && segmentEfforts ? ["zones", stravaAccessToken] : null,
+    ([key, token]) => getAthleteZones(token),
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false
     }
-    for (const effort of segmentEfforts) {
-      const avgWatts = effort.average_watts
-      for (const zoneRange of zoneRanges) {
-        if (avgWatts >= zoneRange.lower && avgWatts <= zoneRange.upper) {
-          zones[zoneRange.zone] += Math.floor(effort.moving_time / 60)
-        }
-      }
-    }
-    setPowerZonesTotal(zones)
-  }
+  )
 
-  const barData = {
-    labels: zoneRanges.map((zone) => zone.name),
+  useEffect(() => {
+    if (zones && segmentEfforts) {
+      const pZones: any = { ...powerZonesTotal }
+      const hrZones: any = { ...heartrateZonesTotal }
+      segmentEfforts.forEach((s: any) => {
+        const avgPower = s.average_watts
+        const avgHeartrate = s.average_heartrate
+        const movingTime = s.moving_time
+        zones.power.zones.forEach((z: any, idx: number) => {
+          if (avgPower >= z.min && avgPower <= z.max) {
+            pZones[idx] += movingTime
+          }
+        })
+        zones.heart_rate.zones.forEach((z: any, idx: number) => {
+          if (avgHeartrate >= z.min && avgHeartrate <= z.max) {
+            hrZones[idx] += movingTime
+          }
+        })
+      })
+      setPowerZonesTotal(pZones)
+      setHeartrateZonesTotal(hrZones)
+    }
+  }, [zones, segmentEfforts])
+
+  const labels = Object.values(zoneInfo).map((z: any) => z[0])
+
+  const barDataPower: any = {
+    labels: labels,
     datasets: [
       {
-        label: "Time Spent in Zone",
+        label: "power zones",
         data: Object.values(powerZonesTotal),
         backgroundColor: "rgba(255, 99, 132, 0.5)"
       }
     ]
   }
 
-  const barOptions = {
-    responsive: true,
-    scales: {
-      y: {
-        beginAtZero: true,
-        title: {
-          display: false,
-          text: "minutes"
-        }
+  const barDataHR: any = {
+    labels: labels,
+    datasets: [
+      {
+        label: "heart rate zones",
+        data: Object.values(heartrateZonesTotal),
+        backgroundColor: "rgba(255, 99, 132, 0.5)"
       }
-    },
-    animation: {
-      duration: 0
-    }
+    ]
   }
 
   return (
-    <div
-      style={{ width: "99%" }}
-      className="flex justify-center items-center"
-    >
-      <Bar
-        data={barData}
-        options={barOptions}
-      />
-    </div>
+    <>
+      {segmentEfforts && zones ? (
+        <div className="grid grid-cols-2 gap-10">
+          <div>
+            <p className="font-bold text-lg">Power Zones</p>
+            <Bar
+              className="bg-gray-200 p-2 rounded-lg border-0"
+              data={barDataPower}
+            />
+          </div>
+          <div>
+            <p className="font-bold text-lg">HR Zones</p>
+            <Bar
+              className="bg-gray-200 p-2 rounded-lg border-0"
+              data={barDataHR}
+            />
+          </div>
+        </div>
+      ) : (
+        <p>loading...</p>
+      )}
+    </>
   )
 }
