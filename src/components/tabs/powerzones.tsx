@@ -116,20 +116,28 @@ export default function PowerZones({
   return (
     <>
       {segmentEfforts && zones ? (
-        <div className="grid grid-cols-2 gap-10">
-          <div>
-            <p className="font-bold text-lg">Power Zones</p>
-            <Bar
-              className="bg-gray-200 p-2 rounded-lg border-0"
-              data={barDataPower}
-            />
+        <div className="grid grid-cols-1 gap-2 xl:grid-cols-2">
+          <div className="mx-6 my-4 bg-white rounded-lg shadow-md">
+            <div className="px-6 py-4">
+              <div className="font-bold text-xl">Power Zones</div>
+              <div
+                className="flex justify-center items-center p-2"
+                style={{ width: "99%" }}
+              >
+                <Bar data={barDataPower} />
+              </div>
+            </div>
           </div>
-          <div>
-            <p className="font-bold text-lg">HR Zones</p>
-            <Bar
-              className="bg-gray-200 p-2 rounded-lg border-0"
-              data={barDataHR}
-            />
+          <div className="mx-6 my-4 bg-white rounded-lg shadow-md">
+            <div className="px-6 py-4">
+              <div className="font-bold text-xl">Heart Rate Zones</div>
+              <div
+                className="flex justify-center items-center p-2 w-fill"
+                style={{ width: "99%" }}
+              >
+                <Bar data={barDataHR} />
+              </div>
+            </div>
           </div>
         </div>
       ) : (

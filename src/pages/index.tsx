@@ -49,7 +49,7 @@ export default function Home() {
             ) : (
               <>
                 {stravaAccessToken ? (
-                  <div className="grid grid-cols-3">
+                  <div className="grid grid-cols-2">
                     <div>
                       <YearlyActivities
                         data={activities}

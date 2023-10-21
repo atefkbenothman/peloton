@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 // next
 import Image from "next/image"
 import { useRouter } from "next/router"
+// api
+import { generateStravaAuthURL, getAccessToken } from "@/utils/api"
 // components
 import PageHeader from "@/components/pageHeader"
 import PageContent from "@/components/pageContent"
@@ -13,7 +15,6 @@ export default function Login() {
   const router = useRouter()
 
   const [clientAccessToken, setClientAccessToken] = useState("")
-  const [clientRefreshToken, setClientRefreshToken] = useState("")
   const [isAuthorized, setIsAuthorized] = useState(false)
 
   // stay logged in between page loads
@@ -25,71 +26,26 @@ export default function Login() {
     }
   }, [])
 
-  // check if we have been redirected
   useEffect(() => {
+    // check if a code has been generated from strava oauth. if it has, exchange the code for a token
+    async function checkHasAuthCode() {
+      const urlParams = new URLSearchParams(window.location.href)
+      if (urlParams.has("code")) {
+        const clientCode = urlParams.get("code") || ""
+        const accessToken = await getAccessToken(clientCode)
+        setClientAccessToken(accessToken)
+        setIsAuthorized(true)
+        // set access token to sessionStorage
+        sessionStorage.setItem("accessToken", accessToken)
+      }
+    }
     checkHasAuthCode()
   }, [])
-
-  // check if a code has been generated from strava oauth. if it has, exchange the code for a token
-  function checkHasAuthCode() {
-    const urlParams = new URLSearchParams(window.location.href)
-    if (urlParams.has("code")) {
-      const clientCode = urlParams.get("code") || ""
-      exchangeToken(clientCode)
-    }
-  }
-
-  // exchange the code generated from strava oauth for an access token
-  const exchangeToken = async (clientCode: string) => {
-    const exchangeBaseURL = "https://www.strava.com/oauth/token"
-    const clientId: string = process.env.NEXT_PUBLIC_CLIENT_ID?.toString() || ""
-    const clientSecret: string =
-      process.env.NEXT_PUBLIC_CLIENT_SECRET?.toString() || ""
-    try {
-      const params = new URLSearchParams({
-        client_id: clientId,
-        client_secret: clientSecret,
-        code: clientCode,
-        grant_type: "authorization_code"
-      })
-      const paramsString = params.toString()
-      const exchangeURL = `${exchangeBaseURL}?${paramsString}`
-      const res = await fetch(exchangeURL, {
-        method: "POST"
-      })
-      const data = await res.json()
-      const access_token = data["access_token"]
-      const refresh_token = data["refreshToken"]
-      setClientAccessToken(access_token)
-      setClientRefreshToken(refresh_token)
-      // set access token to sessionStorage
-      sessionStorage.setItem("accessToken", access_token)
-      setIsAuthorized(true)
-    } catch (err) {
-      console.error(err)
-    }
-  }
 
   // authorize with strava
   function requestAccess(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
-    const clientId: string = process.env.NEXT_PUBLIC_CLIENT_ID?.toString() || ""
-    const authBaseURL: string = "https://www.strava.com/oauth/authorize"
-    // set the redirect uri based on development environment
-    let redirect_uri_link: string = "http://localhost:3000/login"
-    if (process.env.NODE_ENV === "production") {
-      redirect_uri_link = "https://master.d18mtk2j3wua4u.amplifyapp.com/login"
-    }
-    const params = new URLSearchParams({
-      client_id: clientId,
-      response_type: "code",
-      redirect_uri: redirect_uri_link,
-      approval_prompt: "force",
-      scope: "read_all,activity:read_all,profile:read_all"
-    })
-    const paramsString = params.toString()
-    const authURL = `${authBaseURL}?${paramsString}`
-    router.push(authURL)
+    router.push(generateStravaAuthURL())
   }
 
   // clear the accessToken from sessionStorage
@@ -110,37 +66,31 @@ export default function Login() {
             <PageHeader title="Login" />
           )}
           <PageContent>
-            <>
-              {isAuthorized ? (
-                <div>
-                  {clientAccessToken && (
+            <section className="bg-white dark:bg-gray-900 shadow-md rounded-lg">
+              <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+                <div className="mx-auto max-w-screen-sm text-center">
+                  {isAuthorized && clientAccessToken ? (
+                    <button
+                      className="inline-flex text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 my-4"
+                      onClick={handleRefresh}
+                    >
+                      Sign Out
+                    </button>
+                  ) : (
                     <div>
-                      {isAuthorized && (
-                        <div>
-                          <button
-                            className="btn bg-red-500 rounded p-2 shadow font-bold text-white"
-                            onClick={handleRefresh}
-                          >
-                            Sign Out
-                          </button>
-                        </div>
-                      )}
+                      <button onClick={requestAccess}>
+                        <Image
+                          src={stravaConnect}
+                          alt="map"
+                          width={200}
+                          height={100}
+                        />
+                      </button>
                     </div>
                   )}
                 </div>
-              ) : (
-                <div className="rounded-lg mb-4">
-                  <button onClick={requestAccess}>
-                    <Image
-                      src={stravaConnect}
-                      alt="map"
-                      width={200}
-                      height={100}
-                    />
-                  </button>
-                </div>
-              )}
-            </>
+              </div>
+            </section>
           </PageContent>
         </div>
       </div>

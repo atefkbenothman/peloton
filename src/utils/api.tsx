@@ -1,3 +1,52 @@
+// authorize with strava
+export function generateStravaAuthURL() {
+  const clientId = process.env.NEXT_PUBLIC_CLIENT_ID?.toString() || ""
+  // set the redirect uri based on dev/prod
+  let redirect_uri = "http://localhost:3000/login"
+  if (process.env.NODE_ENV === "production") {
+    redirect_uri = "https://master.d18mtk2j3wua4u.amplifyapp.com/login"
+  }
+  const params = new URLSearchParams({
+    client_id: clientId,
+    response_type: "code",
+    redirect_uri: redirect_uri,
+    approval_prompt: "force",
+    scope: "read_all,activity:read_all,profile:read_all"
+  }).toString()
+  const authorizeBaseURL = "https://strava.com/oauth/authorize"
+  const authorizeURL = `${authorizeBaseURL}?${params}`
+  return authorizeURL
+}
+
+// exhchange code for access token
+export async function getAccessToken(code: string) {
+  const clientId = process.env.NEXT_PUBLIC_CLIENT_ID?.toString() || ""
+  const clientSecret = process.env.NEXT_PUBLIC_CLIENT_SECRET?.toString() || ""
+  const params = new URLSearchParams({
+    client_id: clientId,
+    client_secret: clientSecret,
+    code: code,
+    grant_type: "authorization_code"
+  }).toString()
+  const exchangeBaseURL = "https://www.strava.com/oauth/token"
+  const exchangeURL = `${exchangeBaseURL}?${params}`
+  const res = await fetch(exchangeURL, {
+    method: "POST"
+  })
+  if (!res.ok) {
+    const error: any = new Error(
+      `an error occurred while exchanging token ${exchangeURL}".`
+    )
+    const e = await res.json()
+    error.info = e.message
+    error.status = res.status
+    throw error
+  }
+  const data = await res.json()
+  const access_token = data.access_token
+  return access_token
+}
+
 // return the currently authenticated athlete
 export async function getAthlete(stravaAccessToken: string | null) {
   const athleteDataURL = "https://www.strava.com/api/v3/athlete"

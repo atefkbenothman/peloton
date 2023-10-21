@@ -53,7 +53,7 @@ export default function MonthlyDistance({
       })
       setWeeklyDistance(acts)
     }
-  }, [data, weeklyDistance])
+  }, [data])
 
   const barData = {
     labels: Object.keys(weeklyDistance),
@@ -67,15 +67,12 @@ export default function MonthlyDistance({
   }
 
   return (
-    <div className="max-w-xl mx-6 my-4 bg-white rounded-lg shadow-lg">
+    <div className="max-w-xl mx-6 my-4 bg-white rounded-lg shadow-md">
       <div className="px-6 py-4">
-        <div className="font-bold text-2xl">
+        <div className="font-bold text-xl">
           {currentMonthStr} Weekly Distance
         </div>
-        <div
-          style={{ width: "99%" }}
-          className="flex justify-center items-center"
-        >
+        <div className="flex justify-center items-center p-2">
           {loading ? <LoadingIndicator /> : <Bar data={barData} />}
         </div>
       </div>

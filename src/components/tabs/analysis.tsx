@@ -129,14 +129,18 @@ export default function Analysis({ activityId }: { activityId: string }) {
       ) : (
         <>
           {activityStream && activityStream.time ? (
-            <div className="grid grid-cols-1 gap-10 w-3/4">
-              <div>
-                <p className="font-bold text-lg">Stream</p>
-                <Line
-                  className="bg-gray-200 p-2 rounded-lg border-0"
-                  data={data as any}
-                  options={options as any}
-                />
+            <div className="mx-6 my-4 bg-white rounded-lg shadow-md">
+              <div className="px-6 py-4">
+                <div className="font-bold text-xl">Stream</div>
+                <div
+                  className="flex justify-center items-center p-2 w-fill"
+                  style={{ width: "99%" }}
+                >
+                  <Line
+                    data={data as any}
+                    options={options as any}
+                  />
+                </div>
               </div>
             </div>
           ) : (

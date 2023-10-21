@@ -77,7 +77,7 @@ export default function DailyDistance({
       })
       setWeeklyDistance(acts)
     }
-  }, [data, weeklyDistance])
+  }, [data])
 
   const barData = {
     labels: Object.keys(weeklyDistance),
@@ -90,17 +90,30 @@ export default function DailyDistance({
     ]
   }
 
+  const options = {
+    responsive: true,
+    responsiveAnimationDuration: 0,
+    animation: false
+  }
+
   return (
-    <div className="max-w-xl mx-6 my-4 bg-white rounded-lg shadow-lg">
+    <div className="max-w-xl mx-6 my-4 bg-white rounded-lg shadow-md">
       <div className="px-6 py-4">
-        <div className="font-bold text-2xl">
+        <div className="font-bold text-xl">
           {currentMonthStr} Daily Distance
         </div>
         <div
+          className="flex justify-center items-center p-2"
           style={{ width: "99%" }}
-          className="flex justify-center items-center"
         >
-          {loading ? <LoadingIndicator /> : <Bar data={barData} />}
+          {loading ? (
+            <LoadingIndicator />
+          ) : (
+            <Bar
+              data={barData}
+              options={options as any}
+            />
+          )}
         </div>
       </div>
     </div>
