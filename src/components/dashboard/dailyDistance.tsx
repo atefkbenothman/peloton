@@ -61,22 +61,25 @@ export default function DailyDistance({
     month: "short"
   })
   useEffect(() => {
-    const currentYear = new Date().getFullYear()
-    const currentMonth = new Date().getMonth()
-    if (data) {
-      const acts = { ...weeklyDistance }
-      data.forEach((a: any) => {
-        const startDate = new Date(a.start_date)
-        if (
-          startDate.getFullYear() === currentYear &&
-          startDate.getMonth() === currentMonth
-        ) {
-          const dayOfMonth = startDate.getDate()
-          acts[dayOfMonth] += a.distance * 0.000621371
-        }
-      })
-      setWeeklyDistance(acts)
+    function setData() {
+      const currentYear = new Date().getFullYear()
+      const currentMonth = new Date().getMonth()
+      if (data) {
+        const acts = { ...weeklyDistance }
+        data.forEach((a: any) => {
+          const startDate = new Date(a.start_date)
+          if (
+            startDate.getFullYear() === currentYear &&
+            startDate.getMonth() === currentMonth
+          ) {
+            const dayOfMonth = startDate.getDate()
+            acts[dayOfMonth] += a.distance * 0.000621371
+          }
+        })
+        setWeeklyDistance(acts)
+      }
     }
+    setData()
   }, [data])
 
   const barData = {
