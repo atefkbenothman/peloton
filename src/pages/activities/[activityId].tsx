@@ -9,8 +9,9 @@ import ActivityHeader from "@/components/activity/activityHeader"
 import ActivityMap from "@/components/activity/activityMap"
 import ActivityStats from "@/components/activity/activityStats"
 import ActivityTabs from "@/components/activity/activityTabs"
+import ErrorCard from "@/components/errorCard"
 // api
-import { getActivity, getActivityPhotos } from "@/utils/api"
+import { getActivity, getActivityPhotos, getSegment } from "@/utils/api"
 // mapbox
 import polyline from "@mapbox/polyline"
 
@@ -30,7 +31,11 @@ export default function ActivityDetails() {
     setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
   }, [])
 
-  const { data: activity } = useSWR(
+  const {
+    data: activity,
+    error,
+    isLoading
+  } = useSWR(
     activityId && stravaAccessToken
       ? ["activity", activityId, stravaAccessToken]
       : null,
@@ -63,34 +68,42 @@ export default function ActivityDetails() {
   return (
     <div className="bg-gray-100">
       <div className="mx-6 py-6">
-        {/* Header */}
-        <div className="mb-6">
-          {activity && <ActivityHeader activityDetails={activity} />}
-        </div>
-        {/* Map */}
-        <div className="mb-6 h-96">
-          {activity && (activity.start_latlng || []).length !== 0 && (
-            <ActivityMap
-              activityId={activity.id}
-              activityDetails={activity}
-              activityRoute={route}
-              segmentRoute={segmentRoute}
-            />
-          )}
-        </div>
-        {/* Stats */}
-        <div>{activity && <ActivityStats activityDetails={activity} />}</div>
-        {/* Tabs */}
-        <div className="my-4">
-          {activity && (
-            <ActivityTabs
-              activityId={activity.id}
-              activityDetails={activity}
-              activityPhotos={photos}
-              setSegmentRoute={setSegmentRoute}
-            />
-          )}
-        </div>
+        {error ? (
+          <ErrorCard error={error} />
+        ) : (
+          <>
+            {/* Header */}
+            <div className="mb-6">
+              {activity && <ActivityHeader activityDetails={activity} />}
+            </div>
+            {/* Map */}
+            <div className="mb-6 h-96">
+              {activity && (activity.start_latlng || []).length !== 0 && (
+                <ActivityMap
+                  activityId={activity.id}
+                  activityDetails={activity}
+                  activityRoute={route}
+                  segmentRoute={segmentRoute}
+                />
+              )}
+            </div>
+            {/* Stats */}
+            <div>
+              {activity && <ActivityStats activityDetails={activity} />}
+            </div>
+            {/* Tabs */}
+            <div className="my-4">
+              {activity && (
+                <ActivityTabs
+                  activityId={activity.id}
+                  activityDetails={activity}
+                  activityPhotos={photos}
+                  setSegmentRoute={setSegmentRoute}
+                />
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

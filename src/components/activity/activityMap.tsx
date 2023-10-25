@@ -1,4 +1,6 @@
 import React from "react"
+// components
+import SegmentLayer from "../segmentLayer"
 // mapbox
 import mapboxgl from "mapbox-gl"
 import Map, { Source, Layer, NavigationControl } from "react-map-gl"
@@ -85,12 +87,22 @@ export default function ActivityMap({
                 "line-cap": "round"
               }}
               paint={{
-                "line-color": "rgba(15, 10, 222, 1)",
-                "line-width": 3
+                "line-color": "rgba(39, 174, 96, 1)",
+                "line-width": 4
               }}
             />
           </Source>
         )}
+        {activityDetails.segment_efforts &&
+          activityDetails.segment_efforts.map(
+            (seg: any, idx: number) =>
+              seg.pr_rank === 1 && (
+                <SegmentLayer
+                  key={idx}
+                  segment={seg}
+                />
+              )
+          )}
       </Map>
     </>
   )

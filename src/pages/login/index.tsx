@@ -71,7 +71,7 @@ export default function Login() {
                 <div className="mx-auto max-w-screen-sm text-center">
                   {isAuthorized && clientAccessToken ? (
                     <button
-                      className="inline-flex text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 my-4"
+                      className="inline-flex text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-md text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 my-4"
                       onClick={handleRefresh}
                     >
                       Sign Out

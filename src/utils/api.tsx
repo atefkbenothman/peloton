@@ -190,11 +190,7 @@ export async function getActivityPhotos(
     throw error
   }
   const data = await res.json()
-  let photos = []
-  for (const photo of data) {
-    photos.push(photo.urls["2000"])
-  }
-  return photos
+  return data
 }
 
 // return the given activity's streams
