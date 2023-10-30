@@ -76,11 +76,14 @@ export default function Profile() {
   )
 
   return (
-    <div className="bg-gray-100">
-      <div className="min-h-screen">
-        <div className="m-auto">
+    <div>
+      <div>
+        <div>
           {/* Profile Section */}
-          <PageHeader title="Profile" />
+          <PageHeader
+            title="Profile"
+            summary="View your profile information"
+          />
           <PageContent>
             {error ? (
               <ErrorCard error={error} />
@@ -295,8 +298,9 @@ export default function Profile() {
                           )}
                       </div>
                     ) : (
-                      // </div>
-                      <LoadingIndicator />
+                      <div className="flex items-center justify-center">
+                        <LoadingIndicator />
+                      </div>
                     )}
                   </div>
                 ) : (

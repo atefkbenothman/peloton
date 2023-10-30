@@ -129,7 +129,7 @@ export default function Analysis({ activityId }: { activityId: string }) {
       ) : (
         <>
           {activityStream && activityStream.time ? (
-            <div className="mx-6 my-4 bg-white rounded-lg shadow-md">
+            <div className="mx-6 my-4 bg-white rounded-lg shadow">
               <div className="px-6 py-4">
                 <div className="font-bold text-xl">Stream</div>
                 <div

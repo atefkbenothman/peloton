@@ -117,7 +117,7 @@ export default function PowerZones({
     <>
       {segmentEfforts && zones ? (
         <div className="grid grid-cols-1 gap-2 xl:grid-cols-2">
-          <div className="mx-6 my-4 bg-white rounded-lg shadow-md">
+          <div className="mx-6 my-4 bg-white rounded-lg shadow">
             <div className="px-6 py-4">
               <div className="font-bold text-xl">Power Zones</div>
               <div
@@ -128,7 +128,7 @@ export default function PowerZones({
               </div>
             </div>
           </div>
-          <div className="mx-6 my-4 bg-white rounded-lg shadow-md">
+          <div className="mx-6 my-4 bg-white rounded-lg shadow">
             <div className="px-6 py-4">
               <div className="font-bold text-xl">Heart Rate Zones</div>
               <div

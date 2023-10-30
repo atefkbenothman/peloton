@@ -66,45 +66,41 @@ export default function ActivityDetails() {
   }, [activity])
 
   return (
-    <div className="bg-gray-100">
-      <div className="mx-6 py-6">
-        {error ? (
-          <ErrorCard error={error} />
-        ) : (
-          <>
-            {/* Header */}
-            <div className="mb-6">
-              {activity && <ActivityHeader activityDetails={activity} />}
+    <div className="pt-4 px-4 xl:mx-40">
+      {error ? (
+        <ErrorCard error={error} />
+      ) : (
+        <>
+          {/* Header */}
+          <div className="mb-2">
+            {activity && <ActivityHeader activityDetails={activity} />}
+          </div>
+          {/* Map */}
+          {activity && (activity.start_latlng || []).length !== 0 && (
+            <div className="mb-6 h-96 border-2 border-black">
+              <ActivityMap
+                activityId={activity.id}
+                activityDetails={activity}
+                activityRoute={route}
+                segmentRoute={segmentRoute}
+              />
             </div>
-            {/* Map */}
-            <div className="mb-6 h-96">
-              {activity && (activity.start_latlng || []).length !== 0 && (
-                <ActivityMap
-                  activityId={activity.id}
-                  activityDetails={activity}
-                  activityRoute={route}
-                  segmentRoute={segmentRoute}
-                />
-              )}
-            </div>
-            {/* Stats */}
-            <div>
-              {activity && <ActivityStats activityDetails={activity} />}
-            </div>
-            {/* Tabs */}
-            <div className="my-4">
-              {activity && (
-                <ActivityTabs
-                  activityId={activity.id}
-                  activityDetails={activity}
-                  activityPhotos={photos}
-                  setSegmentRoute={setSegmentRoute}
-                />
-              )}
-            </div>
-          </>
-        )}
-      </div>
+          )}
+          {/* Stats */}
+          <div>{activity && <ActivityStats activityDetails={activity} />}</div>
+          {/* Tabs */}
+          <div className="my-4">
+            {activity && (
+              <ActivityTabs
+                activityId={activity.id}
+                activityDetails={activity}
+                activityPhotos={photos}
+                setSegmentRoute={setSegmentRoute}
+              />
+            )}
+          </div>
+        </>
+      )}
     </div>
   )
 }

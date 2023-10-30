@@ -1,23 +1,45 @@
 import React from "react"
 // next
+import Image from "next/image"
+import { useRouter } from "next/router"
 import Link from "next/link"
+// api
+import { generateStravaAuthURL } from "@/utils/api"
+// svg
+import stravaConnect from "public/strava-connect.svg"
 
 export default function LoginFirst() {
+  const router = useRouter()
+
+  // authorize with strava
+  function requestAccess(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
+    router.push(generateStravaAuthURL())
+  }
+
   return (
-    <section className="bg-white dark:bg-gray-900 shadow-md rounded-lg">
-      <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-        <div className="mx-auto max-w-screen-sm text-center">
-          <p className="mb-4 text-xl tracking-tight font-bold text-gray-900">
-            Please connect your Strava account first
-          </p>
-          <Link
-            href="/login"
-            className="inline-flex text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 my-4"
-          >
-            <p>Sign In</p>
-          </Link>
-        </div>
+    <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+      <div className="mx-auto py-6 max-w-screen-sm text-center bg-white shadow rounded">
+        <p className="mb-6 text-lg tracking-tight font-semibold text-gray-900">
+          Please connect your Strava account first
+        </p>
+        <button onClick={requestAccess}>
+          <Image
+            className="w-fit"
+            src={stravaConnect}
+            alt="map"
+            width={200}
+            height={100}
+          />
+        </button>
       </div>
-    </section>
+    </div>
   )
 }
+
+// <Link
+//   href="/login"
+//   className="inline-flex text-white bg-primary-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+// >
+//   <p>Sign In</p>
+// </Link>

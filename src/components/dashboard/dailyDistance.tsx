@@ -86,9 +86,9 @@ export default function DailyDistance({
     labels: Object.keys(weeklyDistance),
     datasets: [
       {
-        label: "daily distance (mi)",
+        label: "distance",
         data: Object.values(weeklyDistance),
-        backgroundColor: "rgba(255, 99, 132, 0.5)"
+        backgroundColor: "rgba(255, 99, 132, 1)"
       }
     ]
   }
@@ -96,19 +96,25 @@ export default function DailyDistance({
   const options = {
     responsive: true,
     responsiveAnimationDuration: 0,
-    animation: false
+    animation: false,
+    plugins: {
+      legend: {
+        position: "top" as const
+      },
+      title: {
+        display: false,
+        text: "Chart.js Bar Chart"
+      }
+    }
   }
 
   return (
-    <div className="max-w-xl mx-6 my-4 bg-white rounded-lg shadow-md">
-      <div className="px-6 py-4">
-        <div className="font-bold text-xl">
+    <div className="w-fit bg-white rounded shadow">
+      <div className="px-4 py-4">
+        <div className="font-semibold text-lg">
           {currentMonthStr} Daily Distance
         </div>
-        <div
-          className="flex justify-center items-center p-2"
-          style={{ width: "99%" }}
-        >
+        <div className="flex justify-center items-center">
           {loading ? (
             <LoadingIndicator />
           ) : (

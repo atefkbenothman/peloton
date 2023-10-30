@@ -21,24 +21,36 @@ export default function ActivityCard({ activity }: { activity: any }) {
   return (
     <div>
       {/* Activity Card */}
-      <div className="my-6 mx-6 pb-2 min-w-screen">
+      <div>
         <div
-          className="max-w-xl rounded-lg overflow-hidden shadow-lg cursor-pointer bg-white my-4"
+          className="max-w-xl rounded-lg overflow-hidden shadow cursor-pointer bg-white"
           onClick={goToActivityPage}
         >
           <div className="px-6 py-4">
             <div className="flex items-center justify-between">
-              <div className="font-bold text-2xl mb-1 pb-1">
-                {activity.name}
+              <div>
+                <div className="font-bold text-2xl mb-1 pb-1 mr-2">
+                  {activity.name}
+                </div>
               </div>
-              <div className="">
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+              <div className="flex gap-2">
+                {activity.athlete_count > 1 && (
+                  <span className="inline-block bg-blue-200 rounded-lg px-3 py-1 text-sm font-bold text-blue-700 mb-2">
+                    {activity.athlete_count}
+                  </span>
+                )}
+                {activity.suffer_score > 0 && (
+                  <span className="inline-block bg-red-200 rounded-lg px-3 py-1 text-sm font-bold text-red-700 mb-2">
+                    {activity.suffer_score}
+                  </span>
+                )}
+                <span className="inline-block bg-gray-200 rounded-lg px-3 py-1 text-sm font-semibold text-gray-700 mb-2">
                   {activity.sport_type}
                 </span>
               </div>
             </div>
-            <div className="font-bold text-gray-500 text-xs mb-3 pb-2">
-              {new Date(activity.start_date).toLocaleString()}
+            <div className="flex items-center justify-between font-bold text-gray-500 text-sm mb-2">
+              <div>{new Date(activity.start_date).toLocaleString()}</div>
             </div>
             <Image
               src={`https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/static/pin-s-a+9ed4bd(${
@@ -51,63 +63,53 @@ export default function ActivityCard({ activity }: { activity: any }) {
                 )
               )})/auto/600x300?access_token=${mapboxgl.accessToken}&zoom=15`}
               alt="map"
-              className="mb-4"
+              className="mb-2"
               width={800}
               height={800}
             />
-            <div className="grid grid-cols-3 gap-4 content-start">
-              <div>
-                <p className="text-gray-700 text-base">distance</p>
-                <div className="flex items-baseline">
-                  <p className="font-bold text-2xl">
-                    {(activity.distance / 1609.344).toFixed(1)}
+            <div className="flex items-center justify-center text-center">
+              <div className="grid grid-cols-3 gap-2 w-full whitespace-nowrap">
+                <div className="overflow-hidden">
+                  <p className="text-gray-700 text-base">distance</p>
+                  <p className="font-bold text-2xl text-center">
+                    {(activity.distance / 1609.344).toFixed(1)}{" "}
+                    <span className="text-sm">mi</span>
                   </p>
-                  <p className="text-sm font-medium ml-1">mi</p>
                 </div>
-              </div>
-              <div>
-                <p className="text-gray-700 text-base">time</p>
-                <div className="flex items-baseline">
+                <div className="overflow-hidden">
+                  <p className="text-gray-700 text-base">elevation</p>
                   <p className="font-bold text-2xl">
-                    {(activity.moving_time / 60).toFixed(0)}
+                    {(activity.total_elevation_gain * 3.281).toFixed(0) || 0}{" "}
+                    <span className="text-sm">ft</span>
                   </p>
-                  <p className="text-sm font-medium ml-1">mins</p>
                 </div>
-              </div>
-              <div>
-                <p className="text-gray-700 text-base">avg mph</p>
-                <div className="flex items-baseline">
+                <div className="overflow-hidden">
+                  <p className="text-gray-700 text-base">time</p>
                   <p className="font-bold text-2xl">
-                    {(activity.average_speed * 2.23694).toFixed(0)}
+                    {Math.floor(activity.moving_time / 3600)}:
+                    {Math.floor((activity.moving_time % 3600) / 60)}{" "}
                   </p>
-                  <p className="text-sm font-medium ml-1">mph</p>
                 </div>
-              </div>
-              <div>
-                <p className="text-gray-700 text-base">max mph</p>
-                <div className="flex items-baseline">
+                <div className="overflow-hidden">
+                  <p className="text-gray-700 text-base">avg mph</p>
                   <p className="font-bold text-2xl">
-                    {(activity.max_speed * 2.23694).toFixed(0)}
+                    {(activity.average_speed * 2.23694).toFixed(0)}{" "}
+                    <span className="text-sm">mph</span>
                   </p>
-                  <p className="text-sm font-medium ml-1">mph</p>
                 </div>
-              </div>
-              <div>
-                <p className="text-gray-700 text-base">avg watts</p>
-                <div className="flex items-baseline">
+                <div className="overflow-hidden">
+                  <p className="text-gray-700 text-base">max mph</p>
                   <p className="font-bold text-2xl">
-                    {(activity.average_watts || 0).toFixed(0)}
+                    {(activity.max_speed * 2.23694).toFixed(0)}{" "}
+                    <span className="text-sm">mph</span>
                   </p>
-                  <p className="text-sm font-medium ml-1">w</p>
                 </div>
-              </div>
-              <div>
-                <p className="text-gray-700 text-base">max watts</p>
-                <div className="flex items-baseline">
+                <div className="overflow-hidden">
+                  <p className="text-gray-700 text-base">avg watts</p>
                   <p className="font-bold text-2xl">
-                    {activity.max_watts || 0}
+                    {(activity.average_watts || 0).toFixed(0)}{" "}
+                    <span className="text-sm">w</span>
                   </p>
-                  <p className="text-sm font-medium ml-1">w</p>
                 </div>
               </div>
             </div>

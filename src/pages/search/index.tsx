@@ -1,5 +1,7 @@
 import React from "react"
 import { useEffect, useState } from "react"
+// next
+import { useRouter } from "next/router"
 // swr
 import useSWR from "swr"
 // api
@@ -12,6 +14,8 @@ import LoadingIndicator from "@/components/loadingIndicator"
 import ErrorCard from "@/components/errorCard"
 
 export default function Search() {
+  const router = useRouter()
+
   const [stravaAccessToken, setStravaAccessToken] = useState("")
   const [allActivities, setAllActivities] = useState<any>(null)
   const [date, setDate] = useState<Date | null>(null)
@@ -62,11 +66,19 @@ export default function Search() {
     const selectedDate = new Date(e.target.value)
   }
 
+  function goToActivity(id: number) {
+    const url = `${activityURL}/${id}}`
+    router.push(url)
+  }
+
   return (
-    <div className="bg-gray-100">
-      <div className="min-h-screen">
-        <div className="m-auto">
-          <PageHeader title="Search" />
+    <div>
+      <div>
+        <div>
+          <PageHeader
+            title="Search"
+            summary="View and search all of your activities"
+          />
           <PageContent>
             {error ? (
               <ErrorCard error={error} />
@@ -74,12 +86,14 @@ export default function Search() {
               <>
                 {stravaAccessToken ? (
                   isLoading ? (
-                    <LoadingIndicator />
+                    <div className="flex items-center justify-center">
+                      <LoadingIndicator />
+                    </div>
                   ) : (
                     <>
                       {/* Search */}
                       <div className="flex items-start space-x-4">
-                        <p>
+                        <p className="text-lg">
                           How many miles since{" "}
                           <input
                             type="date"
@@ -96,121 +110,167 @@ export default function Search() {
                         </button>
                       </div>
                       {/* Data */}
-                      <div
-                        className="overflow-y-auto rounded-lg bg-gray-200 border-4 border"
-                        style={{ maxHeight: "80vh" }}
-                      >
-                        <table className="w-full table-fixed bg-gray-200">
-                          <thead className="sticky top-0 text-xs bg-gray-200">
-                            <tr>
-                              <th
-                                scope="col"
-                                className="text-sm text-gray-900 px-6 py-2"
-                              >
-                                title
-                              </th>
-                              <th
-                                scope="col"
-                                className="text-sm text-gray-900 px-6 py-2"
-                              >
-                                type
-                              </th>
-                              <th
-                                scope="col"
-                                className="text-sm text-gray-900 px-6 py-2"
-                              >
-                                date
-                              </th>
-                              <th
-                                scope="col"
-                                className="text-sm text-gray-900 px-6 py-2"
-                              >
-                                moving time
-                              </th>
-                              <th
-                                scope="col"
-                                className="text-sm text-gray-900 px-6 py-2"
-                              >
-                                distance
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody className="border-b">
-                            {allActivities &&
-                              allActivities.map(
-                                (activity: any, idx: number) => (
-                                  <tr
-                                    className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-                                    key={activity.id}
+                      <div>
+                        <div>
+                          <div className="overflow-y-auto min-w-screen rounded max-h-[750px] shadow mb-8">
+                            <table className="table w-full text-sm text-left text-gray-400 rounded">
+                              <thead className="text-xs sticky top-0 uppercase bg-gray-700 text-white">
+                                <tr>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3"
                                   >
-                                    <td className="text-sm text-gray-900 font-semibold px-4 py-1 border-r break-normal text-left">
-                                      <a href={`${activityURL}/${activity.id}`}>
-                                        {idx + 1}. {activity.name}
-                                      </a>
-                                    </td>
-                                    <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
-                                      {activity.sport_type}
-                                    </td>
-                                    <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
-                                      {new Date(
-                                        activity.start_date
-                                      ).toLocaleDateString()}
-                                    </td>
-                                    <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
-                                      {(activity.moving_time / 60).toFixed(0)}{" "}
-                                      mins
-                                    </td>
-                                    <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-center">
-                                      {(activity.distance / 1609.344).toFixed(
-                                        2
-                                      )}{" "}
-                                      mi
-                                    </td>
-                                  </tr>
-                                )
-                              )}
-                          </tbody>
-                          <tfoot className="border-b">
-                            <tr className="bg-gray-100 border-b">
-                              <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-left">
-                                Total ({allActivities?.length | 0})
-                              </td>
-                              <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-left"></td>
-                              <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-left"></td>
-                              <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-center">
-                                {/* Calculate and display the total moving time in hours and minutes format */}
+                                    title
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3"
+                                  >
+                                    type
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3"
+                                  >
+                                    date
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3"
+                                  >
+                                    moving time
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3"
+                                  >
+                                    distance
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3"
+                                  >
+                                    elevation gain
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3"
+                                  >
+                                    avg speed
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3"
+                                  >
+                                    tss
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
                                 {allActivities &&
-                                  (() => {
-                                    const totalMovingTimeSeconds =
-                                      allActivities.reduce(
-                                        (total: any, activity: any) =>
-                                          total + activity.moving_time,
-                                        0
-                                      )
-                                    const hours = Math.floor(
-                                      totalMovingTimeSeconds / 3600
-                                    )
-                                    const minutes = Math.floor(
-                                      (totalMovingTimeSeconds % 3600) / 60
-                                    )
-                                    return `${hours} hr ${minutes} mins`
-                                  })()}
-                              </td>
-                              <td className="text-lg text-gray-900 font-bold px-4 py-1 border-r break-normal text-center">
-                                {/* Calculate and display the total distance */}
-                                {allActivities &&
-                                  (
-                                    allActivities.reduce(
-                                      (total: any, activity: any) =>
-                                        total + activity.distance,
-                                      0
-                                    ) / 1609.344
-                                  ).toFixed(2)}{" "}
-                                mi
-                              </td>
-                            </tr>
-                          </tfoot>
-                        </table>
+                                  allActivities
+                                    .slice()
+                                    .reverse()
+                                    .map((a: any, idx: number) => (
+                                      <tr
+                                        className="bg-white border-b dark:bg-gray-800 border-gray-300 cursor-pointer hover:bg-gray-200"
+                                        key={idx}
+                                        onClick={() => goToActivity(a.id)}
+                                      >
+                                        <td className="text-sm text-gray-900 font-semibold px-4 py-1 border-r break-normal text-left">
+                                          {a.name}
+                                        </td>
+                                        <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-left">
+                                          {a.sport_type}
+                                        </td>
+                                        <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-left">
+                                          {new Date(
+                                            a.start_date
+                                          ).toLocaleDateString()}
+                                        </td>
+                                        <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-left">
+                                          {(a.moving_time / 60).toFixed(0)} mins
+                                        </td>
+                                        <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-left">
+                                          {(a.distance / 1609.344).toFixed(1)}{" "}
+                                          mi
+                                        </td>
+                                        <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-left">
+                                          {(
+                                            a.total_elevation_gain * 3.28084
+                                          ).toFixed(0)}{" "}
+                                          ft
+                                        </td>
+                                        <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-left">
+                                          {(a.average_speed * 2.23694).toFixed(
+                                            0
+                                          )}{" "}
+                                          mph
+                                        </td>
+                                        <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-left">
+                                          {a.suffer_score}
+                                        </td>
+                                      </tr>
+                                    ))}
+                              </tbody>
+                              <tfoot className="rounded">
+                                <tr className="bg-black">
+                                  <td className="text-lg text-white font-bold px-4 py-1 border-r break-normal text-left">
+                                    Total ({allActivities?.length | 0})
+                                  </td>
+                                  <td className="text-lg text-white font-bold px-4 py-1 border-r break-normal text-left"></td>
+                                  <td className="text-lg text-white font-bold px-4 py-1 border-r break-normal text-left"></td>
+                                  <td className="text-lg text-white font-bold px-4 py-1 border-r break-normal text-left">
+                                    {/* Calculate and display the total moving time in hours and minutes format */}
+                                    {allActivities &&
+                                      (() => {
+                                        const totalMovingTimeSeconds =
+                                          allActivities.reduce(
+                                            (total: any, activity: any) =>
+                                              total + activity.moving_time,
+                                            0
+                                          )
+                                        const hours = Math.floor(
+                                          totalMovingTimeSeconds / 3600
+                                        )
+                                        const minutes = Math.floor(
+                                          (totalMovingTimeSeconds % 3600) / 60
+                                        )
+                                        return `${hours}:${minutes}`
+                                      })()}
+                                  </td>
+                                  <td className="text-lg text-white font-bold px-4 py-1 border-r break-normal text-left">
+                                    {/* Calculate and display the total distance */}
+                                    {allActivities &&
+                                      (
+                                        allActivities.reduce(
+                                          (total: any, activity: any) =>
+                                            total + activity.distance,
+                                          0
+                                        ) / 1609.344
+                                      ).toFixed(0)}{" "}
+                                    mi
+                                  </td>
+                                  <td className="text-lg text-white font-bold px-4 py-1 border-r break-normal text-left">
+                                    {/* Calculate total elevation */}
+                                    {allActivities &&
+                                      (
+                                        allActivities.reduce(
+                                          (total: any, activity: any) =>
+                                            total +
+                                            activity.total_elevation_gain,
+                                          0
+                                        ) * 3.28084
+                                      ).toFixed(0)}{" "}
+                                    ft
+                                  </td>
+                                  <td className="text-lg text-black font-bold px-4 py-1 border-r break-normal text-center"></td>
+                                  <td className="text-lg text-white font-bold px-4 py-1 border-r break-normal text-left"></td>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                        </div>
                       </div>
                     </>
                   )

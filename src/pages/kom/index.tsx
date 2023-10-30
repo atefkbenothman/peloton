@@ -102,10 +102,13 @@ export default function Kom() {
   }
 
   return (
-    <div className="bg-gray-100">
-      <div className="min-h-screen">
-        <div className="m-auto">
-          <PageHeader title="KOM Finder" />
+    <div>
+      <div>
+        <div>
+          <PageHeader
+            title="KOM Finder"
+            summary="Search for kom segments around the world"
+          />
           <PageContent>
             {error ? (
               <ErrorCard error={error} />
@@ -155,7 +158,7 @@ export default function Kom() {
                         </button>
                       </div>
                     </div>
-                    <div className="w-full h-96">
+                    <div className="w-full h-96 border-black border-2">
                       <KomMap
                         segmentRoute={segmentRoute}
                         coords={startCoords}

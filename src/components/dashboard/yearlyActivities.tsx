@@ -67,7 +67,7 @@ export default function YearlyActivities({
   }
 
   return (
-    <div className="max-w-xl mx-6 my-4 bg-white rounded-lg shadow-md">
+    <div className="max-w-xl mx-6 my-4 bg-white rounded-lg shadow">
       <div className="px-6 py-4">
         <div className="font-bold text-xl">Yearly Progress</div>
         <div className="flex justify-center items-center p-2">

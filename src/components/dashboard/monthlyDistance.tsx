@@ -3,18 +3,29 @@ import { useState, useEffect } from "react"
 // components
 import LoadingIndicator from "../loadingIndicator"
 // chartjs
-import { Bar } from "react-chartjs-2"
+import { Line } from "react-chartjs-2"
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
+  Filler,
   Legend
 } from "chart.js"
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend
+)
 
 export default function MonthlyDistance({
   data,
@@ -43,12 +54,15 @@ export default function MonthlyDistance({
       const acts = { ...weeklyDistance }
       data.forEach((a: any) => {
         const startDate = new Date(a.start_date)
+        const year = startDate.getFullYear()
 
-        if (startDate >= firstDayOfMonth && startDate <= lastDayOfMonth) {
-          const weekNumber = Math.ceil(
-            (startDate.getDate() + firstDayOfMonth.getDay() - 1) / 7
-          )
-          acts[weekNumber] += a.distance * 0.000621371
+        if (year === currentYear) {
+          if (startDate >= firstDayOfMonth && startDate <= lastDayOfMonth) {
+            const weekNumber = Math.ceil(
+              (startDate.getDate() + firstDayOfMonth.getDay() - 1) / 7
+            )
+            acts[weekNumber] += a.distance * 0.000621371
+          }
         }
       })
       setWeeklyDistance(acts)
@@ -59,21 +73,45 @@ export default function MonthlyDistance({
     labels: Object.keys(weeklyDistance),
     datasets: [
       {
-        label: "weekly distance (mi)",
+        fill: true,
+        label: "distance",
         data: Object.values(weeklyDistance),
-        backgroundColor: "rgba(255, 99, 132, 0.5)"
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)"
       }
     ]
   }
 
+  const options: any = {
+    responsive: true,
+    responsiveAnimationDuration: 0,
+    animation: false,
+    plugins: {
+      legend: {
+        position: "top" as const
+      },
+      title: {
+        display: false,
+        text: "Chart.js Bar Chart"
+      }
+    }
+  }
+
   return (
-    <div className="max-w-xl mx-6 my-4 bg-white rounded-lg shadow-md">
-      <div className="px-6 py-4">
-        <div className="font-bold text-xl">
+    <div className="w-fit bg-white rounded shadow">
+      <div className="px-4 py-4">
+        <div className="font-semibold text-lg">
           {currentMonthStr} Weekly Distance
         </div>
         <div className="flex justify-center items-center p-2">
-          {loading ? <LoadingIndicator /> : <Bar data={barData} />}
+          {loading ? (
+            <LoadingIndicator />
+          ) : (
+            <Line
+              data={barData}
+              options={options}
+            />
+          )}
         </div>
       </div>
     </div>

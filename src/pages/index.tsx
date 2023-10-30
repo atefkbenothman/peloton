@@ -13,6 +13,8 @@ import YearlyDistance from "@/components/dashboard/yearlyDistance"
 import MonthlyDistance from "@/components/dashboard/monthlyDistance"
 import DailyDistance from "@/components/dashboard/dailyDistance"
 import ErrorCard from "@/components/errorCard"
+import YearlyCalendar from "@/components/dashboard/yearlyCalendar"
+import LoadingIndicator from "@/components/loadingIndicator"
 
 export default function Home() {
   const [stravaAccessToken, setStravaAccessToken] = useState("")
@@ -39,28 +41,35 @@ export default function Home() {
   )
 
   return (
-    <div className="bg-gray-100">
-      <div className="min-h-screen">
-        <div className="m-auto">
-          <PageHeader title={"Dashboard"} />
-          <PageContent>
-            {error ? (
-              <ErrorCard error={error} />
-            ) : (
-              <>
-                {stravaAccessToken ? (
-                  <div className="grid grid-cols-2">
-                    <div>
-                      <YearlyActivities
-                        data={activities}
-                        loading={isLoading}
-                      />
-                      <YearlyDistance
+    <div>
+      <PageHeader
+        title="Dashboard"
+        summary="View your activity overview"
+      />
+      <PageContent>
+        {error ? (
+          <ErrorCard error={error} />
+        ) : (
+          <>
+            {stravaAccessToken ? (
+              <div>
+                {isLoading ? (
+                  <div className="flex items-center justify-center">
+                    <LoadingIndicator />
+                  </div>
+                ) : (
+                  <div className="w-full">
+                    <div className="100 mb-8">
+                      <YearlyCalendar
                         data={activities}
                         loading={isLoading}
                       />
                     </div>
-                    <div>
+                    <div className="flex gap-4">
+                      <YearlyDistance
+                        data={activities}
+                        loading={isLoading}
+                      />
                       <MonthlyDistance
                         data={activities}
                         loading={isLoading}
@@ -71,14 +80,14 @@ export default function Home() {
                       />
                     </div>
                   </div>
-                ) : (
-                  <LoginFirst />
                 )}
-              </>
+              </div>
+            ) : (
+              <LoginFirst />
             )}
-          </PageContent>
-        </div>
-      </div>
+          </>
+        )}
+      </PageContent>
     </div>
   )
 }

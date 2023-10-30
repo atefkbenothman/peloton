@@ -38,37 +38,38 @@ export default function Activities() {
   )
 
   return (
-    <div className="bg-gray-100">
-      <div className="min-h-screen m-auto">
-        <PageHeader title="Activities" />
-        <PageContent>
-          {error ? (
-            <ErrorCard error={error} />
-          ) : (
-            <>
-              {stravaAccessToken ? (
-                <div>
-                  {isLoading ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <div className="w-full px-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-                      {Array.isArray(activities) &&
-                        activities.map((activity) => (
-                          <ActivityCard
-                            key={activity.id}
-                            activity={activity}
-                          />
-                        ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <LoginFirst />
-              )}
-            </>
-          )}
-        </PageContent>
-      </div>
+    <div>
+      <PageHeader
+        title="Activities"
+        summary="View your recent activities"
+      />
+      <PageContent>
+        {error ? (
+          <ErrorCard error={error} />
+        ) : (
+          <>
+            {stravaAccessToken ? (
+              <div className="flex items-center justify-center">
+                {isLoading ? (
+                  <LoadingIndicator />
+                ) : (
+                  <div className="grid gap-8 grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+                    {Array.isArray(activities) &&
+                      activities.map((activity: any) => (
+                        <ActivityCard
+                          key={activity.id}
+                          activity={activity}
+                        />
+                      ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <LoginFirst />
+            )}
+          </>
+        )}
+      </PageContent>
     </div>
   )
 }

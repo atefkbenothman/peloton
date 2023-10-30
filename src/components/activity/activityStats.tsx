@@ -16,6 +16,7 @@ interface ActivityDetail {
   device_name: string
   segment_efforts: any[]
   start_latlng: any[]
+  average_heartrate: number
 }
 
 export default function ActivityStats({
@@ -24,49 +25,26 @@ export default function ActivityStats({
   activityDetails: ActivityDetail
 }) {
   return (
-    <>
-      <div className="grid grid-cols-4 gap-4 mb-10">
+    <div className="flex items-center justify-center">
+      <div className="grid grid-cols-4 gap-4 mb-10 text-center w-full">
         <div>
           <p className="text-gray-700 text-base">distance</p>
           <p className="font-bold text-2xl">
-            {((activityDetails.distance || 0) / 1609.344).toFixed(2)} mi
-          </p>
-        </div>
-        <div>
-          <p className="text-gray-700 text-base">time</p>
-          <p className="font-bold text-2xl">
-            {((activityDetails.moving_time || 0) / 60).toFixed(0)} mins
-          </p>
-        </div>
-        <div>
-          <p className="text-gray-700 text-base">avg mph</p>
-          <p className="font-bold text-2xl">
-            {((activityDetails.average_speed || 0) * 2.23694).toFixed(2)} mph
-          </p>
-        </div>
-        <div>
-          <p className="text-gray-700 text-base">max mph</p>
-          <p className="font-bold text-2xl">
-            {((activityDetails.max_speed || 0) * 2.23694).toFixed(2)} mph
-          </p>
-        </div>
-        <div>
-          <p className="text-gray-700 text-base">avg watts</p>
-          <p className="font-bold text-2xl">
-            {(activityDetails.average_watts || 0).toFixed(2)} w
-          </p>
-        </div>
-        <div>
-          <p className="text-gray-700 text-base">max watts</p>
-          <p className="font-bold text-2xl">
-            {activityDetails.max_watts || 0} mph
+            {((activityDetails.distance || 0) / 1609.344).toFixed(1)} mi
           </p>
         </div>
         <div>
           <p className="text-gray-700 text-base">elevation gain</p>
           <p className="font-bold text-2xl">
             {((activityDetails.total_elevation_gain || 0) * 3.2808).toFixed(0)}{" "}
-            feet
+            ft
+          </p>
+        </div>
+        <div>
+          <p className="text-gray-700 text-base">time</p>
+          <p className="font-bold text-2xl">
+            {Math.floor(activityDetails.moving_time / 3600)}:
+            {Math.floor((activityDetails.moving_time % 3600) / 60)} mins
           </p>
         </div>
         <div>
@@ -75,7 +53,31 @@ export default function ActivityStats({
             {(activityDetails.calories || 0).toFixed(0)} cals
           </p>
         </div>
+        <div>
+          <p className="text-gray-700 text-base">avg mph</p>
+          <p className="font-bold text-2xl">
+            {((activityDetails.average_speed || 0) * 2.23694).toFixed(1)} mph
+          </p>
+        </div>
+        <div>
+          <p className="text-gray-700 text-base">max mph</p>
+          <p className="font-bold text-2xl">
+            {((activityDetails.max_speed || 0) * 2.23694).toFixed(1)} mph
+          </p>
+        </div>
+        <div>
+          <p className="text-gray-700 text-base">avg watts</p>
+          <p className="font-bold text-2xl">
+            {(activityDetails.average_watts || 0).toFixed(1)} w
+          </p>
+        </div>
+        <div>
+          <p className="text-gray-700 text-base">avg HR</p>
+          <p className="font-bold text-2xl">
+            {(activityDetails.average_heartrate || 0).toFixed(0)} bpm
+          </p>
+        </div>
       </div>
-    </>
+    </div>
   )
 }

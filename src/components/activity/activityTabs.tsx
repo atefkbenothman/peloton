@@ -10,16 +10,16 @@ import { Tabs, CustomFlowbiteTheme } from "flowbite-react"
 const customTheme: CustomFlowbiteTheme["tab"] = {
   tablist: {
     styles: {
-      default: ""
+      underline: ""
     },
     tabitem: {
-      base: "flex items-center justify-center p-4 px-10 rounded-lg text-sm font-medium first:ml-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 focus:outline-none",
+      base: "p-4 px-10 mx-1 xl:mx-10 text-xl font-semibold focus:outline-none hover:bg-gray-200",
       styles: {
-        default: {
+        underline: {
           active: {
-            on: "bg-gray-300"
-          },
-          base: "font-bold text-xl"
+            on: "rounded-t-lg border-b-4 border-blue-700 active text-blue-600",
+            off: "rounded-lg text-gray-500 hover:text-black"
+          }
         }
       }
     }
@@ -56,38 +56,41 @@ export default function ActivityTabs({
   setSegmentRoute: any
 }) {
   return (
-    <>
+    <div>
       {activityId && activityDetails && activityPhotos ? (
-        <Tabs.Group
-          style="default"
-          theme={customTheme}
-        >
-          {/* segments */}
-          <Tabs.Item
-            active
-            title={`Segments (${activityDetails.segment_efforts.length})`}
+        <>
+          <Tabs.Group
+            style="underline"
+            theme={customTheme}
+            className="flex w-full justify-center"
           >
-            <Segments
-              segments={activityDetails.segment_efforts}
-              setSegmentRoute={setSegmentRoute}
-            />
-          </Tabs.Item>
-          {/* power zones */}
-          <Tabs.Item title="Zones">
-            <PowerZones segmentEfforts={activityDetails.segment_efforts} />
-          </Tabs.Item>
-          {/* analytics */}
-          <Tabs.Item title="Analysis">
-            {activityId && <Analysis activityId={activityId} />}
-          </Tabs.Item>
-          {/* photos */}
-          <Tabs.Item title={`Photos (${activityPhotos.length})`}>
-            {activityPhotos && <Photos photos={activityPhotos} />}
-          </Tabs.Item>
-        </Tabs.Group>
+            {/* segments */}
+            <Tabs.Item
+              active
+              title={`Segments (${activityDetails.segment_efforts.length})`}
+            >
+              <Segments
+                segments={activityDetails.segment_efforts}
+                setSegmentRoute={setSegmentRoute}
+              />
+            </Tabs.Item>
+            {/* power zones */}
+            <Tabs.Item title="Zones">
+              <PowerZones segmentEfforts={activityDetails.segment_efforts} />
+            </Tabs.Item>
+            {/* analytics */}
+            <Tabs.Item title="Analysis">
+              {activityId && <Analysis activityId={activityId} />}
+            </Tabs.Item>
+            {/* photos */}
+            <Tabs.Item title={`Photos (${activityPhotos.length})`}>
+              {activityPhotos && <Photos photos={activityPhotos} />}
+            </Tabs.Item>
+          </Tabs.Group>
+        </>
       ) : (
         <></>
       )}
-    </>
+    </div>
   )
 }
