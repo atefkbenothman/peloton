@@ -4,23 +4,23 @@
 
 <br>
 
-<img width="1536" alt="Screen Shot 2023-09-20 at 7 15 48 PM" src="https://github.com/atefkbenothman/strava/assets/92714853/43bfb326-4dd7-495f-896a-0c800c616755">
+<img width="1536" alt="Screen Shot 2023-10-30 at 12 48 51 AM" src="https://github.com/atefkbenothman/strava/assets/92714853/6ed298ef-646f-4c75-806b-fe93674b41f3">
 
 <br>
 
-<img width="1536" alt="Screen Shot 2023-09-20 at 7 14 11 PM" src="https://github.com/atefkbenothman/strava/assets/92714853/dfb32f6f-16bc-4644-8fc0-b78104617fe4">
+<img width="1536" alt="Screen Shot 2023-10-30 at 12 49 17 AM" src="https://github.com/atefkbenothman/strava/assets/92714853/20723090-7981-44f2-9ec9-da2c366a0cfa">
 
 <br>
 
-<img width="1536" alt="Screen Shot 2023-09-20 at 7 14 46 PM" src="https://github.com/atefkbenothman/strava/assets/92714853/9228fc17-1e09-4e57-9936-180fe14c7ed1">
+<img width="1536" alt="Screen Shot 2023-10-30 at 12 49 48 AM" src="https://github.com/atefkbenothman/strava/assets/92714853/78afda61-d5b4-4796-aaf3-1dbb3b376ad1">
 
 <br>
 
-<img width="1536" alt="Screen Shot 2023-09-21 at 8 04 04 PM" src="https://github.com/atefkbenothman/strava/assets/92714853/8c6dfda3-c53c-45ef-80ff-0b0798ec3c2a">
+<img width="1536" alt="Screen Shot 2023-10-30 at 12 49 55 AM" src="https://github.com/atefkbenothman/strava/assets/92714853/5724c4b1-7b4b-48cc-be72-30a143b4968d">
 
 <br>
 
-<img width="1536" alt="Screen Shot 2023-09-21 at 8 03 40 PM" src="https://github.com/atefkbenothman/strava/assets/92714853/863c56b9-2112-4d2f-afc9-815774cb37c3">
+<img width="1536" alt="Screen Shot 2023-10-30 at 12 53 47 AM" src="https://github.com/atefkbenothman/strava/assets/92714853/9518c6f6-40c3-46be-8cfd-ecbbcf03b418">
 
 <br>
 
