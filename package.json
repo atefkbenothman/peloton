@@ -36,6 +36,7 @@
     "react": "18.2.0",
     "react-activity-calendar": "^2.0.2",
     "react-chartjs-2": "^5.2.0",
+    "react-csv": "^2.2.2",
     "react-datepicker": "^4.10.0",
     "react-dom": "18.2.0",
     "react-github-calendar": "^4.0.1",
@@ -50,6 +51,7 @@
   },
   "devDependencies": {
     "@types/mapbox__polyline": "^1.0.2",
+    "@types/react-csv": "^1.1.7",
     "@types/react-datepicker": "^4.11.2",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",

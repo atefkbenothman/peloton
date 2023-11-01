@@ -75,242 +75,172 @@ export default function Profile() {
     }
   )
 
+  if (!stravaAccessToken) {
+    return (
+      <div>
+        <PageHeader
+          title="Profile"
+          summary="View your profile information"
+        />
+        <PageContent>
+          <LoginFirst />
+        </PageContent>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div>
+        <PageHeader
+          title="Profile"
+          summary="View your profile information"
+        />
+        <PageContent>
+          <ErrorCard error={error} />
+        </PageContent>
+      </div>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <div>
+        <PageHeader
+          title="Profile"
+          summary="View your profile information"
+        />
+        <PageContent>
+          <LoadingIndicator />
+        </PageContent>
+      </div>
+    )
+  }
+
   return (
     <div>
-      <div>
+      <PageHeader
+        title="Profile"
+        summary="View your profile information"
+      />
+      <PageContent>
         <div>
-          {/* Profile Section */}
-          <PageHeader
-            title="Profile"
-            summary="View your profile information"
-          />
-          <PageContent>
-            {error ? (
-              <ErrorCard error={error} />
-            ) : (
-              <>
-                {stravaAccessToken ? (
-                  <div>
-                    {athlete && zones && athleteStats ? (
-                      <div>
-                        {/* Data */}
-                        <div className="flex items-start space-x-4 mb-10">
-                          <Image
-                            src={athlete.profile}
-                            alt="profile picture"
-                            className="w-24 h-24 rounded"
-                            width={100}
-                            height={100}
-                          />
-                          <div className="dark:text-white">
-                            <div className="flex items-baseline">
-                              <p className="text-xl font-bold">
-                                {athlete.firstname} {athlete.lastname}
-                              </p>
-                            </div>
-                            <div className="text-sm font-normal dark:text-gray-400">
-                              {athlete.city}, {athlete.state}, {athlete.country}
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Info Section */}
-                        {/* <div className="w-full grid sm:grid-cols-1 md:grid-cols-2">
-                      <div className="grid grid-cols-2">
-                        <div>
-                          <p className="text-3xl font-medium text-black mb-4">
-                            Power Zones
-                          </p>
-                          {zones.power.zones.map((z: any, idx: number) => (
-                            <div>
-                              <div
-                                className={`w-1/2 p-4 m-4 flex flex-col items-center justify-center bg-${zoneInfo[idx][1]}-300 border-4 border-gray-300 rounded-lg`}
-                              >
-                                <div className="">
-                                  <dt className="text-3xl md:text-4xl font-extrabold">
-                                    {z.min} - {z.max}
-                                  </dt>
-                                  <dd className="text-lg font-bold text-center">
-                                    {idx + 1}: {zoneInfo[idx][0]}
-                                  </dd>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                        <div>
-                          <p className="text-3xl font-medium text-black mb-4">
-                            HR Zones
-                          </p>
-                          {zones.heart_rate.zones.map((z: any, idx: number) => (
-                            <div>
-                              <div
-                                className={`w-1/2 p-4 m-4 flex flex-col items-center justify-center bg-${zoneInfo[idx][1]}-300 border-4 border-gray-300 rounded-lg`}
-                              >
-                                <div className="">
-                                  <dt className="text-3xl md:text-4xl font-extrabold">
-                                    {z.min} - {z.max}
-                                  </dt>
-                                  <dd className="text-lg font-bold text-center">
-                                    {idx + 1}: {zoneInfo[idx][0]}
-                                  </dd>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div> */}
-
-                        {/* Stats Section */}
-                        {athleteStats.all_ride_totals &&
-                          athleteStats.ytd_ride_totals && (
-                            <div>
-                              {/* Title */}
-                              <p className="text-3xl font-medium text-black mb-4">
-                                Stats
-                              </p>
-
-                              {/* Data */}
-                              <div className="m-4">
-                                {/* All-Time */}
-                                <div className="mb-8">
-                                  <p className="font-medium mb-2">All-Time</p>
-
-                                  <dl className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  max-w-screen-md gap-4 text-gray-900 dark:text-white text-center">
-                                    <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg">
-                                      <div className="">
-                                        <dt className="text-3xl md:text-4xl font-extrabold">
-                                          {athleteStats.all_ride_totals.count}
-                                        </dt>
-                                        <dd className="font-medium text-gray-600 dark:text-gray-400">
-                                          rides all time
-                                        </dd>
-                                      </div>
-                                    </div>
-
-                                    <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg">
-                                      <div className="p-2">
-                                        <dt className="text-3xl md:text-4xl font-extrabold">
-                                          {(
-                                            athleteStats.all_ride_totals
-                                              .distance / 1609.344
-                                          ).toFixed(0)}
-                                        </dt>
-                                        <dd className="font-medium text-gray-600 dark:text-gray-400">
-                                          miles ridden
-                                        </dd>
-                                      </div>
-                                    </div>
-
-                                    <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg">
-                                      <div className="p-2">
-                                        <dt className="text-3xl md:text-4xl font-extrabold">
-                                          {(
-                                            athleteStats.all_ride_totals
-                                              .elapsed_time /
-                                            60 /
-                                            60
-                                          ).toFixed(0)}
-                                        </dt>
-                                        <dd className="font-medium text-gray-600 dark:text-gray-400">
-                                          hours ridden
-                                        </dd>
-                                      </div>
-                                    </div>
-
-                                    <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg">
-                                      <div className="p-2">
-                                        <dt className="text-3xl md:text-4xl font-extrabold">
-                                          {(
-                                            athleteStats.all_ride_totals
-                                              .elevation_gain * 3.2808
-                                          ).toFixed(0)}
-                                        </dt>
-                                        <dd className="font-medium text-gray-600 dark:text-gray-400">
-                                          feet climbed
-                                        </dd>
-                                      </div>
-                                    </div>
-                                  </dl>
-                                </div>
-
-                                {/* This Year */}
-                                <p className="font-medium mb-2">This Year</p>
-
-                                <dl className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  max-w-screen-md gap-4 text-gray-900 dark:text-white text-center">
-                                  <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg">
-                                    <div className="p-2">
-                                      <dt className="text-3xl md:text-4xl font-extrabold">
-                                        {athleteStats.ytd_ride_totals.count}
-                                      </dt>
-                                      <dd className="font-medium text-gray-600 dark:text-gray-400">
-                                        rides all time
-                                      </dd>
-                                    </div>
-                                  </div>
-
-                                  <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg">
-                                    <div className="p-2">
-                                      <dt className="text-3xl md:text-4xl font-extrabold">
-                                        {(
-                                          athleteStats.ytd_ride_totals
-                                            .distance / 1609.344
-                                        ).toFixed(0)}
-                                      </dt>
-                                      <dd className="font-medium text-gray-600 dark:text-gray-400">
-                                        miles ridden
-                                      </dd>
-                                    </div>
-                                  </div>
-
-                                  <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg">
-                                    <div className="p-2">
-                                      <dt className="text-3xl md:text-4xl font-extrabold">
-                                        {(
-                                          athleteStats.ytd_ride_totals
-                                            .elapsed_time /
-                                          60 /
-                                          60
-                                        ).toFixed(0)}
-                                      </dt>
-                                      <dd className="font-medium text-gray-600 dark:text-gray-400">
-                                        hours ridden
-                                      </dd>
-                                    </div>
-                                  </div>
-
-                                  <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg">
-                                    <div className="p-2">
-                                      <dt className="text-3xl md:text-4xl font-extrabold">
-                                        {(
-                                          athleteStats.ytd_ride_totals
-                                            .elevation_gain * 3.2808
-                                        ).toFixed(0)}
-                                      </dt>
-                                      <dd className="font-medium text-gray-600 dark:text-gray-400">
-                                        feet climbed
-                                      </dd>
-                                    </div>
-                                  </div>
-                                </dl>
-                              </div>
-                            </div>
-                          )}
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-center">
-                        <LoadingIndicator />
-                      </div>
-                    )}
+          {athlete && zones && athleteStats && (
+            <>
+              <div className="flex items-start space-x-4 mb-10">
+                <Image
+                  src={athlete.profile}
+                  alt="profile picture"
+                  className="w-24 h-24 rounded"
+                  width={100}
+                  height={100}
+                />
+                <div>
+                  <div className="flex items-baseline">
+                    <p className="text-2xl font-bold">
+                      {athlete.firstname} {athlete.lastname}
+                    </p>
                   </div>
-                ) : (
-                  <LoginFirst />
-                )}
-              </>
-            )}
-          </PageContent>
+                  <div className="text-sm font-normal">
+                    {athlete.city}, {athlete.state}, {athlete.country}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p className="text-3xl font-medium text-black mb-4">Stats</p>
+                <div className="flex grid grid-cols-2">
+                  <div>
+                    <p className="font-medium mb-2">All-Time</p>
+                    <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg w-1/2 my-4">
+                      <dt className="text-3xl font-extrabold">
+                        {athleteStats.all_ride_totals.count}
+                      </dt>
+                      <dd className="font-medium text-gray-600">
+                        rides all time
+                      </dd>
+                    </div>
+                    <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg w-1/2 my-4">
+                      <dt className="text-3xl font-extrabold">
+                        {(
+                          athleteStats.all_ride_totals.distance / 1609.344
+                        ).toFixed(0)}
+                      </dt>
+                      <dd className="font-medium text-gray-600 dark:text-gray-400">
+                        miles ridden
+                      </dd>
+                    </div>
+                    <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg w-1/2 my-4">
+                      <dt className="text-3xl font-extrabold">
+                        {(
+                          athleteStats.all_ride_totals.elapsed_time /
+                          60 /
+                          60
+                        ).toFixed(0)}
+                      </dt>
+                      <dd className="font-medium text-gray-600 dark:text-gray-400">
+                        hours ridden
+                      </dd>
+                    </div>
+                    <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg w-1/2 my-4">
+                      <dt className="text-3xl font-extrabold">
+                        {(
+                          athleteStats.all_ride_totals.elevation_gain * 3.2808
+                        ).toFixed(0)}
+                      </dt>
+                      <dd className="font-medium text-gray-600 dark:text-gray-400">
+                        feet climbed
+                      </dd>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="font-medium mb-2">This Year</p>
+                    <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg w-1/2 my-4">
+                      <dt className="text-3xl font-extrabold">
+                        {athleteStats.ytd_ride_totals.count}
+                      </dt>
+                      <dd className="font-medium text-gray-600 dark:text-gray-400">
+                        rides all time
+                      </dd>
+                    </div>
+                    <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg w-1/2 my-4">
+                      <dt className="text-3xl font-extrabold">
+                        {(
+                          athleteStats.ytd_ride_totals.distance / 1609.344
+                        ).toFixed(0)}
+                      </dt>
+                      <dd className="font-medium text-gray-600 dark:text-gray-400">
+                        miles ridden
+                      </dd>
+                    </div>
+                    <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg w-1/2 my-4">
+                      <dt className="text-3xl font-extrabold">
+                        {(
+                          athleteStats.ytd_ride_totals.elapsed_time /
+                          60 /
+                          60
+                        ).toFixed(0)}
+                      </dt>
+                      <dd className="font-medium text-gray-600 dark:text-gray-400">
+                        hours ridden
+                      </dd>
+                    </div>
+                    <div className="flex flex-col items-center justify-center bg-gray-300 border-4 border-gray-300 rounded-lg w-1/2 my-4">
+                      <dt className="text-3xl font-extrabold">
+                        {(
+                          athleteStats.ytd_ride_totals.elevation_gain * 3.2808
+                        ).toFixed(0)}
+                      </dt>
+                      <dd className="font-medium text-gray-600 dark:text-gray-400">
+                        feet climbed
+                      </dd>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
-      </div>
+      </PageContent>
     </div>
   )
 }

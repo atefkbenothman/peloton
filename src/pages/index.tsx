@@ -8,7 +8,6 @@ import { getAllAthleteActivities } from "@/utils/api"
 import PageHeader from "@/components/pageHeader"
 import PageContent from "@/components/pageContent"
 import LoginFirst from "@/components/loginFirst"
-import YearlyActivities from "@/components/dashboard/yearlyActivities"
 import YearlyDistance from "@/components/dashboard/yearlyDistance"
 import MonthlyDistance from "@/components/dashboard/monthlyDistance"
 import DailyDistance from "@/components/dashboard/dailyDistance"
@@ -40,6 +39,48 @@ export default function Home() {
     }
   )
 
+  if (!stravaAccessToken) {
+    return (
+      <div>
+        <PageHeader
+          title="Dashboard"
+          summary="View your activity overview"
+        />
+        <PageContent>
+          <LoginFirst />
+        </PageContent>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div>
+        <PageHeader
+          title="Dashboard"
+          summary="View your activity overview"
+        />
+        <PageContent>
+          <ErrorCard error={error} />
+        </PageContent>
+      </div>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <div>
+        <PageHeader
+          title="Dashboard"
+          summary="View your activity overview"
+        />
+        <PageContent>
+          <LoadingIndicator />
+        </PageContent>
+      </div>
+    )
+  }
+
   return (
     <div>
       <PageHeader
@@ -47,46 +88,28 @@ export default function Home() {
         summary="View your activity overview"
       />
       <PageContent>
-        {error ? (
-          <ErrorCard error={error} />
-        ) : (
-          <>
-            {stravaAccessToken ? (
-              <div>
-                {isLoading ? (
-                  <div className="flex items-center justify-center">
-                    <LoadingIndicator />
-                  </div>
-                ) : (
-                  <div className="w-full">
-                    <div className="100 mb-8">
-                      <YearlyCalendar
-                        data={activities}
-                        loading={isLoading}
-                      />
-                    </div>
-                    <div className="flex gap-4">
-                      <YearlyDistance
-                        data={activities}
-                        loading={isLoading}
-                      />
-                      <MonthlyDistance
-                        data={activities}
-                        loading={isLoading}
-                      />
-                      <DailyDistance
-                        data={activities}
-                        loading={isLoading}
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <LoginFirst />
-            )}
-          </>
-        )}
+        <div className="w-full">
+          <div className="100 mb-8">
+            <YearlyCalendar
+              data={activities}
+              loading={isLoading}
+            />
+          </div>
+          <div className="flex gap-4">
+            <YearlyDistance
+              data={activities}
+              loading={isLoading}
+            />
+            <MonthlyDistance
+              data={activities}
+              loading={isLoading}
+            />
+            <DailyDistance
+              data={activities}
+              loading={isLoading}
+            />
+          </div>
+        </div>
       </PageContent>
     </div>
   )

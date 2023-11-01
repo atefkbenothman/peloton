@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
 import useSWR from "swr"
-// mapbox
-import polyline from "@mapbox/polyline"
 // api
 import { getSegment } from "@/utils/api"
+// mapbox
+import polyline from "@mapbox/polyline"
 
 export default function Segments({
   segments,
