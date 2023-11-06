@@ -196,13 +196,7 @@ export default function ActivityDetails() {
             </div>
           </Tabs.Item>
           <Tabs.Item title="Analysis">
-            This is{" "}
-            <span className="font-medium text-gray-800 dark:text-white">
-              Dashboard tab's associated content
-            </span>
-            . Clicking another tab will toggle the visibility of this one for
-            the next. The tab JavaScript swaps classes to control the content
-            visibility and styling.
+            <p>analysis</p>
           </Tabs.Item>
           <Tabs.Item title="Photos">
             <Photos photos={photos} />
