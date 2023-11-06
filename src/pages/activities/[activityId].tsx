@@ -20,7 +20,10 @@ import polyline from "@mapbox/polyline"
 // flowbite
 import { Tabs, CustomFlowbiteTheme } from "flowbite-react"
 // json viewer
-import ReactJson from "@microlink/react-json-view"
+import dynamic from "next/dynamic"
+const DynamicReactJson = dynamic(import("@microlink/react-json-view"), {
+  ssr: false
+})
 
 const customTheme: CustomFlowbiteTheme["tab"] = {
   tablist: {
@@ -203,7 +206,7 @@ export default function ActivityDetails() {
           </Tabs.Item>
           <Tabs.Item title="Raw Data">
             <div className="w-full whitespace-normal break-all">
-              <ReactJson
+              <DynamicReactJson
                 src={activity}
                 indentWidth={2}
                 collapsed={1}
