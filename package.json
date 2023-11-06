@@ -58,5 +58,8 @@
     "postcss": "^8.4.21",
     "prettier": "^2.8.8",
     "tailwindcss": "^3.2.6"
+  },
+  "resolutions": {
+    "@microlink/react-json-view": "^1.23.0"
   }
 }
