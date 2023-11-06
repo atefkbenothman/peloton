@@ -20,86 +20,45 @@ function NavBar() {
 
   return (
     <>
-      {/* Top Navbar */}
-      <nav className="fixed top-0 z-50 w-full border-b bg-black border-gray-700">
-        <div className="px-3 py-3 lg:px-5 lg:pl-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center justify-start">
-              <button
-                data-drawer-target="logo-sidebar"
-                data-drawer-toggle="logo-sidebar"
-                aria-controls="logo-sidebar"
-                type="button"
-                className="inline-flex items-center p-2 text-sm rounded-lg sm:hidden focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600"
-              >
-                <span className="sr-only">Open sidebar</span>
-                <svg
-                  className="w-6 h-6"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    clipRule="evenodd"
-                    fillRule="evenodd"
-                    d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-                  ></path>
-                </svg>
-              </button>
-              <Link
-                href="/"
-                className="flex items-center"
-              >
-                <Image
-                  src="/strava-icon.svg"
-                  className="h-8 mr-2 rounded"
-                  alt="Flowbite Logo"
-                  height={32}
-                  width={32}
-                />
-                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-white">
-                  Strava Pro
-                </span>
-              </Link>
-            </div>
-            <div className="flex items-center">
-              <div className="flex items-center">
-                <div>
-                  <div className="flex items-center">
-                    <Image
-                      src="/strava-logo.svg"
-                      alt="map"
-                      width={100}
-                      height={100}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
       {/* Side Navbar */}
       <aside
         id="logo-sidebar"
-        className="fixed min-h-screen top-0 left-0 z-40 w-64 pt-20 transition-transform -translate-x-full border-r sm:translate-x-0 bg-black"
+        className="fixed min-h-screen top-0 left-0 z-40 w-52 xl:w-64 border-r bg-black border-black"
         aria-label="Sidebar"
       >
+        <div className="overflow-y-auto bg-black px-4 pt-7 pb-6">
+          <Link
+            href="/"
+            className="flex items-center w-fit"
+          >
+            <Image
+              src="/strava-icon.svg"
+              className="h-8 mr-2 rounded"
+              alt="Strava Logo"
+              height={32}
+              width={32}
+            />
+            <span className="self-center text-2xl font-semibold text-white">
+              Strava Pro
+            </span>
+          </Link>
+        </div>
         <div className="px-3 py-2">
-          <ul className="font-medium space-y-3">
+          <ul className="space-y-3">
             <li>
               <Link
                 href="/"
                 className={cn(
-                  "flex items-center p-2 rounded-lg text-gray-300 font-bold text-lg hover:bg-gray-700 hover:text-white group",
-                  pathname === "/" ? "text-white bg-gray-700" : "text-gray-300"
+                  "flex items-center p-2 rounded text-slate-300 font-semibold text-lg tracking-wide hover:bg-slate-500 hover:text-white hover:bg-opacity-30 group",
+                  pathname === "/"
+                    ? "text-white bg-slate-500 bg-opacity-30"
+                    : "text-slate-300"
                 )}
               >
                 <svg
                   className={cn(
-                    "w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white",
-                    pathname === "/" ? "text-white" : "text-gray-400"
+                    "w-5 h-5 text-slate-300 group-hover:text-white",
+                    pathname === "/" ? "text-white" : "text-slate-300"
                   )}
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
@@ -121,16 +80,16 @@ function NavBar() {
               <Link
                 href="/profile"
                 className={cn(
-                  "flex items-center p-2 rounded-lg text-gray-300 font-bold text-lg hover:bg-gray-700 hover:text-white group",
+                  "flex items-center p-2 rounded text-slate-300 font-bold text-lg tracking-wide hover:bg-slate-500 hover:text-white hover:bg-opacity-30 group",
                   pathname === "/profile"
-                    ? "text-white bg-gray-700"
-                    : "text-gray-300"
+                    ? "text-white bg-slate-500 bg-opacity-30"
+                    : "text-slate-300"
                 )}
               >
                 <svg
                   className={cn(
-                    "w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white",
-                    pathname === "/profile" ? "text-white" : "text-gray-400"
+                    "w-5 h-5 text-slate-300 group-hover:text-white",
+                    pathname === "/profile" ? "text-white" : "text-slate-300"
                   )}
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
@@ -152,16 +111,16 @@ function NavBar() {
               <Link
                 href="/activities"
                 className={cn(
-                  "flex items-center p-2 rounded-lg text-gray-300 font-bold text-lg hover:bg-gray-700 hover:text-white group",
+                  "flex items-center p-2 rounded text-slate-300 font-bold tracking-wide text-lg hover:bg-slate-500 hover:text-white hover:bg-opacity-30 group",
                   pathname === "/activities"
-                    ? "text-white bg-gray-700"
-                    : "text-gray-300"
+                    ? "text-white bg-slate-500 bg-opacity-30"
+                    : "text-slate-300"
                 )}
               >
                 <svg
                   className={cn(
-                    "w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white",
-                    pathname === "/activities" ? "text-white" : "text-gray-400"
+                    "w-5 h-5  text-slate-300 group-hover:text-white",
+                    pathname === "/activities" ? "text-white" : "text-slate-300"
                   )}
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
@@ -181,18 +140,49 @@ function NavBar() {
             </li>
             <li>
               <Link
-                href="/search"
+                href="/chat"
                 className={cn(
-                  "flex items-center p-2 rounded-lg text-gray-300 font-bold text-lg hover:bg-gray-700 hover:text-white group",
-                  pathname === "/search"
-                    ? "text-white bg-gray-700"
-                    : "text-gray-300"
+                  "flex items-center p-2 rounded text-slate-300 font-bold tracking-wide text-lg hover:bg-slate-500 hover:text-white hover:bg-opacity-30 group",
+                  pathname === "/chat"
+                    ? "text-white bg-slate-500 bg-opacity-30"
+                    : "text-slate-300"
                 )}
               >
                 <svg
                   className={cn(
-                    "w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white",
-                    pathname === "/search" ? "text-white" : "text-gray-400"
+                    "w-5 h-5  text-slate-300 group-hover:text-white",
+                    pathname === "/chat" ? "text-white" : "text-slate-300"
+                  )}
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M16 5h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-2v3l-4-3H8m4-13H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2v3l4-3h4a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"
+                  />
+                </svg>
+                <span className="ml-3">Chat</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/search"
+                className={cn(
+                  "flex items-center p-2 rounded text-slate-300 font-bold tracking-wide text-lg hover:bg-slate-500 hover:text-white hover:bg-opacity-30 group",
+                  pathname === "/search"
+                    ? "text-white bg-slate-500 bg-opacity-30"
+                    : "text-slate-300"
+                )}
+              >
+                <svg
+                  className={cn(
+                    "w-5 h-5  text-slate-300 group-hover:text-white",
+                    pathname === "/search" ? "text-white" : "text-slate-300"
                   )}
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
@@ -214,16 +204,16 @@ function NavBar() {
               <Link
                 href="/kom"
                 className={cn(
-                  "flex items-center p-2 rounded-lg text-gray-300 font-bold text-lg hover:bg-gray-700 hover:text-white group",
+                  "flex items-center p-2 rounded text-slate-300 font-bold tracking-wide text-lg hover:bg-slate-500 hover:text-white hover:bg-opacity-30 group",
                   pathname === "/kom"
-                    ? "text-white bg-gray-700"
-                    : "text-gray-300"
+                    ? "text-white bg-slate-500 bg-opacity-30"
+                    : "text-slate-300"
                 )}
               >
                 <svg
                   className={cn(
-                    "w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white",
-                    pathname === "/kom" ? "text-white" : "text-gray-400"
+                    "w-5 h-5  text-slate-300 group-hover:text-white",
+                    pathname === "/kom" ? "text-white" : "text-slate-300"
                   )}
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
@@ -241,21 +231,21 @@ function NavBar() {
                 <span className="ml-3">KOM</span>
               </Link>
             </li>
-            <ul className="py-3 mx-3 absolute inset-x-0 bottom-0 space-y-2 border-t-2 border-gray-500">
+            <ul className="py-3 mx-3 absolute inset-x-0 bottom-0 space-y-2 border-t-2 border-slate-400">
               <li>
                 <Link
                   href="/settings"
                   className={cn(
-                    "flex items-center p-2 rounded-lg text-gray-300 font-bold text-lg hover:bg-gray-700 hover:text-white group",
+                    "flex items-center p-2 rounded text-slate-300 font-bold tracking-wide text-lg hover:bg-slate-500 hover:text-white hover:bg-opacity-30 group",
                     pathname === "/settings"
-                      ? "text-white bg-gray-700"
-                      : "text-gray-300"
+                      ? "text-white bg-slate-500 bg-opacity-30"
+                      : "text-slate-300"
                   )}
                 >
                   <svg
                     className={cn(
-                      "w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white",
-                      pathname === "/settings" ? "text-white" : "text-gray-400"
+                      "w-5 h-5  text-slate-300 group-hover:text-white",
+                      pathname === "/settings" ? "text-white" : "text-slate-300"
                     )}
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
@@ -276,67 +266,35 @@ function NavBar() {
                 </Link>
               </li>
               <li>
-                {stravaAccessToken ? (
-                  <Link
-                    href="/login"
+                <Link
+                  href="/login"
+                  className={cn(
+                    "flex items-center p-2 rounded text-slate-300 font-bold tracking-wide text-lg hover:bg-slate-500 hover:text-white hover:bg-opacity-30 group",
+                    pathname === "/login"
+                      ? "text-white bg-slate-500 bg-opacity-30"
+                      : "text-slate-300"
+                  )}
+                >
+                  <svg
                     className={cn(
-                      "flex items-center p-2 rounded-lg text-gray-300 font-bold text-lg hover:bg-gray-700 hover:text-white group",
-                      pathname === "/login"
-                        ? "text-white bg-gray-700"
-                        : "text-gray-300"
+                      "w-5 h-5  text-slate-300 group-hover:text-white",
+                      pathname === "/login" ? "text-white" : "text-slate-300"
                     )}
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 18 15"
                   >
-                    <svg
-                      className={cn(
-                        "w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white",
-                        pathname === "/login" ? "text-white" : "text-gray-400"
-                      )}
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 18 15"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"
-                      />
-                    </svg>
-                    <span className="ml-3">Log Out</span>
-                  </Link>
-                ) : (
-                  <Link
-                    href="/login"
-                    className={cn(
-                      "flex items-center p-2 rounded-lg text-gray-300 font-bold text-lg hover:bg-gray-700 hover:text-white group",
-                      pathname === "/login"
-                        ? "text-white bg-gray-700"
-                        : "text-gray-300"
-                    )}
-                  >
-                    <svg
-                      className={cn(
-                        "w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white",
-                        pathname === "/login" ? "text-white" : "text-gray-400"
-                      )}
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 18 15"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M1 7.5h11m0 0L8 3.786M12 7.5l-4 3.714M12 1h3c.53 0 1.04.196 1.414.544.375.348.586.82.586 1.313v9.286c0 .492-.21.965-.586 1.313A2.081 2.081 0 0 1 15 14h-3"
-                      />
-                    </svg>
-                    <span className="ml-3">Log In</span>
-                  </Link>
-                )}
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M1 7.5h11m0 0L8 3.786M12 7.5l-4 3.714M12 1h3c.53 0 1.04.196 1.414.544.375.348.586.82.586 1.313v9.286c0 .492-.21.965-.586 1.313A2.081 2.081 0 0 1 15 14h-3"
+                    />
+                  </svg>
+                  <span className="ml-3">Log In</span>
+                </Link>
               </li>
             </ul>
           </ul>
@@ -350,7 +308,7 @@ export default function Layout({ children }: any) {
   return (
     <div className="flex">
       <NavBar />
-      <main className="flex-1 ml-64 my-[68px]">{children}</main>
+      <main className="flex-1 ml-52">{children}</main>
     </div>
   )
 }

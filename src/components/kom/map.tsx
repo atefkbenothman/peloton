@@ -3,7 +3,6 @@ import { useState } from "react"
 // mapbox
 import mapboxgl from "mapbox-gl"
 import Map, { Marker, Source, Layer, NavigationControl } from "react-map-gl"
-import polyline from "@mapbox/polyline"
 import "mapbox-gl/dist/mapbox-gl.css"
 
 export default function KomMap({
@@ -31,47 +30,45 @@ export default function KomMap({
   }
 
   return (
-    <>
-      <Map
-        mapboxAccessToken={mapboxgl.accessToken}
-        key={"1"}
-        mapStyle="mapbox://styles/mapbox/streets-v12"
-        initialViewState={{
-          longitude: startCoords.longitude,
-          latitude: startCoords.latitude,
-          zoom: 10
-        }}
-        terrain={{ source: "mapbox-dem", exaggeration: 2 }}
-      >
-        <NavigationControl />
-        <Marker
-          longitude={startCoords.longitude}
-          latitude={startCoords.latitude}
-          draggable={true}
-          onDragEnd={handleMarkerDrag}
-        ></Marker>
-        {segmentRoute.length !== 0 && (
-          <Source
-            id="polylineLayer"
-            type="geojson"
-            data={segmentRoute as any}
-          >
-            <Layer
-              id="lineLayer"
-              type="line"
-              source="my-data"
-              layout={{
-                "line-join": "round",
-                "line-cap": "round"
-              }}
-              paint={{
-                "line-color": "rgba(15, 10, 222, 1)",
-                "line-width": 4
-              }}
-            />
-          </Source>
-        )}
-      </Map>
-    </>
+    <Map
+      mapboxAccessToken={mapboxgl.accessToken}
+      key={"1"}
+      mapStyle="mapbox://styles/mapbox/streets-v12"
+      initialViewState={{
+        longitude: startCoords.longitude,
+        latitude: startCoords.latitude,
+        zoom: 10
+      }}
+      terrain={{ source: "mapbox-dem", exaggeration: 2 }}
+    >
+      <NavigationControl />
+      <Marker
+        longitude={startCoords.longitude}
+        latitude={startCoords.latitude}
+        draggable={true}
+        onDragEnd={handleMarkerDrag}
+      ></Marker>
+      {segmentRoute.length !== 0 && (
+        <Source
+          id="polylineLayer"
+          type="geojson"
+          data={segmentRoute as any}
+        >
+          <Layer
+            id="lineLayer"
+            type="line"
+            source="my-data"
+            layout={{
+              "line-join": "round",
+              "line-cap": "round"
+            }}
+            paint={{
+              "line-color": "rgba(15, 10, 222, 1)",
+              "line-width": 4
+            }}
+          />
+        </Source>
+      )}
+    </Map>
   )
 }

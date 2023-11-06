@@ -5,7 +5,6 @@ import useSWR from "swr"
 // api
 import { getAllAthleteActivities } from "@/utils/api"
 // components
-import PageHeader from "@/components/pageHeader"
 import PageContent from "@/components/pageContent"
 import LoginFirst from "@/components/loginFirst"
 import YearlyDistance from "@/components/dashboard/yearlyDistance"
@@ -42,26 +41,13 @@ export default function Home() {
   if (!stravaAccessToken) {
     return (
       <div>
-        <PageHeader
+        <PageContent
           title="Dashboard"
-          summary="View your activity overview"
-        />
-        <PageContent>
-          <LoginFirst />
-        </PageContent>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div>
-        <PageHeader
-          title="Dashboard"
-          summary="View your activity overview"
-        />
-        <PageContent>
-          <ErrorCard error={error} />
+          summary="View your activity overview."
+        >
+          <div>
+            <LoginFirst />
+          </div>
         </PageContent>
       </div>
     )
@@ -70,12 +56,26 @@ export default function Home() {
   if (isLoading) {
     return (
       <div>
-        <PageHeader
+        <PageContent
+          title="Dashboard"
+          summary="View your activities overview."
+        >
+          <div className="w-fit mx-auto">
+            <LoadingIndicator />
+          </div>
+        </PageContent>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div>
+        <PageContent
           title="Dashboard"
           summary="View your activity overview"
-        />
-        <PageContent>
-          <LoadingIndicator />
+        >
+          <ErrorCard error={error} />
         </PageContent>
       </div>
     )
@@ -83,32 +83,15 @@ export default function Home() {
 
   return (
     <div>
-      <PageHeader
+      <PageContent
         title="Dashboard"
-        summary="View your activity overview"
-      />
-      <PageContent>
-        <div className="w-full">
-          <div className="100 mb-8">
-            <YearlyCalendar
-              data={activities}
-              loading={isLoading}
-            />
-          </div>
-          <div className="flex gap-4">
-            <YearlyDistance
-              data={activities}
-              loading={isLoading}
-            />
-            <MonthlyDistance
-              data={activities}
-              loading={isLoading}
-            />
-            <DailyDistance
-              data={activities}
-              loading={isLoading}
-            />
-          </div>
+        summary="View your activities overview."
+      >
+        <div>
+          <YearlyCalendar
+            data={activities}
+            loading={isLoading}
+          />
         </div>
       </PageContent>
     </div>

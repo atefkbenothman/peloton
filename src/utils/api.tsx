@@ -299,13 +299,15 @@ export async function getAllAthleteActivities(
 // return the top 10 segments matching a specified query
 export async function getNearbySegments(
   coords: string,
+  minCat: number,
+  maxCat: number,
   stravaAccessToken: string
 ) {
   const params = new URLSearchParams({
     bounds: coords,
     activity_type: "riding"
   }).toString()
-  const segmentExploreURL = `https://www.strava.com/api/v3/segments/explore?${params}`
+  const segmentExploreURL = `https://www.strava.com/api/v3/segments/explore?${params}&min_cat=${minCat}&max_cat=${maxCat}`
   const res = await fetch(segmentExploreURL, {
     method: "GET",
     headers: {
@@ -323,4 +325,102 @@ export async function getNearbySegments(
   }
   const data = await res.json()
   return data
+}
+
+// test chat server connection
+export async function testChatServerConnection() {
+  const chatServerURL = "http://localhost:8000/"
+  const res = await fetch(chatServerURL, {
+    method: "GET"
+  })
+  if (!res.ok) {
+    const error: any = new Error(
+      `an error occurred while connecting to chat server @ "${chatServerURL}".`
+    )
+    const e = await res.json()
+    error.info = e.message
+    error.status = res.status
+    throw error
+  }
+  const data = await res.json()
+  return data
+}
+
+// upload activity data to chat server
+export async function uploadActivityData(activities: any) {
+  const chatServerUploadURL = "http://localhost:8000/upload"
+  const body = {
+    data: activities
+  }
+  const res = await fetch(chatServerUploadURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  })
+  if (!res.ok) {
+    const error: any = new Error(
+      `an error occurred while uploading activities to chat server @ "${chatServerUploadURL}".`
+    )
+    const e = await res.json()
+    error.info = e.message
+    error.status = res.status
+    throw error
+  }
+  const data = await res.json()
+  return data
+}
+
+// upload a file object to chat server
+export async function uploadFileToServer(file: any) {
+  const uploadURL = "http://localhost:8000/uploadfile/"
+  const res = await fetch(uploadURL, {
+    method: "POST",
+    body: file
+  })
+  if (!res.ok) {
+    const error: any = new Error(
+      `an error occurred while uploading file to chat server @ "${uploadURL}".`
+    )
+    const e = await res.json()
+    error.info = e.message
+    error.status = res.status
+    throw error
+  }
+  const data = await res.json()
+  return data
+}
+
+// send question to chat server
+export async function sendQuestion(question: string) {
+  const chatServerChatURL = "http://localhost:8000/ask"
+  const body = {
+    question: question
+  }
+  const res = await fetch(chatServerChatURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  })
+  if (!res.ok) {
+    const error: any = new Error(
+      `an error occurred while uploading activities to chat server @ "${chatServerChatURL}".`
+    )
+    const e = await res.json()
+    error.info = e.message
+    error.status = res.status
+    throw error
+  }
+  const contentType = res.headers.get("content-type")
+  if (contentType && contentType.includes("image/png")) {
+    const blob = await res.blob()
+    const imageURL = URL.createObjectURL(blob)
+    return imageURL
+  } else {
+    const data = await res.json()
+    return data
+  }
 }

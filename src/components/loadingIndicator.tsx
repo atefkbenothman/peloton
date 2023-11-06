@@ -5,7 +5,7 @@ export default function LoadingIndicator() {
     <div role="status">
       <svg
         aria-hidden="true"
-        className="inline w-10 h-10 mr-2 text-gray-200 animate-spin fill-blue-600"
+        className="inline w-10 h-10 text-gray-200 animate-spin fill-blue-600"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,3 @@ export default function LoadingIndicator() {
     </div>
   )
 }
-
-// <div className="w-fit p-3 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
-//   Loading...
-// </div>

@@ -1,5 +1,6 @@
 import React from "react"
 // components
+import RawData from "@/components/tabs/rawData"
 import Segments from "@/components/tabs/segments"
 import PowerZones from "@/components/tabs/powerzones"
 import Analysis from "@/components/tabs/analysis"
@@ -13,7 +14,7 @@ const customTheme: CustomFlowbiteTheme["tab"] = {
       underline: ""
     },
     tabitem: {
-      base: "p-4 px-10 mx-1 xl:mx-10 text-xl font-semibold focus:outline-none hover:bg-gray-200",
+      base: "p-4 px-10 mx-1 xl:mx-10 text-lg font-semibold focus:outline-none hover:bg-gray-200",
       styles: {
         underline: {
           active: {
@@ -64,7 +65,6 @@ export default function ActivityTabs({
             theme={customTheme}
             className="flex w-full justify-center"
           >
-            {/* segments */}
             <Tabs.Item
               active
               title={`Segments (${activityDetails.segment_efforts.length})`}

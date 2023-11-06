@@ -39,41 +39,16 @@ export default function Segments({
   }, [segmentId, segment])
 
   return (
-    <div className="w-full">
-      <div className="overflow-y-auto rounded shadow h-[500px]">
-        <table className="w-full table text-sm text-left text-gray-400">
-          <thead className="text-xs sticky top-0 uppercase bg-gray-700 text-white">
+    <div>
+      <div className="rounded overflow-y-auto overscroll-y-none h-[calc(100vh-600px)] ">
+        <table className="table-auto w-full border-l-2 border-r-2 border-b-2">
+          <thead className="text-xs text-white bg-black text-left sticky top-0">
             <tr>
-              <th
-                scope="col"
-                className="px-6 py-3"
-              >
-                name
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3"
-              >
-                distance
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3"
-              >
-                time
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3"
-              >
-                power
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3"
-              >
-                speed
-              </th>
+              <th className="px-6 py-3">Name</th>
+              <th className="px-6 py-3">Distance</th>
+              <th className="px-6 py-3">Time</th>
+              <th className="px-6 py-3">Power</th>
+              <th className="px-6 py-3">Speed</th>
             </tr>
           </thead>
           <tbody>
@@ -100,16 +75,16 @@ export default function Segments({
                 >
                   {s.name}
                 </td>
-                <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-left">
+                <td className="text-sm text-gray-900 font-normal px-4 py-1 border-r break-normal text-left">
                   {(s.distance / 1609.344).toFixed(1)} miles
                 </td>
-                <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-left">
+                <td className="text-sm text-gray-900 font-normal px-4 py-1 border-r break-normal text-left">
                   {(s.moving_time / 60).toFixed(0)} mins
                 </td>
-                <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-left">
+                <td className="text-sm text-gray-900 font-normal px-4 py-1 border-r break-normal text-left">
                   {(s.average_watts || 0).toFixed(0)} watts
                 </td>
-                <td className="text-sm text-gray-900 font-medium px-4 py-1 border-r break-normal text-left">
+                <td className="text-sm text-gray-900 font-normal px-4 py-1 border-r break-normal text-left">
                   {(s.distance / 1609.344 / (s.moving_time / 3600)).toFixed(0)}{" "}
                   mph
                 </td>

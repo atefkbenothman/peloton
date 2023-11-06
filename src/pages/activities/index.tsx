@@ -5,7 +5,6 @@ import useSWR from "swr"
 // api
 import { getAthleteActivities } from "@/utils/api"
 // components
-import PageHeader from "@/components/pageHeader"
 import PageContent from "@/components/pageContent"
 import ActivityCard from "@/components/activityCard"
 import LoginFirst from "@/components/loginFirst"
@@ -36,29 +35,29 @@ export default function Activities() {
     }
   )
 
-  if (!stravaAccessToken) {
+  if (error) {
     return (
       <div>
-        <PageHeader
+        <PageContent
           title="Activities"
-          summary="View your recent activities"
-        />
-        <PageContent>
-          <LoginFirst />
+          summary="View your recent activities."
+        >
+          <ErrorCard error={error} />
         </PageContent>
       </div>
     )
   }
 
-  if (error) {
+  if (!stravaAccessToken) {
     return (
       <div>
-        <PageHeader
+        <PageContent
           title="Activities"
-          summary="View your recent activities"
-        />
-        <PageContent>
-          <ErrorCard error={error} />
+          summary="View your recent activities."
+        >
+          <div>
+            <LoginFirst />
+          </div>
         </PageContent>
       </div>
     )
@@ -67,12 +66,13 @@ export default function Activities() {
   if (isLoading) {
     return (
       <div>
-        <PageHeader
+        <PageContent
           title="Activities"
-          summary="View your recent activities"
-        />
-        <PageContent>
-          <LoadingIndicator />
+          summary="View your recent activities."
+        >
+          <div className="w-fit mx-auto">
+            <LoadingIndicator />
+          </div>
         </PageContent>
       </div>
     )
@@ -80,11 +80,10 @@ export default function Activities() {
 
   return (
     <div>
-      <PageHeader
+      <PageContent
         title="Activities"
-        summary="View your recent activities"
-      />
-      <PageContent>
+        summary="View your recent activities."
+      >
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
           {Array.isArray(activities) &&
             activities.map((activity: any) => (

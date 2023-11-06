@@ -6,7 +6,6 @@ import { useRouter } from "next/router"
 // api
 import { generateStravaAuthURL, getAccessToken } from "@/utils/api"
 // components
-import PageHeader from "@/components/pageHeader"
 import PageContent from "@/components/pageContent"
 // svg
 import stravaConnect from "public/strava-connect.svg"
@@ -58,22 +57,14 @@ export default function Login() {
 
   return (
     <div>
-      {isAuthorized ? (
-        <PageHeader
-          title="Logout"
-          summary="Sign out of your Strava account"
-        />
-      ) : (
-        <PageHeader
-          title="Log In"
-          summary="Connect your Strava account to gain access to insights and more"
-        />
-      )}
-      <PageContent>
-        <div>
+      <PageContent
+        title="Login"
+        summary="Connect your Strava account to gain access to insights and more."
+      >
+        <div className="py-4 flex items-center justify-center">
           {isAuthorized && clientAccessToken ? (
             <button
-              className="text-white bg-red-600 font-bold rounded-md text-sm px-5 py-2.5 text-center shadow"
+              className="text-white bg-red-600 font-semibold rounded text-sm px-5 py-2.5 text-center"
               onClick={handleRefresh}
             >
               Sign Out

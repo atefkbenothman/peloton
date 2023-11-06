@@ -8,11 +8,9 @@ export default function PageHeader({
   summary: string
 }) {
   return (
-    <>
-      <div className="p-6 xl:mx-40">
-        <p className="text-4xl font-bold">{title}</p>
-        <p className="pt-3 text-gray-700 text-lg">{summary}</p>
-      </div>
-    </>
+    <div>
+      <p className="text-4xl font-bold">{title}</p>
+      <p className="py-2 text-md xl:text-lg text-gray-700">{summary}</p>
+    </div>
   )
 }

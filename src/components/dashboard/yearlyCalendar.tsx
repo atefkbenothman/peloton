@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import LoadingIndicator from "../loadingIndicator"
 // calendar
 import ActivityCalendar from "react-activity-calendar"
-import exp from "constants"
 
 export default function YearlyCalendar({
   data,
@@ -52,7 +51,7 @@ export default function YearlyCalendar({
   }, [data])
 
   return (
-    <div className="w-fit bg-white rounded shadow">
+    <div className="w-fit bg-white rounded border-2">
       <div className="px-4 py-4">
         <ActivityCalendar
           data={calendarData || []}

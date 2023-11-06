@@ -1,11 +1,8 @@
 import React from "react"
 import { useEffect, useState } from "react"
-// swr
-import useSWR from "swr"
 // api
 import { getNearbySegments } from "@/utils/api"
 // components
-import PageHeader from "@/components/pageHeader"
 import PageContent from "@/components/pageContent"
 import KomMap from "@/components/kom/map"
 import Segments from "@/components/kom/segments"
@@ -17,56 +14,49 @@ import polyline from "@mapbox/polyline"
 export default function Kom() {
   const [stravaAccessToken, setStravaAccessToken] = useState("")
   const [radius, setRadius] = useState(645) // in meters. ~0.4 miles
-  const [minCat, setMinCat] = useState("0")
-  const [maxCat, setMaxCat] = useState("5")
+  const [minCat, setMinCat] = useState(0)
+  const [maxCat, setMaxCat] = useState(5)
   const [segmentRoute, setSegmentRoute] = useState<any[]>([])
   const [startCoords, setStartCoords] = useState({
     longitude: -122.43640674612058,
     latitude: 37.77028481277563
   })
   const [coords, setCoords] = useState<any>(null)
+  const [segments, setSegments] = useState<any>([])
 
   useEffect(() => {
     setStravaAccessToken(window.sessionStorage.getItem("accessToken") || "")
   }, [])
 
-  const {
-    data: segments,
-    error,
-    isLoading
-  } = useSWR(
-    stravaAccessToken && coords
-      ? ["nearbySegments", coords, stravaAccessToken]
-      : null,
-    ([key, coords, token]) => getNearbySegments(coords, token),
-    {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      onErrorRetry: (error) => {
-        if (error.status === 429) return
-      }
-    }
-  )
+  async function fetchSegments(bounds: string) {
+    const res = await getNearbySegments(
+      bounds,
+      minCat,
+      maxCat,
+      stravaAccessToken
+    )
+    setSegments(res)
+  }
 
-  function handleRadiusInput(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleRadiusInput(e: any) {
     e.preventDefault()
     setRadius(Number(e.target.value))
   }
 
-  function handleMinCatInput(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleMinCatInput(e: any) {
     e.preventDefault()
     setMinCat(e.target.value)
   }
 
-  function handleMaxCatInput(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleMaxCatInput(e: any) {
     e.preventDefault()
     setMaxCat(e.target.value)
   }
 
   function handleSearch(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
-    calculateBounds()
+    const bounds = calculateBounds()
+    fetchSegments(bounds)
   }
 
   // get the top left coordinate and bottom right coordinate of a
@@ -89,7 +79,7 @@ export default function Kom() {
     const bottomRightLon = centerLon + dLon
 
     const boundsStr = `${topLeftLat},${topLeftLon},${bottomRightLat},${bottomRightLon}`
-    setCoords(boundsStr)
+    return boundsStr
   }
 
   const updateStartCoords = (newCoords: any) => {
@@ -104,79 +94,104 @@ export default function Kom() {
   if (!stravaAccessToken) {
     return (
       <div>
-        <PageHeader
+        <PageContent
           title="KOM Finder"
-          summary="Search for kom segments around the world"
-        />
-        <PageContent>
-          <LoginFirst />
+          summary="Search for kom segments around the world."
+        >
+          <div>
+            <LoginFirst />
+          </div>
         </PageContent>
       </div>
     )
   }
 
-  if (error) {
-    return (
-      <div>
-        <PageHeader
-          title="KOM Finder"
-          summary="Search for kom segments around the world"
-        />
-        <PageContent>
-          <ErrorCard error={error} />
-        </PageContent>
-      </div>
-    )
-  }
+  // if (error) {
+  //   return (
+  //     <div>
+  //       <PageContent
+  //         title="KOM Finder"
+  //         summary="Search for kom segments around the world."
+  //       >
+  //         <div>
+  //           <ErrorCard error={error} />
+  //         </div>
+  //       </PageContent>
+  //     </div>
+  //   )
+  // }
 
   return (
     <div>
-      <PageHeader
+      <PageContent
         title="KOM Finder"
-        summary="Search for kom segments around the world"
-      />
-      <PageContent>
-        <div className="w-fit">
-          <div className="flex gap-4">
-            <div className="">
-              <label>Radius:</label>
-              <br />
+        summary="Search for kom segments around the world."
+      >
+        <div className="mb-4">
+          <form className="flex gap-4">
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-900">
+                Radius
+              </label>
               <input
-                className="bg-gray-300 border rounded p-1 shadow"
-                required
+                key="radius"
+                type="number"
+                className="bg-gray-50 border-1 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
+                value={radius}
                 onChange={handleRadiusInput}
-                defaultValue={radius}
               />
             </div>
-            <div className="">
-              <label>Min category:</label>
-              <br />
-              <input
-                className="bg-gray-300 border rounded p-1 shadow"
-                required
-                onChange={handleMinCatInput}
+            <div>
+              <div className="mb-1">
+                <label className="block mb-2 text-sm font-medium text-gray-900">
+                  Min Category
+                </label>
+              </div>
+              <select
+                name="cars"
+                id="cars"
+                className="bg-gray-50 border-1 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                 defaultValue={minCat}
-              />
+                onChange={handleMinCatInput}
+              >
+                <option value={0}>0</option>
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+              </select>
             </div>
-            <div className="">
-              <label>Max category:</label>
-              <br />
-              <input
-                className="bg-gray-300 border rounded p-1 shadow"
-                required
-                onChange={handleMaxCatInput}
+            <div>
+              <div className="mb-1">
+                <label className="block mb-2 text-sm font-medium text-gray-900">
+                  Max Category
+                </label>
+              </div>
+              <select
+                name="max-cat"
+                id="max-cat"
+                className="bg-gray-50 border-1 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                 defaultValue={maxCat}
-              />
+                onChange={handleMaxCatInput}
+              >
+                <option value={0}>0</option>
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+              </select>
             </div>
-          </div>
-          <div className="w-full my-4">
-            <button
-              className="btn bg-green-500 text-white rounded p-2 w-full shadow font-bold"
-              onClick={handleSearch}
-            >
-              Search
-            </button>
-          </div>
+            <div className="flex items-end">
+              <button
+                className="text-white bg-blue-700 font-semibold rounded text-sm px-5 py-2 text-center"
+                onClick={handleSearch}
+              >
+                Find
+              </button>
+            </div>
+          </form>
         </div>
         <div className="w-full h-96 border-black border-2">
           <KomMap
